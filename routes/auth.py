@@ -10,7 +10,17 @@ def login():
     if request.method == 'POST':
         email = request.form.get('email')
         password = request.form.get('password')
-        flash('Logged in successfully!', 'success')
+
+        user = User.query.filter_by(email=email).first()
+        if user:
+            if check_password_hash(user.password, password):
+                flash('Logged in successfully!', category='success')
+                return redirect(url_for('views.profile', name=user.first_name))
+            else:
+                flash('Incorrect password, try again.', 'danger')
+        else:
+            flash('Email does not exist!', 'danger')
+
     return render_template("login.html")
 
 @auth.route('/sign-up', methods=['GET', 'POST'])
@@ -22,7 +32,6 @@ def sign_up():
         password = generate_password_hash(request.form.get('password'),method='sha256')
 
         user = User.query.filter_by(email=email).first()
-
         if user:
             flash('Email already registered with an account!', 'danger')
         elif len(email) < 1:
@@ -40,7 +49,6 @@ def sign_up():
             db.session.commit()
 
             flash('Account created!', 'success')
-
             return redirect(url_for('auth.login'))
 
     return render_template("sign_up.html")
