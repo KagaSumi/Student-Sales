@@ -45,3 +45,35 @@ def edit_listing():
             return redirect(url_for('views.profile'))
 
     return render_template("edit_listing.html", user=current_user, listing=listing, errors=errors)
+
+@views.route('/create_listing', methods=['GET', 'POST'])
+@login_required
+def create_listing():
+    errors = {}
+    if request.method == 'POST':
+        title = request.form.get('title')
+        description = request.form.get('description')
+        if not description:
+            description = 'None'
+        price = request.form.get('price')
+        if not price:
+            price = 0
+
+        listing = Listing(title=title, description=description,
+                          price=price, user_id=current_user.id)
+        db.session.add(listing)
+
+        if not errors:
+            db.session.commit()
+            print(listing)
+            flash('New Listing Created!', 'success')
+            return redirect(url_for('views.profile', listing=listing))
+
+    return render_template('create_listing.html', user=current_user, errors=errors)
+
+@views.route('/preview_listing')
+@login_required
+def preview_listing():
+    listing_id = request.args.get('listing_id')
+    listing = Listing.query.get(listing_id)
+    return render_template("preview_listing.html", user=current_user, listing=listing)
