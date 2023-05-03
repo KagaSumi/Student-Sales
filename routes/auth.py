@@ -8,28 +8,32 @@ auth = Blueprint('auth', __name__)
 
 @auth.route('/login', methods=['GET', 'POST'])
 def login():
+    if current_user.is_authenticated:
+        flash('Cannot Access Login Page While Logged In!', 'danger')
+        return redirect(url_for("views.account"))
+    errors={}
     if request.method == 'POST':
         email = request.form.get('email').lower()
         password = request.form.get('password')
-
         user = User.query.filter_by(email=email).first()
+
         if user:
             if check_password_hash(user.password, password):
                 login_user(user, remember=True)
-                flash('Logged in successfully!', category='success')
+                flash('Logged In Successfully!', 'success')
                 return redirect(url_for('views.profile'))
             else:
-                flash('Incorrect password, try again.', 'danger')
+                errors['password']='Incorrect password!'
         else:
-            flash('Email does not exist!', 'danger')
+            errors['email']='Email address not found!'
 
-    return render_template("login.html", user=current_user)
+    return render_template("login.html", user=current_user, errors=errors)
 
 @auth.route('/logout')
 @login_required
 def logout():
     logout_user()
-    flash('Logged out successfully!', category='success')
+    flash('Logged Out Successfully!', 'success')
     return redirect(url_for('auth.login'))
 
 @auth.route('/sign-up', methods=['GET', 'POST'])
@@ -56,10 +60,8 @@ def sign_up():
             print(user)
             flash('Account created!', 'success')
             return redirect(url_for('auth.login'))
-
     return render_template("sign_up.html",user=current_user,errors=errors)
 
 @auth.app_errorhandler(404)
 def page_not_found(err):
     return render_template('404.html', user=current_user), 404
-
