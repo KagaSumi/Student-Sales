@@ -13,7 +13,7 @@ app.config['SECRET_KEY'] = 'team16'
 app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///database/{DB_NAME}'
 app.instance_path = Path(".").resolve()
 
-# Assign Sqlalchemy Flask Instance
+# Register Sqlalchemy With Flask Instance
 db.init_app(app)
 
 # Register Route Blueprints
