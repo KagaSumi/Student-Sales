@@ -13,6 +13,8 @@
       type="text/css"
       href="{{ url_for('static', filename='css/stylesheet.css') }}"
     />
+    {% block css %}
+    {% endblock %}
     <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='images/favicon.png') }}" />
   </head>
 
@@ -69,6 +71,8 @@
       type="text/javascript"
       src="{{ url_for('static', filename='js/script.js') }}"
     ></script>
+    {% block script %}
+    {% endblock %}
     <script
       defer
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
