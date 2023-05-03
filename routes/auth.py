@@ -56,4 +56,10 @@ def sign_up():
             print(user)
             flash('Account created!', 'success')
             return redirect(url_for('auth.login'))
+
     return render_template("sign_up.html",user=current_user,errors=errors)
+
+@auth.app_errorhandler(404)
+def page_not_found(err):
+    return render_template('404.html', user=current_user), 404
+
