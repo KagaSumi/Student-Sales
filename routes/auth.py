@@ -34,6 +34,10 @@ def logout():
 
 @auth.route('/sign-up', methods=['GET', 'POST'])
 def sign_up():
+    if current_user.is_authenticated:
+        flash('Cannot Access Sign Up Page While Logged In!', 'danger')
+        return redirect(url_for('views.account'))
+    errors={}
     if request.method == 'POST':
         email = request.form.get('email').lower()
         first_name = request.form.get('firstName')
@@ -42,26 +46,20 @@ def sign_up():
 
         user = User.query.filter_by(email=email).first()
         if user:
-            flash('Email already registered with an account!', 'danger')
-        elif len(email) < 1:
-            flash('Email address is required!', 'danger')
-        elif len(first_name) < 1:
-            flash('First name is required!', 'warning')
-        elif len(last_name) < 1:
-            flash('Last name is required!', 'warning')
-        elif len(password) < 3:
-            flash('Password must be 4 or more characters!', 'warning')
+            errors['email']='Email already registered with an account!'
+        elif len(password) < 4:
+            errors['password']='Password must be 4 or more characters!'
         else:
             user = User(email=email,first_name=first_name,last_name=last_name,password=generate_password_hash(password,method='sha256'))
-            
             db.session.add(user)
             db.session.commit()
-
+            print(user)
             flash('Account created!', 'success')
             return redirect(url_for('auth.login'))
 
-    return render_template("sign_up.html", user=current_user)
+    return render_template("sign_up.html",user=current_user,errors=errors)
 
 @auth.app_errorhandler(404)
 def page_not_found(err):
     return render_template('404.html', user=current_user), 404
+

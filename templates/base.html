@@ -13,7 +13,7 @@
       type="text/css"
       href="{{ url_for('static', filename='css/stylesheet.css') }}"
     />
-    <link rel="icon" type="image/x-icon" href="/static/images/favicon.png" />
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='images/favicon.png') }}" />
   </head>
 
   <body>
@@ -34,6 +34,7 @@
             <a class="nav-item nav-link" id="profile" href="/profile"
               >Profile</a
             >
+            <a class="nav-item nav-link" id="logout" href="/account">Account</a>
             <a class="nav-item nav-link" id="logout" href="/logout">Logout</a>
             {% else %}
             <a class="nav-item nav-link" id="login" href="/login">Login</a>
