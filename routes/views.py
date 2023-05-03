@@ -38,3 +38,10 @@ def create_listing():
             return redirect(url_for('views.profile', listing=listing))
 
     return render_template('create_listing.html', user=current_user, errors=errors)
+
+@views.route('/preview_listing')
+@login_required
+def preview_listing():
+    listing_id = request.args.get('listing_id')
+    listing = Listing.query.get(listing_id)
+    return render_template("preview_listing.html", user=current_user, listing=listing)
