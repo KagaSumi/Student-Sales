@@ -13,9 +13,17 @@ def homepage():
     return render_template('homepage.html', user=current_user)
 
 
-@views.route('/account')
+@views.route('/account', methods=['GET','POST'])
 @login_required
 def account():
+    if request.method == 'POST':
+        user = User.query.get(current_user.id)
+        user.email = request.form.get('email')
+        user.first_name = request.form.get('first_name')
+        user.last_name = request.form.get('last_name')
+        db.session.commit()
+        flash("User Updated Successfully!", "success")
+        return redirect(request.url)
     return render_template('account.html', user=current_user)
 
 
@@ -51,12 +59,15 @@ def create_listing():
     return render_template('create_listing.html', user=current_user, errors=errors)
 
 
-@views.route('/edit_listing', methods=['GET', 'POST'])
+@views.route('/edit_listing/<int:listing_id>', methods=['GET', 'POST'])
 @login_required
-def edit_listing():
+def edit_listing(listing_id):
     errors = {}
-    listing_id = request.args.get('listing_id')
     listing = Listing.query.get(listing_id)
+
+    if not listing or current_user.id is not listing.user_id:
+        flash('Access to listing is not allowed!', 'danger')
+        return redirect(url_for('views.profile'))
 
     if request.method == 'POST':
         if 'preview_listing' in request.form:
@@ -84,9 +95,11 @@ def edit_listing():
     return render_template("edit_listing.html", user=current_user, listing=listing, errors=errors)
 
 
-@views.route('/preview_listing')
+@views.route('/preview_listing/<int:listing_id>', methods=['GET'])
 @login_required
-def preview_listing():
-    listing_id = request.args.get('listing_id')
+def preview_listing(listing_id):
     listing = Listing.query.get(listing_id)
+    if not listing or current_user.id is not listing.user_id:
+        flash('Access to listing is not allowed!', 'danger')
+        return redirect(url_for('views.profile'))
     return render_template("preview_listing.html", user=current_user, listing=listing)
