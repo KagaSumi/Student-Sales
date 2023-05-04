@@ -62,6 +62,18 @@ def sign_up():
             return redirect(url_for('auth.login'))
     return render_template("sign_up.html",user=current_user,errors=errors)
 
+@auth.route('/delete')
+def delete_user():
+    if not current_user.is_authenticated:
+        flash('Not Logged In', 'danger')
+        return redirect(url_for("auth.login"))
+    user = User.query.get(current_user.id)
+    logout_user()
+    db.session.delete(user)
+    db.session.commit()
+    flash('User Deleted!', 'success')
+    return redirect(url_for('views.homepage'))
+
 @auth.app_errorhandler(404)
 def page_not_found(err):
     return render_template('404.html', user=current_user), 404

@@ -3,4 +3,5 @@
 <p><strong>Email:</strong> {{ user.email }}</p>
 <p><strong>First Name:</strong> {{ user.first_name }}</p>
 <p><strong>Last Name:</strong> {{ user.last_name }}</p>
+<a href="{{ url_for('auth.delete_user') }}">Delete Account</a>
 {% endblock %}
