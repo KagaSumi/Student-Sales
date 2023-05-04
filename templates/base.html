@@ -13,7 +13,9 @@
       type="text/css"
       href="{{ url_for('static', filename='css/stylesheet.css') }}"
     />
-    <link rel="icon" type="image/x-icon" href="/static/images/favicon.png" />
+    {% block css %}
+    {% endblock %}
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='images/favicon.png') }}" />
   </head>
 
   <body>
@@ -34,6 +36,7 @@
             <a class="nav-item nav-link" id="profile" href="/profile"
               >Profile</a
             >
+            <a class="nav-item nav-link" id="logout" href="/account">Account</a>
             <a class="nav-item nav-link" id="logout" href="/logout">Logout</a>
             {% else %}
             <a class="nav-item nav-link" id="login" href="/login">Login</a>
@@ -68,6 +71,8 @@
       type="text/javascript"
       src="{{ url_for('static', filename='js/script.js') }}"
     ></script>
+    {% block script %}
+    {% endblock %}
     <script
       defer
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
