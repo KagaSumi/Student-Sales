@@ -6,11 +6,7 @@
 <label for="{{ name }}" class="my-1" {% for k,v in kwargs.items() %} {{k}}="{{v}}" {% endfor %}>{{ label }}</label>
 <input type="{{ type }}" class="form-control" id="{{ name }}" name="{{ name }}" value="{{ request.form[name] }}"
   placeholder="{{ placeholder }}" required {% for k,v in kwargs.items() %} {{k}}="{{v}}" {% endfor %}>
-<ul class="my-2 text-danger">
-  {% if errors[name] %}
-  <li>{{ errors[name] }}</li>
-  {% endif %}
-</ul>
+
 {% endmacro %}
 
 {{ render_input('Email','Enter email address','email','email') }}

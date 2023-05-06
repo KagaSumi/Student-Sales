@@ -11,23 +11,8 @@ URL = "http://127.0.0.1:5000"
 @auth.route('/login', methods=['GET'])
 def login():
     if current_user.is_authenticated:
-        flash('Cannot Access Login Page While Logged In!', 'danger')
         return redirect(url_for("views.account"))
-    errors={}
-    # if request.method == 'POST':
-    #     email = request.form.get('email').lower()
-    #     password = request.form.get('password')
-    #     user = User.query.filter_by(email=email).first()
-    #     if user:
-    #         if check_password_hash(user.password, password):
-    #             login_user(user, remember=True)
-    #             flash('Logged In Successfully!', 'success')
-    #             return redirect(url_for('views.profile'))
-    #         else:
-    #             errors['password']='Incorrect password!'
-    #     else:
-    #         errors['email']='Email address not found!'
-    return render_template("login.html", user=current_user, errors=errors)
+    return render_template("login.html", user=current_user)
 
 @auth.route('/login', methods=['POST'])
 def user_login():
