@@ -5,19 +5,16 @@
 {% macro render_input(label, placeholder, name, type="text") %}
 <label for="{{ name }}" class="my-1" {% for k,v in kwargs.items() %} {{k}}="{{v}}" {% endfor %}>{{ label }}</label>
 <input type="{{ type }}" class="form-control" id="{{ name }}" name="{{ name }}" value="{{ request.form[name] }}"
-    placeholder="{{ placeholder }}" required {% for k,v in kwargs.items() %} {{k}}="{{v}}" {% endfor %}>
-  <ul class="my-2 text-danger">
-    {% if errors[name] %}
-    <li>{{ errors[name] }}</li>
-    {% endif %}
-  </ul>
+  placeholder="{{ placeholder }}" required {% for k,v in kwargs.items() %} {{k}}="{{v}}" {% endfor %}>
+
 {% endmacro %}
 
-<form method="POST">
-    {{ render_input('Email','Enter email address','email','email') }}
-    {{ render_input('Password','Enter password','password','password') }}
-    <button type="submit" class="btn btn-primary my-2">Login</button>
-</form>
+{{ render_input('Email','Enter email address','email','email') }}
+{{ render_input('Password','Enter password','password','password') }}
+<button class="btn btn-primary my-2" id="login_button">Login</button>
 
+{% endblock %}
 
+{% block script %}
+<script defer type="text/javascript" src="{{ url_for('static', filename='js/login.js') }}"></script>
 {% endblock %}
