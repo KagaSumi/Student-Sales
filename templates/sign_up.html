@@ -1,4 +1,6 @@
-{% extends "base.html" %}{% block content %}
+{% extends "base.html" %}
+
+{% block content %}
 
 <h3 class="my-3" align="center">Sign Up</h3>
 
@@ -12,7 +14,7 @@
     {% endif %}
   </ul>
 {% endmacro %}
-
+<button id="test_button"  class="btn btn-primary my-2">Click for a Surprise!!!</button>
 <form method="POST">
     {{ render_input('Email','Enter email address','email','email') }}
     {{ render_input('First Name','Enter first name','firstName') }}
@@ -21,5 +23,12 @@
     <button type="submit" class="btn btn-primary my-2">Submit</button>
 </form>
 
+{% endblock %}
 
+{% block script %}
+<script
+      defer
+      type="text/javascript"
+      src="{{ url_for('static', filename='js/sign_up.js') }}"
+    ></script>
 {% endblock %}

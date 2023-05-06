@@ -23,6 +23,12 @@ app.register_blueprint(auth, url_prefix='/')
 from routes.views import views
 app.register_blueprint(views, url_prefix='/')
 
+from routes.user import user
+app.register_blueprint(user, url_prefix='/')
+
+from routes.listing import listing
+app.register_blueprint(listing, url_prefix='/')
+
 # Create Database File
 if not path.exists(f'database/{DB_NAME}'):
     with app.app_context():

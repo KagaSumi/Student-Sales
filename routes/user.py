@@ -12,6 +12,17 @@ def get_user(user_id):
         return jsonify(message=user.to_dict()),200
     return jsonify(message='User Not Found'),404
 
+@user.route('/verify_user',methods=['POST'])
+def verify_user():
+    data = request.json
+    for key in ("email", "password"):
+        if key not in data:
+            return jsonify(message=f"{key} is missing from JSON"),400
+    user = User.query.filter_by(email=data['email']).first()
+    if not (user or check_password_hash(data["password"],user.password)):
+        return jsonify(message=False),400
+    return jsonify(message=True),200
+
 @user.route('/create_user',methods=['POST'])
 def create_user():
     data = request.json
