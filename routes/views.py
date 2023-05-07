@@ -27,36 +27,6 @@ def account():
     return render_template('account.html', user=current_user)
 
 
-@views.route('/profile')
-@login_required
-def profile():
-    return render_template('profile.html', user=current_user)
-
-
-# @views.route("/create_listing", methods=['POST'])
-# @login_required
-# def listing_create():
-#     data = request.json
-#     for key in ('title', 'description', 'price'):
-#         if key not in data:
-#             return jsonify(message=f'{key} is missing from JSON'), 400
-#     sent_request = requests.post("/create_listing_new", json={
-#         "title": data["title"],
-#         "description": data["description"],
-#         "price": data["price"],
-#         "user_id": current_user.id
-#     })
-#     if sent_request.ok:
-#         return jsonify(message="Listing Created"), 200
-#     return jsonify(message="Error in Creating Listing"), 400
-
-
-@views.route('/create_listing', methods=['GET'])
-@login_required
-def create_listing():
-    return render_template('create_listing.html', user=current_user)
-
-
 @views.route('/edit_listing/<int:listing_id>', methods=['GET', 'POST'])
 @login_required
 def edit_listing(listing_id):
