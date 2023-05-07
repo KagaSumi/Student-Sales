@@ -15,7 +15,7 @@ private_view = Blueprint("private_view", __name__)
 def logout():
     logout_user()
     flash('Logged Out Successfully!', 'success')
-    return redirect(url_for('auth.login'))
+    return redirect(url_for('public_view.login'))
 
 
 @private_view.route('/create_listing', methods=['GET'])

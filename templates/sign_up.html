@@ -12,7 +12,7 @@
 {{ render_input('Email','Enter email address','email','email') }}
 {{ render_input('First Name','Enter first name','firstName') }}
 {{ render_input('Last Name','Enter last name','lastName') }}
-{{ render_input('Phone Number','Enter Phone Number','phonenumber') }}
+{{ render_input('Phone Number','Enter Phone Number','phonenumber', maxlength=10) }}
 {{ render_input('Password','Enter password','password','password') }}
 {{ render_input('Confirm Password','Confirm password','conf_password','password') }}
 <button class="btn btn-primary my-2 disabled" id="submit_button">Submit</button>

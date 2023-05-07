@@ -8,11 +8,11 @@ const submitBTN = document.getElementById("submit_button");
 
 const verify_fields = (event) => {
   // FLAG_EMAIL = email.value.includes("@my.bcit.ca");
-  FLAG_EMAIL = email.value.includes("@");
-  FLAG_FIRST_NAME = first_name.value.length > 0;
-  FLAG_LAST_NAME = last_name.value.length > 0;
-  FLAG_PHONE_NUMBER = phone_number.value.length == 10;
-  FLAG_PASSWORD = password.value.length >= 4 && password.value === confirm_password.value;
+  const FLAG_EMAIL = email.value.includes("@");
+  const FLAG_FIRST_NAME = first_name.value.length > 0;
+  const FLAG_LAST_NAME = last_name.value.length > 0;
+  const FLAG_PHONE_NUMBER = phone_number.value.length == 10;
+  const FLAG_PASSWORD = password.value.length >= 4 && password.value === confirm_password.value;
   if (FLAG_EMAIL && 
     FLAG_FIRST_NAME && 
     FLAG_LAST_NAME && 
