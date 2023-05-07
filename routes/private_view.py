@@ -16,3 +16,15 @@ def logout():
     logout_user()
     flash('Logged Out Successfully!', 'success')
     return redirect(url_for('auth.login'))
+
+
+@private_view.route('/create_listing', methods=['GET'])
+@login_required
+def create_listing():
+    return render_template('create_listing.html', user=current_user)
+
+
+@private_view.route('/profile')
+@login_required
+def profile():
+    return render_template('profile.html', user=current_user)

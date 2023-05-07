@@ -8,6 +8,8 @@ import requests
 auth = Blueprint('auth', __name__)
 URL = "http://127.0.0.1:5000"
 
+# This is the endpoints that does the logic for account management
+
 
 @auth.route('/login', methods=['POST'])
 def user_login():
@@ -56,6 +58,24 @@ def delete_user():
     db.session.commit()
     flash('User Deleted!', 'success')
     return redirect(url_for('views.homepage'))
+
+
+@auth.route("/create_listing", methods=['POST'])
+@login_required
+def listing_create():
+    data = request.json
+    for key in ('title', 'description', 'price'):
+        if key not in data:
+            return jsonify(message=f'{key} is missing from JSON'), 400
+    sent_request = requests.post(url=URL+"/create_listing_new", json={
+        "title": data["title"],
+        "description": data["description"],
+        "price": data["price"],
+        "user_id": current_user.id
+    })
+    if sent_request.ok:
+        return jsonify(message="Listing Created"), 200
+    return jsonify(message="Error in Creating Listing"), 400
 
 
 @ auth.app_errorhandler(404)

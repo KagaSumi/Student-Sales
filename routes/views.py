@@ -1,10 +1,10 @@
 import os
+import requests
 from database.database import db
 from werkzeug.utils import secure_filename
 from database.models import User, Listing
 from flask_login import login_required, current_user
-from flask import Blueprint, request, Response, flash, url_for, redirect, render_template
-
+from flask import Blueprint, request, Response, flash, url_for, redirect, render_template, jsonify
 views = Blueprint('views', __name__)
 
 
@@ -13,7 +13,7 @@ def homepage():
     return render_template('homepage.html', user=current_user)
 
 
-@views.route('/account', methods=['GET','POST'])
+@views.route('/account', methods=['GET', 'POST'])
 @login_required
 def account():
     if request.method == 'POST':
@@ -33,30 +33,28 @@ def profile():
     return render_template('profile.html', user=current_user)
 
 
-@views.route('/create_listing', methods=['GET', 'POST'])
+# @views.route("/create_listing", methods=['POST'])
+# @login_required
+# def listing_create():
+#     data = request.json
+#     for key in ('title', 'description', 'price'):
+#         if key not in data:
+#             return jsonify(message=f'{key} is missing from JSON'), 400
+#     sent_request = requests.post("/create_listing_new", json={
+#         "title": data["title"],
+#         "description": data["description"],
+#         "price": data["price"],
+#         "user_id": current_user.id
+#     })
+#     if sent_request.ok:
+#         return jsonify(message="Listing Created"), 200
+#     return jsonify(message="Error in Creating Listing"), 400
+
+
+@views.route('/create_listing', methods=['GET'])
 @login_required
 def create_listing():
-    errors = {}
-    if request.method == 'POST':
-        title = request.form.get('title')
-        description = request.form.get('description')
-        if not description:
-            description = 'None'
-        price = request.form.get('price')
-        if not price:
-            price = 0
-
-        listing = Listing(title=title, description=description,
-                          price=price, user_id=current_user.id)
-        db.session.add(listing)
-
-        if not errors:
-            db.session.commit()
-            print(listing)
-            flash('New Listing Created!', 'success')
-            return redirect(url_for('views.profile', listing=listing))
-
-    return render_template('create_listing.html', user=current_user, errors=errors)
+    return render_template('create_listing.html', user=current_user)
 
 
 @views.route('/edit_listing/<int:listing_id>', methods=['GET', 'POST'])

@@ -1,3 +1,9 @@
+from routes.public_view import public_view
+from routes.private_view import private_view
+from routes.listing import listing
+from routes.user import user
+from routes.views import views
+from routes.auth import auth
 from os import path
 from flask import Flask
 from pathlib import Path
@@ -17,29 +23,19 @@ app.instance_path = Path(".").resolve()
 db.init_app(app)
 
 # Register Route Blueprints
-from routes.auth import auth
-
 app.register_blueprint(auth, url_prefix="/")
-
-from routes.views import views
 
 app.register_blueprint(views, url_prefix="/")
 
-from routes.user import user
-
 app.register_blueprint(user, url_prefix="/")
-
-from routes.listing import listing
 
 app.register_blueprint(listing, url_prefix="/")
 
-from routes.private_view import private_view
 
 app.register_blueprint(private_view, url_prefix="/")
 
-from routes.public_view import public_view
-
 app.register_blueprint(public_view, url_prefix="/")
+
 # Create Database File
 if not path.exists(f"database/{DB_NAME}"):
     with app.app_context():
