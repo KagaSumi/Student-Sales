@@ -9,13 +9,6 @@ auth = Blueprint('auth', __name__)
 URL = "http://127.0.0.1:5000"
 
 
-@auth.route('/login', methods=['GET'])
-def login():
-    if current_user.is_authenticated:
-        return redirect(url_for("views.account"))
-    return render_template("login.html", user=current_user)
-
-
 @auth.route('/login', methods=['POST'])
 def user_login():
     data = request.json
@@ -52,15 +45,7 @@ def user_sign_up():
     return jsonify(message="Incorrect Email or Password"), 400
 
 
-@ auth.route('/sign-up', methods=['GET'])
-def sign_up():
-    if current_user.is_authenticated:
-        flash('Cannot Access Sign Up Page While Logged In!', 'danger')
-        return redirect(url_for('views.account'))
-    return render_template("sign_up.html", user=current_user)
-
-
-@ auth.route('/delete_user')
+@auth.route('/delete_user')
 def delete_user():
     if not current_user.is_authenticated:
         flash('Not Logged In', 'danger')
@@ -71,14 +56,6 @@ def delete_user():
     db.session.commit()
     flash('User Deleted!', 'success')
     return redirect(url_for('views.homepage'))
-
-
-@ auth.route('/test_endpoint', methods=['PUT'])
-def test_endpoint():
-    data = request.json
-    if "test" not in data:
-        return jsonify(message="Missing test in JSON"), 400
-    return jsonify(message="POGGERS it works!!"), 200
 
 
 @ auth.app_errorhandler(404)

@@ -5,13 +5,19 @@ const phone_number = document.getElementById("phonenumber");
 const password = document.getElementById("password");
 const confirm_password = document.getElementById("conf_password");
 const submitBTN = document.getElementById("submit_button");
+
 const verify_fields = (event) => {
-  FLAG_EMAIL = email.value.includes("@my.bcit.ca");
+  // FLAG_EMAIL = email.value.includes("@my.bcit.ca");
+  FLAG_EMAIL = email.value.includes("@");
   FLAG_FIRST_NAME = first_name.value.length > 0;
   FLAG_LAST_NAME = last_name.value.length > 0;
   FLAG_PHONE_NUMBER = phone_number.value.length == 10;
   FLAG_PASSWORD = password.value.length >= 4 && password.value === confirm_password.value;
-  if (FLAG_EMAIL && FLAG_FIRST_NAME && FLAG_LAST_NAME && FLAG_PASSWORD && FLAG_PHONE_NUMBER) {
+  if (FLAG_EMAIL && 
+    FLAG_FIRST_NAME && 
+    FLAG_LAST_NAME && 
+    FLAG_PASSWORD && 
+    FLAG_PHONE_NUMBER) {
     submitBTN.classList.remove("disabled");
   }
   else{
@@ -49,6 +55,7 @@ const Submit = () => {
       console.log(error);
     });
 };
+
 submitBTN.addEventListener("click", Submit);
 for (element of [email, first_name, last_name, password, confirm_password, phone_number]) {
   element.addEventListener("input", verify_fields);
