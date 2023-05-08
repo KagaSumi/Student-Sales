@@ -5,7 +5,7 @@ from flask import Blueprint, jsonify, request
 listing = Blueprint("listing", __name__)
 
 
-@listing.route("/get_listing/<string:listing_id>", methods=["GET"])
+@listing.route("/get_listing/<int:listing_id>", methods=["GET"])
 def get_listing(listing_id):
     requested_listing = Listing.query.get(listing_id)
     if not requested_listing:
@@ -55,7 +55,7 @@ def update_listing(listing_id):
             raise ValueError("The user does not exist")
         if price < 0:
             raise ValueError("The price cannot be negative")
-        if listing.user_id != data["user_id"]:
+        if requested_listing.user_id != data["user_id"]:
             raise ValueError("The user does not own this listing")
     except ValueError as err:
         return (f"Error: {str(err)}!", 400)
@@ -66,7 +66,7 @@ def update_listing(listing_id):
     return jsonify(message="Listing Updated"), 200
 
 
-@listing.route("/delete_listing/<string:listing_id>", methods=["DELETE"])
+@listing.route("/delete_listing/<int:listing_id>", methods=["DELETE"])
 def delete_listing(listing_id):
     data = request.json
     if not data.get("user_id"):
