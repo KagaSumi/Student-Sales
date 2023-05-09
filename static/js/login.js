@@ -1,13 +1,13 @@
-const email = document.getElementById("email");
-const password = document.getElementById("password");
-const loginBTN = document.getElementById("login_button");
+const email = document.getElementById('email');
+const password = document.getElementById('password');
+const loginBTN = document.getElementById('loginBTN');
 
 function send_request() {
-  const payload = { email: email.value, password: password.value };
-  fetch("/login", {
-    method: "POST",
+  let payload = { email: email.value, password: password.value };
+  fetch('/login', {
+    method: 'POST',
     headers: {
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json',
     },
     body: JSON.stringify(payload),
   })
@@ -16,18 +16,15 @@ function send_request() {
     })
     .then(([json, status]) => {
       let message = json.message;
-      localStorage.setItem("message", message);
-      if (status == 400) {
-        window.location.href = '/login';
-      } 
-      else {
+      localStorage.setItem('message', message);
+      if (status == 200) {
         window.location.href = '/profile';
+      } else {
+        window.location.href = '/login';
       }
     })
     .catch((error) => {
       console.log(error);
     });
 }
-
-
-loginBTN.addEventListener("click", send_request);
+loginBTN.addEventListener('click', send_request);

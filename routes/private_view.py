@@ -7,8 +7,7 @@ import requests
 
 private_view = Blueprint("private_view", __name__)
 
-# This should be used for any pages that require the user to be logged in for
-
+""" These endpoints / views require user login. """
 
 @private_view.route('/logout')
 @login_required

@@ -4,7 +4,6 @@ from flask import Blueprint, jsonify, request
 
 listing = Blueprint("listing", __name__)
 
-
 @listing.route("/get_listing/<int:listing_id>", methods=["GET"])
 def get_listing(listing_id):
     requested_listing = Listing.query.get(listing_id)

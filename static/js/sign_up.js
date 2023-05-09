@@ -1,10 +1,10 @@
-const email = document.getElementById("email");
-const first_name = document.getElementById("firstName");
-const last_name = document.getElementById("lastName");
-const phone_number = document.getElementById("phonenumber");
-const password = document.getElementById("password");
-const confirm_password = document.getElementById("conf_password");
-const submitBTN = document.getElementById("submit_button");
+const email = document.getElementById('email');
+const first_name = document.getElementById('firstName');
+const last_name = document.getElementById('lastName');
+const phone_number = document.getElementById('phonenumber');
+const password = document.getElementById('password');
+const confirm_password = document.getElementById('conf_password');
+const submitBTN = document.getElementById('submit_button');
 
 const verify_fields = (event) => {
   // FLAG_EMAIL = email.value.includes("@my.bcit.ca");
@@ -56,7 +56,7 @@ const Submit = () => {
     });
 };
 
-submitBTN.addEventListener("click", Submit);
+submitBTN.addEventListener('click', Submit);
 for (element of [email, first_name, last_name, password, confirm_password, phone_number]) {
-  element.addEventListener("input", verify_fields);
+  element.addEventListener('input', verify_fields);
 }
