@@ -5,6 +5,7 @@
 <label for="{{ name }}" class="my-1" {% for k,v in kwargs.items() %} {{k}}="{{v}}" {% endfor %}>{{ label }}</label>
 <input type="{{ type }}" class="form-control" id="{{ name }}" name="{{ name }}" value="{{ listing[name] }}"
     placeholder="{{ placeholder }}" {% for k,v in kwargs.items() %} {{k}}="{{v}}" {% endfor %}>
+<<<<<<< HEAD
     <ul class="my-2 text-danger">
     {% if errors[name] %}
     <li>{{ errors[name] }}</li>
@@ -13,6 +14,10 @@
 {% endmacro %}
 
 <form method="POST" enctype="multipart/form-data">
+=======
+{% endmacro %}
+
+>>>>>>> b855797f7afcb97cff89a9654311754eebd7e36b
     {{ render_input('Title:','Enter title','title', required="") }}
     {{ render_input('Description:','Enter description','description') }}
     {{ render_input('Price:', 'Enter price', 'price', 'number', step='0.01', min='0') }}
@@ -20,13 +25,26 @@
         {% for image in listing.images %}
         <div class="col-md-4">
             <img src="{{ url_for('views.get_image', image_id=image.id) }}" alt="{{ image.name }}" class="img-fluid">
+<<<<<<< HEAD
             <button type="submit" name="delete_image" value="{{ image.id }}" class="btn btn-warning"> Delete </button>
+=======
+            <button name="delete_image" value="{{ image.id }}" class="btn btn-warning"> Delete </button>
+>>>>>>> b855797f7afcb97cff89a9654311754eebd7e36b
         </div>
         {% endfor %}
     </div>
     </ul>
+<<<<<<< HEAD
     <button type="submit" class="btn btn-primary my-2" name="update_listing">Update Listing</button>
     <button type="submit" class="btn btn-primary my-2" name="preview_listing">Preview Listing</button>
     <button type="submit" class="btn btn-danger my-2" name="delete_listing">Delete Listing</button>
 </form>
+=======
+    <button id="update_button" class="btn btn-primary my-2" name="update_listing">Update Listing</button>
+    <button id="preview_button" class="btn btn-primary my-2" name="preview_listing">Preview Listing</button>
+    <button id="delete_button" class="btn btn-danger my-2" name="delete_listing">Delete Listing</button>
+{% endblock %}
+{% block script %}
+<script defer type="text/javascript" src="{{ url_for('static', filename='js/edit_listing.js') }}"></script>
+>>>>>>> b855797f7afcb97cff89a9654311754eebd7e36b
 {% endblock %}
