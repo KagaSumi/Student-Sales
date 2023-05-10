@@ -11,7 +11,6 @@ def get_listing(listing_id):
         return jsonify(message="Listing does not exist"), 404
     return jsonify(message=requested_listing.to_dict()), 200
 
-
 @listing.route("/create_listing_new", methods=["POST"])
 def create_listing():
     data = request.json
@@ -35,7 +34,6 @@ def create_listing():
     db.session.add(created_listing)
     db.session.commit()
     return jsonify(message="New Listing Added"), 200
-
 
 @listing.route("/update_listing/<string:listing_id>", methods=["PUT"])
 def update_listing(listing_id):
@@ -63,7 +61,6 @@ def update_listing(listing_id):
     requested_listing.price = price
     db.session.commit()
     return jsonify(message="Listing Updated"), 200
-
 
 @listing.route("/delete_listing/<int:listing_id>", methods=["DELETE"])
 def delete_listing(listing_id):

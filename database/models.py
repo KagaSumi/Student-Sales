@@ -2,7 +2,6 @@ from database.database import db
 from sqlalchemy.sql import func
 from flask_login import UserMixin
 
-
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String, unique=True)
@@ -29,6 +28,7 @@ class Listing(db.Model):
     price = db.Column(db.Float)
     date_posted = db.Column(db.DateTime(timezone=True), default=func.now())
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False, index=True)
+    images = db.relationship('Image', cascade="all,delete", backref='listing')
 
     def __str__(self):
         return f'<Listing(id="{self.id}", title="{self.title}", description="{self.description}", price="{self.price}", date_posted="{self.date_posted}")>'

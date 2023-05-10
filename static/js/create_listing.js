@@ -30,5 +30,4 @@ function send_request() {
     });
 }
 
-
 create_listingBTN.addEventListener("click", send_request);

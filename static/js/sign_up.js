@@ -1,10 +1,10 @@
 const email = document.getElementById('email');
 const first_name = document.getElementById('firstName');
 const last_name = document.getElementById('lastName');
-const phone_number = document.getElementById('phonenumber');
+const phone_number = document.getElementById('phoneNumber');
 const password = document.getElementById('password');
 const confirm_password = document.getElementById('conf_password');
-const submitBTN = document.getElementById('submit_button');
+const submitBTN = document.getElementById('submitBTN');
 
 const verify_fields = (event) => {
   // FLAG_EMAIL = email.value.includes("@my.bcit.ca");

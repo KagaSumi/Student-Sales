@@ -25,7 +25,7 @@ def user_login():
 
     response = requests.post(url=URL+'/verify_user', json=payload)
     if response.ok:
-        user = User.query.filter_by(email=data['email']).first()
+        user = User.query.filter_by(email=data['email'].lower()).first()
         login_user(user)
         return jsonify(message='User Login Successful!'), 200
     
