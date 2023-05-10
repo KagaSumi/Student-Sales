@@ -4,22 +4,33 @@
 
 <h3 class="my-3" align="center">Sign Up</h3>
 
-{% macro render_input(label, placeholder, name, type="text") %}
-<label for="{{ name }}" class="my-1" {% for k,v in kwargs.items() %} {{k}}="{{v}}" {% endfor %}>{{ label }}</label>
-<input type="{{ type }}" class="form-control" id="{{ name }}" name="{{ name }}" value="{{ request.form[name] }}"
-    placeholder="{{ placeholder }}" required {% for k,v in kwargs.items() %} {{k}}="{{v}}" {% endfor %}>
-{% endmacro %}
-{{ render_input('Email','Enter email address','email','email') }}
-{{ render_input('First Name','Enter first name','firstName') }}
-{{ render_input('Last Name','Enter last name','lastName') }}
-{{ render_input('Phone Number','Enter Phone Number','phonenumber', maxlength=10) }}
-{{ render_input('Password','Enter password','password','password') }}
-{{ render_input('Confirm Password','Confirm password','conf_password','password') }}
+<section>
+    <p>Email</p>
+    <input type="email" name="email" id="email" value="{{ request.form['email'] }}">
+    <div id="email_error"></div>
+    <p>First Name</p>
+    <input type="text" name="firstName" id="firstName" value="{{ request.form['firstName'] }}">
+    <div id="firstName_error"></div>
+    <p>Last Name</p>
+    <input type="text" name="lastName" id="lastName" value="{{ request.form['lastName'] }}">
+    <div id="lastName_error"></div>
+    <p>Phone Number</p>
+    <input type="text" name="phonenumber" id="phonenumber" value="{{ request.form['phonenumber'] }}">
+    <div id="phonenumber_error"></div>
+    <p>Password</p>
+    <input type="password" name="password" id="password" value="{{ request.form['password'] }}">
+    <div id="password_error"></div>
+    <p>Confirm Password</p>
+    <input type="password" name="conf_password" id="conf_password" value="{{ request.form['conf_password'] }}">
+    <div id="conf_password_error"></div>
+
+</section>
 <button class="btn btn-primary my-2 disabled" id="submit_button">Submit</button>
 
-
 {% endblock %}
+
 {% block script %}
+
 <script
       defer
       type="text/javascript"
