@@ -45,10 +45,10 @@ const Submit = () => {
     .then(([json, status]) => {
       let message = json.message;
       localStorage.setItem("message", message);
-      if (status == 400) {
-        window.location.href = "/sign-up";
+      if (status == 200) {
+        window.location.href = "/login";
       } else {
-        window.location.href = "/profile";
+        window.location.href = "/sign-up";
       }
     })
     .catch((error) => {

@@ -1,5 +1,5 @@
 from database.database import db
-from database.models import User, Listing
+from database.models import User, Listing, Image
 from flask import Blueprint, jsonify, request
 
 listing = Blueprint("listing", __name__)
@@ -28,12 +28,20 @@ def create_listing():
             raise ValueError("The price cannot be negative")
     except ValueError as err:
         return (f"Error: {str(err)}!", 400)
-    created_listing = Listing(
-        title=title, description=description, price=price, user_id=user_id
-    )
-    db.session.add(created_listing)
+    
+    new_listing = Listing(title=title, description=description, price=price, user_id=user_id)
+    db.session.add(new_listing)
     db.session.commit()
-    return jsonify(message="New Listing Added"), 200
+
+    images = data['images']
+    for img in images:
+        print(img['pic'])
+    if images:
+        for img in data['images']:
+            image = Image(img=img['pic'],name=img['filename'],mimetype=img['mimetype'],listing=new_listing)
+            db.session.add(image)
+        db.session.commit()
+    return jsonify(message="New Listing Added", listing=new_listing), 200
 
 @listing.route("/update_listing/<string:listing_id>", methods=["PUT"])
 def update_listing(listing_id):

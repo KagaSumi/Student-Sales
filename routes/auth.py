@@ -83,6 +83,7 @@ def listing_create():
         'title': data['title'],
         'description': data['description'],
         'price': data['price'],
+        'images': data['images'],
         'user_id': current_user.id
     }
 

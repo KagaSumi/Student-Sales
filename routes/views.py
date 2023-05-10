@@ -59,7 +59,6 @@ def edit_listing(listing_id):
         return redirect(url_for('private_view.profile'))
     return render_template("edit_listing.html", user=current_user, listing=listing)
 
-
 @views.route('/preview_listing/<int:listing_id>', methods=['GET'])
 @login_required
 def preview_listing(listing_id):

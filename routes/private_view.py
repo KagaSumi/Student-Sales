@@ -1,6 +1,5 @@
 from database.database import db
-from database.models import User
-from flask import Blueprint, jsonify, request, flash, url_for, redirect, render_template
+from flask import Blueprint, flash, url_for, redirect, render_template
 from flask_login import login_required, logout_user, current_user
 
 private_view = Blueprint("private_view", __name__)

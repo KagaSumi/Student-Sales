@@ -5,12 +5,15 @@
 {% macro render_input(label, placeholder, name, type="text") %}
 <label for="{{ name }}" class="my-1" {% for k,v in kwargs.items() %} {{k}}="{{v}}" {% endfor %}>{{ label }}</label>
 <input type="{{ type }}" class="form-control" id="{{ name }}" name="{{ name }}" value="{{ request.form[name] }}"
-    placeholder="{{ placeholder }}" {% for k,v in kwargs.items() %} {{k}}="{{v}}" {% endfor %}>
+  placeholder="{{ placeholder }}" {% for k,v in kwargs.items() %} {{k}}="{{v}}" {% endfor %}>
 {% endmacro %}
 
 {{ render_input('Title:','Enter title','title', required="") }}
 {{ render_input('Description:','Enter description','description') }}
 {{ render_input('Price:', 'Enter price', 'price', 'number', step='0.01', min='0') }}
+
+<label for="image" class="my-1">Image:</label>
+<input type="file" class="form-control" id="image" name="image" multiple>
 
 <button class="btn btn-primary my-2" id="create_listing">Create Listing</button>
 {% endblock %}
