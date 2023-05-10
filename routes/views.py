@@ -5,13 +5,12 @@ from werkzeug.utils import secure_filename
 from database.models import User, Listing
 from flask_login import login_required, current_user
 from flask import Blueprint, request, Response, flash, url_for, redirect, render_template, jsonify
-views = Blueprint('views', __name__)
 
+views = Blueprint('views', __name__)
 
 @views.route('/')
 def homepage():
     return render_template('homepage.html', user=current_user)
-
 
 @views.route('/account', methods=['GET', 'POST'])
 @login_required

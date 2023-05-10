@@ -1,26 +1,24 @@
 from database.database import db
 from database.models import User
-from werkzeug.security import generate_password_hash, check_password_hash
-from flask import Blueprint, jsonify, request, flash, url_for, redirect, render_template
-from flask_login import login_user, login_required, logout_user, current_user
-import requests
+from flask_login import current_user
+from flask import Blueprint, flash, url_for, redirect, render_template
 
-public_view = Blueprint("public_view", __name__)
+public_view = Blueprint('public_view', __name__)
 
+""" These endpoints / views do not require user login. """
 
-# This should be used for any pages that require the user to be logged in for
-
-
-@public_view.route("/login", methods=["GET"])
+@public_view.route('/login', methods=['GET'])
 def login():
     if current_user.is_authenticated:
-        return redirect(url_for("views.account"))
-    return render_template("login.html", user=current_user)
-
+        flash('Cannot Access Login Page While Logged In!', 'danger')
+        return redirect(url_for('views.account'))
+    
+    return render_template('login.html', user=current_user)
 
 @ public_view.route('/sign-up', methods=['GET'])
 def sign_up():
     if current_user.is_authenticated:
         flash('Cannot Access Sign Up Page While Logged In!', 'danger')
         return redirect(url_for('views.account'))
-    return render_template("sign_up.html", user=current_user)
+    
+    return render_template('sign_up.html', user=current_user)
