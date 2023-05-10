@@ -105,7 +105,7 @@ const verify_password = (event) => {
     password_error.textContent = "Password is too short.";
     password_error.classList.add("error-message");
   } else if (!hasSymbol) {
-    password_error.textContent = "Password must contain a symbol. (e.g. $, !, @, #, %, ^, &, *, _, +, =, -, `, ~)";
+    password_error.textContent = "Password must contain a symbol.";
     password_error.classList.add("error-message");
   }
    else {
