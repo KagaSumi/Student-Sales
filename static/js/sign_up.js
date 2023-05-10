@@ -48,7 +48,7 @@ const Submit = () => {
       if (status == 400) {
         window.location.href = "/sign-up";
       } else {
-        window.location.href = "/profile";
+        window.location.href = "/login";
       }
     })
     .catch((error) => {

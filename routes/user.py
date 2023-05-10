@@ -21,6 +21,8 @@ def verify_user():
         if key not in data:
             return jsonify(message=f"{key} is missing from JSON"), 400
     user = User.query.filter_by(email=data["email"]).first()
+    if user.is_confirmed != True:
+        return jsonify(message=False), 401
     if not (user or check_password_hash(data["password"], user.password)):
         return jsonify(message=False), 400
     return jsonify(message=True), 200
@@ -87,6 +89,8 @@ def update_user(user_id):
 @user.route("/delete_user/<string:user_id>", methods=["DELETE"])
 def delete_user(user_id):
     user = User.query.get(user_id)
+    if not user:
+        return jsonify(message="User not found"),400
     db.session.delete(user)
     db.session.commit()
     return jsonify(message="User Deleted"), 200
