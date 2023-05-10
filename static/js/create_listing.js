@@ -2,6 +2,7 @@ const title = document.getElementById("title");
 const description = document.getElementById("description");
 const price = document.getElementById("price");
 const create_listingBTN = document.getElementById("create_listing");
+const cancelButton = document.getElementById("cancel_listing");
 
 function send_request() {
   const payload = { title: title.value, description: description.value, price: price.value};
@@ -30,5 +31,13 @@ function send_request() {
     });
 }
 
-
 create_listingBTN.addEventListener("click", send_request);
+
+cancelButton.addEventListener("click", function() {
+
+  let inputFields = document.querySelectorAll("input");
+
+  for (var i = 0; i < inputFields.length; i++) {
+    inputFields[i].value = "";
+  }
+});
