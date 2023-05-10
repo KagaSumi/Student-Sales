@@ -1,19 +1,18 @@
 import os
+import requests
 from database.database import db
 from werkzeug.utils import secure_filename
 from database.models import User, Listing
 from flask_login import login_required, current_user
-from flask import Blueprint, request, Response, flash, url_for, redirect, render_template
+from flask import Blueprint, request, Response, flash, url_for, redirect, render_template, jsonify
 
 views = Blueprint('views', __name__)
-
 
 @views.route('/')
 def homepage():
     return render_template('homepage.html', user=current_user)
 
-
-@views.route('/account', methods=['GET','POST'])
+@views.route('/account', methods=['GET', 'POST'])
 @login_required
 def account():
     if request.method == 'POST':
@@ -26,73 +25,39 @@ def account():
         return redirect(request.url)
     return render_template('account.html', user=current_user)
 
-
-@views.route('/profile')
+@views.route('/edit_listing/<int:listing_id>', methods=['PUT'])
 @login_required
-def profile():
-    return render_template('profile.html', user=current_user)
+def listing_edit(listing_id):
+    data = request.json
+    for key in ("title","description","price"):
+        if key not in data:
+            return jsonify(message=f"{key} is missing from JSON"),400
+    edit_request = requests.put(url=URL+"/edit_listing"+listing_id, json={
+        "title": data["title"],
+        "description": data["description"],
+        "price": data["price"]
+    })
+    if edit_request.ok:
+        return jsonify(message="Listing updated successfully"),200
+    return jsonify(message="Listing was not updated successfully"),400
 
-
-@views.route('/create_listing', methods=['GET', 'POST'])
+@views.route('/delete_listing/<int:listing_id>', methods=["DELETE"])
 @login_required
-def create_listing():
-    errors = {}
-    if request.method == 'POST':
-        title = request.form.get('title')
-        description = request.form.get('description')
-        if not description:
-            description = 'None'
-        price = request.form.get('price')
-        if not price:
-            price = 0
+def listing_delete(listing_id):
+    delete_request = requests.delete(url=URL+"/delete_listing/"+listing_id,
+                                     json={"user_id": current_user.id})
+    if delete_request.ok:
+        return jsonify(message="Listing Deleted"),200
+    return jsonify(message="Listing was not deleted successfully"),400
 
-        listing = Listing(title=title, description=description,
-                          price=price, user_id=current_user.id)
-        db.session.add(listing)
-
-        if not errors:
-            db.session.commit()
-            print(listing)
-            flash('New Listing Created!', 'success')
-            return redirect(url_for('views.profile', listing=listing))
-
-    return render_template('create_listing.html', user=current_user, errors=errors)
-
-
-@views.route('/edit_listing/<int:listing_id>', methods=['GET', 'POST'])
+@views.route('/edit_listing/<int:listing_id>', methods=['GET'])
 @login_required
 def edit_listing(listing_id):
-    errors = {}
     listing = Listing.query.get(listing_id)
-
     if not listing or current_user.id is not listing.user_id:
-        flash('Access to listing is not allowed!', 'danger')
-        return redirect(url_for('views.profile'))
-
-    if request.method == 'POST':
-        if 'preview_listing' in request.form:
-            return redirect(url_for('views.preview_listing', listing_id=listing_id))
-
-        if 'update_listing' in request.form:
-            listing.title = request.form['title']
-            listing.description = request.form['description']
-            if not listing.description:
-                listing.description = 'None'
-            listing.price = request.form['price']
-            if not listing.price:
-                listing.price = 0
-            if not errors:
-                db.session.commit()
-                flash("Listing Updated Successfully!", "success")
-                return redirect(request.url)
-
-        if 'delete_listing' in request.form:
-            db.session.delete(listing)
-            db.session.commit()
-            flash("Listing Deleted Successfully!", "success")
-            return redirect(url_for('views.profile'))
-
-    return render_template("edit_listing.html", user=current_user, listing=listing, errors=errors)
+        flash('Access to this listing is not allowed!', 'danger')
+        return redirect(url_for('private_view.profile'))
+    return render_template("edit_listing.html", user=current_user, listing=listing)
 
 
 @views.route('/preview_listing/<int:listing_id>', methods=['GET'])
