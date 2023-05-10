@@ -5,3 +5,54 @@
     opacity:0.6;
     cursor: not-allowed;
 }
+
+.error-message {
+    position: relative;
+    bottom: 0;
+    color: red;
+    font-size: 12px;
+    font-weight: bold;
+    height: 0em; 
+    line-height: 1.5em;
+  }
+
+.form-container {
+    display: grid;
+    grid-template-rows: auto 1fr;
+    grid-template-columns: 1fr;
+    grid-gap: 1em;
+    align-items: center;
+    justify-items: center;
+  }
+  
+  .inputs {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(4, auto);
+    grid-gap: 1em;
+    align-items: center;
+    justify-items: center;
+  }
+  
+  .input-row {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 1em;
+    align-items: center;
+    justify-items: center;
+  }
+  
+  .input-wrapper {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    height: 6em; /* adjust as needed */
+  }
+
+  .input-row-email-phone {
+    display: grid;
+    width: 100%;
+    grid-column: 1/2;
+
+  }
+  
