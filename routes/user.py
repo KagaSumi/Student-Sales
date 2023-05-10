@@ -19,12 +19,11 @@ def verify_user():
     data = request.json
     for key in ("email", "password"):
         if key not in data:
-            return jsonify(message=f"{key} is missing from JSON"), 400
+            return jsonify(message=f'{key} is missing from JSON'), 400
     user = User.query.filter_by(email=data["email"]).first()
     if not (user or check_password_hash(data["password"], user.password)):
         return jsonify(message=False), 400
     return jsonify(message=True), 200
-
 
 @user.route("/create_user", methods=["POST"])
 def create_user():
@@ -55,7 +54,6 @@ def create_user():
     db.session.commit()
     return jsonify(message="New User Added"), 200
 
-
 @user.route("/update_user/<string:user_id>", methods=["PUT"])
 def update_user(user_id):
     data = request.json
@@ -82,8 +80,7 @@ def update_user(user_id):
     user.last_name = last_name
     user.phone_number = phone_number
     db.session.commit()
-    return jsonify(message="User Updated"), 200
-
+    return jsonify(message='User Updated'), 200
 
 @user.route("/delete_user/<string:user_id>", methods=["DELETE"])
 def delete_user(user_id):
