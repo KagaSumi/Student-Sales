@@ -27,10 +27,9 @@ const list_delete = () => {
     return
 }
 const preview = () => {
-    //TODO Finish preview button functionality
-    
+    window.location.href = "/preview/" + id;
 }
 
-for (element of [title,description,price]){
+    for (element of [title,description,price]){
     element.addEventListener('input',verify_fields)
 }
