@@ -9,7 +9,7 @@ class User(db.Model, UserMixin):
     first_name = db.Column(db.String)
     last_name = db.Column(db.String)
     password = db.Column(db.String)
-    listings = db.relationship('Listing',cascade="all,delete" ,backref='user')
+    listings = db.relationship('Listing', cascade="all,delete", backref='user')
 
     def __str__(self):
         return f'<User(id="{self.id}", email="{self.email}", first_name="{self.first_name}", last_name="{self.last_name}")>'
@@ -41,4 +41,22 @@ class Listing(db.Model):
             'price': self.price,
             'date_posted': self.date_posted,
             'user_id': self.user_id
+        }
+    
+class Image(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    img = db.Column(db.Text, nullable=False)
+    name = db.Column(db.Text, nullable=False)
+    mimetype = db.Column(db.Text, nullable=False)
+    listing_id = db.Column(db.Integer, db.ForeignKey('listing.id'), nullable=False, index=True)
+
+    def __str__(self):
+        return f'<Image(id="{self.id}", name="{self.name}", mimetype="{self.mimetype}")>'
+
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'name': self.name,
+            'mimetype': self.mimetype,
+            'listing_id': self.listing_id
         }
