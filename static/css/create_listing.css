@@ -8,6 +8,11 @@ input {
     box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.1);
 }
 
+#profilediv {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+}
+
 label {
     margin-top: 15px;
     margin-bottom: 15px;

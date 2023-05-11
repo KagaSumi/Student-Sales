@@ -25,8 +25,30 @@ const verify_fields = (event) => {
 }
 
 const update = () => {
-    //TODO: update listing
-}
+    const payload = { title: title.value, description: description.value, price: price.value};
+    fetch("/create_listing", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(payload),
+  })
+    .then((response) => Promise.all([response.json(), response.status]))
+    .then(([json, status]) => {
+      let message = json.message;
+      localStorage.setItem("message", message);
+      if (status == 400) {
+        window.location.href = '/create_listing';
+      } else {
+        window.location.href = '/profile';
+      }
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+};
+    //TODO: update listing, currently creates new stuff.
+
 
 updateBTN.addEventListener('click', update);
 
