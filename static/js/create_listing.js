@@ -4,7 +4,7 @@ const price = document.getElementById("price");
 const create_listingBTN = document.getElementById("create_listing");
 const cancelButton = document.getElementById("cancel_listing");
 
-function send_request() {
+const send_request = () => {
   const payload = { title: title.value, description: description.value, price: price.value};
   fetch("/create_listing", {
     method: "POST",
@@ -13,25 +13,22 @@ function send_request() {
     },
     body: JSON.stringify(payload),
   })
-    .then((response) => {
-      return Promise.all([response.json(), response.status]);
-    })
+    .then((response) => Promise.all([response.json(), response.status]))
     .then(([json, status]) => {
       let message = json.message;
       localStorage.setItem("message", message);
       if (status == 400) {
         window.location.href = '/create_listing';
-      } 
-      else {
+      } else {
         window.location.href = '/profile';
       }
     })
     .catch((error) => {
       console.log(error);
     });
-}
+};
 
-function check_inputs() {
+const check_inputs = () => {
   if (title.value && description.value && /^\d+(\.\d{1,2})?$/.test(price.value)) {
     create_listingBTN.disabled = false;
   } else {
@@ -44,11 +41,11 @@ function check_inputs() {
       priceErrorMessage.remove();
     }
   }
-}
+};
 
 create_listingBTN.addEventListener("click", send_request);
 
-cancelButton.addEventListener("click", function() {
+cancelButton.addEventListener("click", () => {
   let inputFields = document.querySelectorAll("input");
   for (let i = 0; i < inputFields.length; i++) {
     inputFields[i].value = "";
@@ -59,7 +56,7 @@ title.addEventListener("input", check_inputs);
 description.addEventListener("input", check_inputs);
 price.addEventListener("input", check_inputs);
 
-price.addEventListener("keydown", function (event) {
+price.addEventListener("keydown", (event) => {
   if (
     event.key === "Backspace" ||
     event.key === "Delete" ||
