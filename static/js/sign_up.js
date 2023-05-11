@@ -127,8 +127,18 @@ const verify_confirm_password = (event) => {
     conf_password_error.classList.remove("error-message");
   }
 };
+async function hashedPassword(password) {
+  const utf8 = new TextEncoder().encode(password);
+  const hashBuffer = await crypto.subtle.digest('SHA-256', utf8);
+  const hashArray = Array.from(new Uint8Array(hashBuffer));
+  const hashHex = hashArray
+    .map((bytes) => bytes.toString(16).padStart(2, '0'))
+    .join('');
+  return hashHex;
+};
 
-const Submit = () => {
+const Submit = async () => {
+  let hash_password = await hashedPassword(password.value);
   fetch("/sign-up", {
     method: "POST",
     headers: {
@@ -139,7 +149,7 @@ const Submit = () => {
       first_name: first_name.value,
       last_name: lastName.value,
       phone_number: phone_number.value,
-      password: password.value
+      password: hash_password
     })
   })
     .then((response) => {
@@ -157,15 +167,16 @@ const Submit = () => {
     .catch((error) => {
       console.log(error);
     });
-};
+  };
+  
+  submitBTN.addEventListener('click', Submit);
+  for (element of [email, first_name, last_name, password, confirm_password, phone_number]) {
+    element.addEventListener('input', verify_fields);
+  }
 
-submitBTN.addEventListener('click', Submit);
-for (element of [email, first_name, last_name, password, confirm_password, phone_number]) {
-  element.addEventListener('input', verify_fields);
-}
 
 /*
-  Event Listeners Handlers for each input field
+Event Listeners Handlers for each input field
 */
 email.addEventListener('input', verify_email);
 first_name.addEventListener('input', verify_firstName);
