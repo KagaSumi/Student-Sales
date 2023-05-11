@@ -1,31 +1,75 @@
-{% extends "base.html" %} {% block content %}
-<h3 align="center" class="my-3">Previewing Listing (ID: {{ listing.id }})</h3>
+{% extends "base.html" %}
+{% block content %}
 
-<h5  class="my-3">Posted</h5>
-<p>{{ listing.date_posted }}</p>
-<h5  class="my-3">Title</h5>
-<p>{{ listing.title }}</p>
-<h5  class="my-3">Description</h5>
-<p>{{ listing.description }}</p>
-<h5  class="my-3">Price</h5>
-<p>{{ listing.price }}</p>
-
-<h5 class="my-3">Images</h5>
-{% if listing.images %}
-<div class="row">
-    {% for image in listing.images %}
-    <div class="col-md-4 mx-auto">
-        <img src="{{ url_for('views.get_image', image_id=image.id) }}" alt="{{ image.name }}" class="img-fluid">
+<div class="container">
+    <div class="listing-id">
+        <p class="text-center my-3">Previewing Listing (ID: {{ listing.id }})</p>
     </div>
-    {% endfor %}
-    {% else %}
-    <img src="{{ url_for('static', filename='images/defaultImage.png') }}" alt="no image uploaded" width="150" height="150">
-    {% endif %}
+    
+    <div class="listing-details">
+        <div class="listing-info">
+            <div class="listing-title">
+                <h5 class="my-3">Title</h5>
+                <p>{{ listing.title }}</p>
+            </div>
+            
+            <div class="listing-price">
+                <h5 class="my-3">Price</h5>
+                <p>{{ listing.price }}</p>
+            </div>
+            
+            <div class="listing-posted">
+                <h5 class="my-3">Posted</h5>
+                <p>{{ listing.date_posted }}</p>
+            </div>
+        </div>
+        
+        <div class="listing-description">
+            <h5 class="my-3">Description</h5>
+            <p>{{ listing.description }}</p>
+        </div>
+    </div>
+
+    <div class="listing-images">
+        <h5 class="my-3">Images</h5>
+        
+        {% if listing.images %}
+        <div class="row">
+            {% for image in listing.images %}
+            <div class="col-md-4 mx-auto image-container">
+                <img src="{{ url_for('views.get_image', image_id=image.id) }}" alt="{{ image.name }}" class="img-fluid">
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="no-image">
+            <img src="{{ url_for('static', filename='images/defaultImage.png') }}" alt="no image uploaded" width="150" height="150">
+        </div>
+        {% endif %}
+    </div>
+
+    <div class="listing-edit text-center">
+        <a  class="text-decoration-none text-black"> 
+            <button type="submit" class="btn btn-primary my-2" name="message">Message</button>
+        </a>
+        <a  class="text-decoration-none text-black"> 
+            <button type="submit" class="btn btn-primary my-2" name="Save">Save</button>
+        </a>
+        <a  class="text-decoration-none text-black"> 
+            <button type="submit" class="btn btn-primary my-2" name="Share">Share</button>
+        </a>
+        <a href="{{ url_for('views.edit_listing', listing_id=listing.id) }}" class="text-decoration-none text-black">
+            <button type="submit" class="btn btn-primary my-2" name="back">Go Back To Edit Listing</button>
+        </a>
+    </div>
 </div>
 
-<div class="text-center">
-    <a href="{{ url_for('views.edit_listing', listing_id=listing.id) }}" class="text-decoration-none text-black">
-        <button type="submit" class="btn btn-primary my-2" name="back">Go Back To Edit Listing</button>
-    </a>
-</div>
+{% endblock %}
+
+{% block css %}
+<link
+  rel="stylesheet"
+  type="text/css"
+  href="{{ url_for('static', filename='css/preview_listing.css') }}"
+/>
 {% endblock %}
