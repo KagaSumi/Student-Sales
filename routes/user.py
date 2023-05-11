@@ -54,31 +54,33 @@ def create_user():
     db.session.commit()
     return jsonify(message="New User Added"), 200
 
-
+def verify_password(password):
+    flag = False
+    for symbol in ['symbol']:
+        if symbol in password:
+            flag = True
+    return flag
 @user.route("/update_user/<string:user_id>", methods=["PUT"])
 def update_user(user_id):
     data = request.json
     selected_user = User.query.get(user_id)
-    for key in ("email", "password", "first_name", "last_name", "phone_number"):
+    for key in ("password", "first_name", "last_name", "phone_number"):
         if key not in data:
             return f"The JSON provided is invalid (missing: {key})", 400
     try:
-        email = str(data["email"])
         password = str(data["password"])
         first_name = str(data["first_name"])
         last_name = str(data["last_name"])
         phone_number = str(data["phone_number"])
 
-        if "@" not in email:
-            raise ValueError("Email is not valid")
-        if len(password) < 4:
+        if len(password) < 4 and verify_password(password):
             raise ValueError("Password must be at least 4 characters")
         if len(phone_number) != 10 and phone_number.isdigit():
             raise ValueError("Phone number must be at least 10 digits")
     except ValueError as err:
         return (f"Error: {str(err)}!", 400)
-    selected_user.email = email
-    selected_user.password = password
+    if password:
+        selected_user.password = password
     selected_user.first_name = first_name
     selected_user.last_name = last_name
     selected_user.phone_number = phone_number

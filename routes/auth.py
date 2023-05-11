@@ -86,6 +86,21 @@ def confirm_email(token):
     flash("You have confirmed your account. Thanks!", "success")
     return redirect(url_for("private_view.profile"))
 
+@auth.route('/update_profile', methods=['PUT'])
+@login_required
+def update_user():
+    data = request.json
+    for key in ['first_name', 'last_name','phone_number']:
+        return jsonify(message=f"{key} is missing from JSON")
+    update_request = requests.put(url=URL+"/update_user/"+current_user.id,json={
+        "first_name": data["first_name"], 
+        "last_name": data["last_name"],
+        "phone_number": data["phone_number"],
+        "password": data["password"],
+    })
+    if update_request.ok:
+        return jsonify(message="Profile Update Success"),200
+    return jsonify(message="Profile Update Error"),400
 
 @auth.route('/login', methods=['POST'])
 def user_login():
