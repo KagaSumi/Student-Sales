@@ -1,6 +1,4 @@
-{% extends "base.html" %}
-
-{% block content %}
+{% extends "base.html" %}{% block content %}
 
 <h3 class="my-3" align="center">Sign Up</h3>
 
@@ -8,21 +6,20 @@
 <label for="{{ name }}" class="my-1" {% for k,v in kwargs.items() %} {{k}}="{{v}}" {% endfor %}>{{ label }}</label>
 <input type="{{ type }}" class="form-control" id="{{ name }}" name="{{ name }}" value="{{ request.form[name] }}"
     placeholder="{{ placeholder }}" required {% for k,v in kwargs.items() %} {{k}}="{{v}}" {% endfor %}>
+  <ul class="my-2 text-danger">
+    {% if errors[name] %}
+    <li>{{ errors[name] }}</li>
+    {% endif %}
+  </ul>
 {% endmacro %}
-{{ render_input('Email','Enter email address','email','email') }}
-{{ render_input('First Name','Enter first name','firstName') }}
-{{ render_input('Last Name','Enter last name','lastName') }}
-{{ render_input('Phone Number','Enter Phone Number','phonenumber', maxlength=10) }}
-{{ render_input('Password','Enter password','password','password') }}
-{{ render_input('Confirm Password','Confirm password','conf_password','password') }}
-<button class="btn btn-primary my-2 disabled" id="submit_button">Submit</button>
+
+<form method="POST">
+    {{ render_input('Email','Enter email address','email','email') }}
+    {{ render_input('First Name','Enter first name','firstName') }}
+    {{ render_input('Last Name','Enter last name','lastName') }}
+    {{ render_input('Password','Enter password','password','password') }}
+    <button type="submit" class="btn btn-primary my-2">Submit</button>
+</form>
 
 
-{% endblock %}
-{% block script %}
-<script
-      defer
-      type="text/javascript"
-      src="{{ url_for('static', filename='js/sign_up.js') }}"
-    ></script>
 {% endblock %}
