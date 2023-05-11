@@ -21,7 +21,7 @@ def verify_user():
     user = User.query.filter_by(email=data["email"]).first()
     if user.is_confirmed != True:
         return jsonify(message=False), 401
-    if not user or not check_password_hash(data["password"], user.password):
+    if not user or not data["password"] == user.password:
         return jsonify(message=False), 400
     return jsonify(message=True), 200
 
@@ -43,7 +43,7 @@ def create_user():
         return (f"Error: {str(err)}!", 400)
     new_user = User(
         email=email,
-        password=generate_password_hash(password, method="sha256"),
+        password=password,
         first_name=first_name,
         last_name=last_name,
     )  # ,phone_number=phone_number)
@@ -51,13 +51,6 @@ def create_user():
     db.session.commit()
     return jsonify(message="New User Added"), 200
 
-
-def verify_password(password):
-    flag = False
-    for symbol in ['symbol']:
-        if symbol in password:
-            flag = True
-    return flag
 
 @user.route("/update_user/<string:user_id>", methods=["PUT"])
 def update_user(user_id):
