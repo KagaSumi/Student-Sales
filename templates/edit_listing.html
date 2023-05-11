@@ -1,4 +1,7 @@
 {% extends "base.html" %} {% block content %}
+{% block css %}
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/create_listing.css') }}" />
+{% endblock %}
 <h5 class="my-3">Listing ID: {{ listing.id }}</h3>
 
 {% macro render_input(label, placeholder, name, type="text") %}
