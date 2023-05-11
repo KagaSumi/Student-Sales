@@ -1,3 +1,7 @@
+/**
+ * @fileoverview This file contains all the functions that are used in the create_listing.html file.
+ * 
+ */
 const title = document.getElementById("title");
 const description = document.getElementById("description");
 const price = document.getElementById("price");
