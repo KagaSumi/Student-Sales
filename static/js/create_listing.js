@@ -19,7 +19,6 @@ async function send_request() {
   };
 
   if (images.files) {
-    // Wrap reading of each file in a Promise
     const readFilePromises = Array.from(images.files).map((img) => {
       return new Promise((resolve) => {
         const reader = new FileReader();

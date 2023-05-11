@@ -105,7 +105,6 @@ const previewListing = () => {
   })
     .then((response) => {
       if (response.ok) {
-        // Check if response contains JSON content
         const contentType = response.headers.get("content-type");
         if (contentType && contentType.indexOf("application/json") !== -1) {
           return response.json().then((json) => [json, response.status]);
