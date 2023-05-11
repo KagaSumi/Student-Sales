@@ -2,8 +2,18 @@ const email = document.getElementById('email');
 const password = document.getElementById('password');
 const loginBTN = document.getElementById('loginBTN');
 
-function send_request() {
-  let payload = { email: email.value.toLowerCase(), password: password.value };
+async function hashedPassword(password) {
+  const utf8 = new TextEncoder().encode(password);
+  const hashBuffer = await crypto.subtle.digest('SHA-256', utf8);
+  const hashArray = Array.from(new Uint8Array(hashBuffer));
+  const hashHex = hashArray
+    .map((bytes) => bytes.toString(16).padStart(2, '0'))
+    .join('');
+  return hashHex;
+};
+async function  send_request() {
+  let hash_password = await hashedPassword(password.value);
+  let payload = { email: email.value.toLowerCase(), password: hash_password };
   fetch('/login', {
     method: 'POST',
     headers: {
