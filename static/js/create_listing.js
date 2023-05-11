@@ -32,10 +32,17 @@ function send_request() {
 }
 
 function check_inputs() {
-  if (title.value && description.value && price.value) {
+  if (title.value && description.value && /^\d+(\.\d{1,2})?$/.test(price.value)) {
     create_listingBTN.disabled = false;
   } else {
     create_listingBTN.disabled = true;
+  }
+  
+  const priceErrorMessage = document.getElementById("price-error-message");
+  if (priceErrorMessage) {
+    if (/^\d+(\.\d{1,2})?$/.test(price.value)) {
+      priceErrorMessage.remove();
+    }
   }
 }
 
@@ -52,4 +59,21 @@ title.addEventListener("input", check_inputs);
 description.addEventListener("input", check_inputs);
 price.addEventListener("input", check_inputs);
 
-check_inputs(); // check inputs on page load
+price.addEventListener("keydown", function (event) {
+  if (
+    event.key === "Backspace" ||
+    event.key === "Delete" ||
+    event.key === "ArrowLeft" ||
+    event.key === "ArrowRight" ||
+    event.key === "Tab"
+  ) {
+    return;
+  }
+
+  const input = event.target.value + event.key;
+  if (!/^\d+(\.\d{0,2})?$/.test(input)) {
+    event.preventDefault();
+  }
+});
+
+check_inputs();
