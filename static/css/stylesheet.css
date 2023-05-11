@@ -6,3 +6,20 @@
     cursor: not-allowed;
 }
 
+footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+    background-color: #003C71;
+    color: #F2F2F2;
+}
+
+#navcolor {
+    background-color:#003C71;
+    color: #F2F2F2;
+}
+
+.navbar-nav .nav-link {
+    color: #fff; /* Change the color to the desired value */
+  }

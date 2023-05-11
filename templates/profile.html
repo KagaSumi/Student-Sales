@@ -1,10 +1,17 @@
-{% extends "base.html" %} {% block content %}
+{% extends "base.html" %} 
+
+{% block css%}
+<link rel="stylesheet" href="../static/css/create_listing.css">
+{% endblock %}
+
+{% block content %}
 <h3 class="my-3">Hi {{ user.first_name }}, Welcome to your profile!</h3>
 <div class="my-3">
     <a href="{{ url_for('private_view.create_listing') }}" class="btn btn btn-primary">Create Listing</a>
 </div>
 
 <h4>Here are your listings:</h4>
+<div id="profilediv">
 {% if user.listings %}
 {% for listing in user.listings %}
 <a href="{{ url_for('views.edit_listing', listing_id=listing.id) }}" class="text-decoration-none text-black">
@@ -32,4 +39,5 @@
 {% else %}
 <p>You have not made any listings.</p>
 {% endif %}
+</div>
 {% endblock %}
