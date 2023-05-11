@@ -5,14 +5,12 @@ from flask import Blueprint, jsonify, request, flash, url_for, redirect, render_
 
 user = Blueprint("user", __name__)
 
-
 @user.route("/get_user/<string:user_id>", methods=["GET"])
 def get_user(user_id):
     user = User.query.get(user_id)
     if user:
         return jsonify(message=user.to_dict()), 200
-    return jsonify(message="User Not Found"), 404
-
+    return jsonify(message="User Not Found!"), 404
 
 @user.route("/verify_user", methods=["POST"])
 def verify_user():
@@ -26,7 +24,6 @@ def verify_user():
     if not user or not check_password_hash(data["password"], user.password):
         return jsonify(message=False), 400
     return jsonify(message=True), 200
-
 
 @user.route("/create_user", methods=["POST"])
 def create_user():
@@ -54,12 +51,14 @@ def create_user():
     db.session.commit()
     return jsonify(message="New User Added"), 200
 
+
 def verify_password(password):
     flag = False
     for symbol in ['symbol']:
         if symbol in password:
             flag = True
     return flag
+
 @user.route("/update_user/<string:user_id>", methods=["PUT"])
 def update_user(user_id):
     data = request.json
@@ -84,9 +83,10 @@ def update_user(user_id):
     selected_user.first_name = first_name
     selected_user.last_name = last_name
     selected_user.phone_number = phone_number
-    db.session.commit()
-    return jsonify(message="User Updated"), 200
 
+    db.session.commit()
+
+    return jsonify(message='User Updated'), 200
 
 @user.route("/delete_user/<string:user_id>", methods=["DELETE"])
 def delete_user(user_id):

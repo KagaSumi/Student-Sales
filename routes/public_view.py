@@ -1,7 +1,8 @@
+import base64
 from database.database import db
-from database.models import User
+from database.models import Image
 from flask_login import current_user
-from flask import Blueprint, flash, url_for, redirect, render_template
+from flask import Blueprint, Response, flash, url_for, redirect, render_template
 
 public_view = Blueprint('public_view', __name__)
 
@@ -24,3 +25,9 @@ def sign_up():
         return redirect(url_for('views.account'))
     
     return render_template('sign_up.html', user=current_user)
+
+@public_view.route('/image/<int:image_id>')
+def get_image(image_id):
+    img = Image.query.get(image_id)
+    image_data = img.img.split(',')[1]
+    return Response(base64.b64decode(image_data),mimetype=img.mimetype)
