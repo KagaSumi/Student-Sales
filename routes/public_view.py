@@ -7,6 +7,9 @@ public_view = Blueprint('public_view', __name__)
 
 """ These endpoints / views do not require user login. """
 
+@public_view.route('/')
+def homepage():
+    return render_template('homepage.html', user=current_user)
 @public_view.route('/login', methods=['GET'])
 def login():
     if current_user.is_authenticated:
@@ -14,7 +17,6 @@ def login():
         return redirect(url_for('views.account'))
     
     return render_template('login.html', user=current_user)
-
 @ public_view.route('/sign-up', methods=['GET'])
 def sign_up():
     if current_user.is_authenticated:
