@@ -59,12 +59,16 @@ const list_delete = () => {
 deleteBTN.addEventListener('click', list_delete);
 
 const preview = () => {
-    window.location.href = `/preview_listing/${listing_id}`;
+      window.location.href = `/preview_listing/${listing_id}`;
 }
 
 previewBTN.addEventListener('click', preview);
 
 
 for (element of [title,description,price]){
+    window.location.href = "/preview/" + id;
+}
+
+    for (element of [title,description,price]){
     element.addEventListener('input',verify_fields)
 }

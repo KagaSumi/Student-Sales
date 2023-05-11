@@ -4,25 +4,65 @@
 
 <h3 class="my-3" align="center">Sign Up</h3>
 
-{% macro render_input(label, placeholder, name, type="text") %}
-<label for="{{ name }}" class="my-1" {% for k,v in kwargs.items() %} {{k}}="{{v}}" {% endfor %}>{{ label }}</label>
-<input type="{{ type }}" class="form-control" id="{{ name }}" name="{{ name }}" value="{{ request.form[name] }}"
-    placeholder="{{ placeholder }}" required {% for k,v in kwargs.items() %} {{k}}="{{v}}" {% endfor %}>
-{% endmacro %}
-{{ render_input('Email','Enter email address','email','email') }}
-{{ render_input('First Name','Enter first name','firstName') }}
-{{ render_input('Last Name','Enter last name','lastName') }}
-{{ render_input('Phone Number','Enter Phone Number','phonenumber', maxlength=10) }}
-{{ render_input('Password','Enter password','password','password') }}
-{{ render_input('Confirm Password','Confirm password','conf_password','password') }}
-<button class="btn btn-primary my-2 disabled" id="submit_button">Submit</button>
-
+<section class="form-container">
+    <section class="inputs">
+      <div class="input-row-email-phone">
+        <div class="input-wrapper">
+          <p>Email</p>
+          <input type="email" name="email" id="email" value="{{ request.form['email'] }}">
+          <div id="email_error"></div>
+        </div>
+      </div>
+      <div class="input-row">
+        <div class="input-wrapper">
+          <p>First Name</p>
+          <input type="text" name="firstName" id="firstName" value="{{ request.form['firstName'] }}">
+          <div id="firstName_error"></div>
+        </div>
+        <div class="input-wrapper">
+          <p>Last Name</p>
+          <input type="text" name="lastName" id="lastName" value="{{ request.form['lastName'] }}">
+          <div id="lastName_error"></div>
+        </div>
+      </div>
+      <div class="input-row-email-phone">
+        <div class="input-wrapper">
+          <p>Phone Number</p>
+          <input type="tel" name="phone_number" id="phone_number" pattern="[0-9]{3}-?[0-9]{3}-?[0-9]{4}" value="{{ request.form['phone_number'] }}" inputmode="numeric" required>
+          <div id="phone_number_error"></div>
+        </div>
+      </div>
+      <div class="input-row">
+        <div class="input-wrapper">
+          <p>Password</p>
+          <input type="password" name="password" id="password"  value="{{ request.form['password'] }}">
+          <div id="password_error"></div>
+        </div>
+        <div class="input-wrapper">
+          <p>Confirm Password</p>
+          <input type="password" name="conf_password" id="conf_password" value="{{ request.form['conf_password'] }}">
+          <div id="conf_password_error" class="error-message"></div>
+        </div>
+      </div>
+    </section>
+    <button class="btn btn-primary my-2 disabled" id="submit_button">Submit</button>
+  </section>
 
 {% endblock %}
+
 {% block script %}
+
 <script
       defer
       type="text/javascript"
       src="{{ url_for('static', filename='js/sign_up.js') }}"
     ></script>
+{% endblock %}
+
+{% block css %}
+<link
+  rel="stylesheet"
+  type="text/css"
+  href="{{ url_for('static', filename='css/sign_up.css') }}"
+/>
 {% endblock %}
