@@ -3,7 +3,7 @@ const password = document.getElementById('password');
 const loginBTN = document.getElementById('loginBTN');
 
 function send_request() {
-  let payload = { email: email.value, password: password.value };
+  let payload = { email: email.value.toLowerCase(), password: password.value };
   fetch('/login', {
     method: 'POST',
     headers: {

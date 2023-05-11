@@ -10,7 +10,7 @@ from flask_login import LoginManager
 from database.models import User, Listing
 from routes.public_view import public_view
 from routes.private_view import private_view
-
+from extensions import mail
 DB_NAME = "database.db"
 
 # Flask Server Setup
@@ -22,6 +22,18 @@ app.instance_path = Path(".").resolve()
 # Register Sqlalchemy With Flask Instance
 db.init_app(app)
 
+
+#Mail Service
+app.config['MAIL_DEFAULT_SENDER'] = 'noreply@flask.com'
+app.config['MAIL_SERVER'] = 'smtp.gmail.com'
+app.config['MAIL_PORT'] = 465
+app.config['MAIL_USE_TLS'] = False
+app.config['MAIL_USE_SSL'] = True
+app.config['MAIL_DEBUG'] = False
+app.config['MAIL_USERNAME'] = 'studentsales.bcit@gmail.com' #This account will be deactivated after our project is shown but is just a gmail addr
+app.config['MAIL_PASSWORD'] = 'nqnqyiolbycbxmlh'
+app.config['SECRET_KEY'] = 'fdkjshfhjsdfdskfdsfdcbsjdkfdsdf'
+mail.init_app(app)
 # Register Route Blueprints
 app.register_blueprint(user, url_prefix="/")
 app.register_blueprint(auth, url_prefix="/")
@@ -46,6 +58,7 @@ login_manager.init_app(app)
 @login_manager.user_loader
 def load_user(id):
     return User.query.get(int(id))
+
 
 if __name__ == "__main__":
     app.run(debug=True)

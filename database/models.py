@@ -9,6 +9,7 @@ class User(db.Model, UserMixin):
     last_name = db.Column(db.String)
     password = db.Column(db.String)
     phone_num = db.Column(db.String)
+    is_confirmed = db.Column(db.Boolean, default=False)
     listings = db.relationship('Listing', cascade="all,delete", backref='user')
 
     def __str__(self):

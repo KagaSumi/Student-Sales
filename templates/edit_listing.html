@@ -1,15 +1,19 @@
 {% extends "base.html" %} {% block content %}
+{% block css %}
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/create_listing.css') }}" />
+{% endblock %}
+
 <h5 class="my-3">Listing ID: {{ listing.id }}</h3>
 
-{% macro render_input(label, placeholder, name, type="text") %}
-<label for="{{ name }}" class="my-1" {% for k,v in kwargs.items() %} {{k}}="{{v}}" {% endfor %}>{{ label }}</label>
-<input type="{{ type }}" class="form-control" id="{{ name }}" name="{{ name }}" value="{{ listing[name] }}"
-    placeholder="{{ placeholder }}" {% for k,v in kwargs.items() %} {{k}}="{{v}}" {% endfor %}>
-{% endmacro %}
+<div class="startdiv">
+    <label for="title">Title:</label>
+    <input placeholder="Enter Title" id="title" type="text" value="{{ listing.title}}">
+    <label for="price">Price:</label>
+    <input placeholder="Enter Price" id="price" type="text" value="{{ listing.price  }}">
+    <label for="description">Description:</label>
+    <input class="descsize" id="description" placeholder="Enter Description" type="text" value="{{ listing.description}}">
+</div>
 
-    {{ render_input('Title:','Enter title','title', required="") }}
-    {{ render_input('Description:','Enter description','description') }}
-    {{ render_input('Price:', 'Enter price', 'price', 'number', step='0.01', min='0') }}
     <div class="row">
         {% for image in listing.images %}
         <div class="col-md-4">
@@ -19,9 +23,12 @@
         {% endfor %}
     </div>
     </ul>
-    <button id="updateBTN" class="btn btn-primary my-2">Update Listing</button>
-    <button id="previewBTN" class="btn btn-primary my-2">Preview Listing</button>
-    <button id="deleteBTN" class="btn btn-danger my-2">Delete Listing</button>
+
+    <div id="updatebuttons">
+        <button id="update_button" class="btn btn-success my-2" name="update_listing">Update Listing</button>
+        <button id="preview_button" class="btn btn-info my-2" name="preview_listing">Preview Listing</button>
+        <button id="delete_button" class="btn btn-danger my-2" name="delete_listing">Delete Listing</button>
+    </div>
 {% endblock %}
 
 {% block script %}

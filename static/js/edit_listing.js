@@ -1,56 +1,28 @@
-const title = document.getElementById("title");
-const description = document.getElementById("description");
-const price = document.getElementById("price");
-const updateBTN = document.getElementById("updateBTN");
-const previewBTN = document.getElementById("previewBTN");
-const deleteBTN = document.getElementById("deleteBTN");
-const deleteImgBTNS = document.querySelectorAll(".deleteImgBTN");
+/**
+ * @fileoverview This file is to be used for the edit listing page.
+ */
 
-const listing_id = window.location.href.substring(
-  window.location.href.lastIndexOf("/") + 1
-);
+const title = document.getElementById('title');
+const description = document.getElementById('description');
+const price = document.getElementById('price');
+const updateBTN = document.getElementById('update_button');
+const previewBTN = document.getElementById('preview_button');
+const deleteBTN = document.getElementById('delete_button');
+const deleteImgBTNS = document.querySelectorAll(".deleteImgBTN");
+const listing_id = window.location.href.substring(window.location.href.lastIndexOf('/') + 1);
 
 const verify_fields = (event) => {
-  FLAG_TITLE = title.value.length == 0;
-
-  if (FLAG_TITLE) {
-    for (const button of [updateBTN, deleteBTN, previewBTN]) {
-      button.classList.add("disabled");
+    const FLAG_TITLE = title.value.length == 0
+    if (FLAG_TITLE){
+        for (button of [updateBTN, deleteBTN,previewBTN]){
+            button.classList.add('disabled');
+        }
     }
   } else {
     for (const button of [updateBTN, deleteBTN, previewBTN]) {
       button.classList.remove("disabled");
     }
   }
-};
-
-const updateListing = () => {
-  const payload = {
-    title: title.value,
-    description: description.value,
-    price: price.value,
-  };
-
-  fetch(`/update_listing/${listing_id}`, {
-    method: "PUT",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(payload),
-  })
-    .then((response) => {
-      return Promise.all([response.json(), response.status]);
-    })
-    .then(([json, status]) => {
-      let message = json.message;
-      localStorage.setItem("message", message);
-      if (status == 200) {
-        window.location.href = "/profile";
-      }
-    })
-    .catch((error) => {
-      console.log(error);
-    });
 };
 
 const deleteListing = () => {
@@ -70,12 +42,31 @@ const deleteListing = () => {
         window.location.href = "/profile";
       } else {
         window.location.href = `/edit_listing/${listing_id}`;
+        
+const update = () => {
+    const payload = { title: title.value, description: description.value, price: price.value};
+    fetch(`/update_listing/${listing_id}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(payload),
+  })
+    .then((response) => {
+      return Promise.all([response.json(), response.status]);
+    })
+    .then(([json, status]) => {
+      let message = json.message;
+      localStorage.setItem("message", message);
+      if (status == 200) {
+        window.location.href = "/profile"; //TODO Figure this out not 100% sure on merge conflict
       }
     })
     .catch((error) => {
       console.log(error);
     });
 };
+
 
 const deleteImg = async (image_id) => {
   try {
@@ -141,3 +132,4 @@ deleteImgBTNS.forEach((button) => {
 updateBTN.addEventListener("click", () => updateListing());
 previewBTN.addEventListener("click", () => previewListing());
 deleteBTN.addEventListener("click", () => deleteListing());
+
