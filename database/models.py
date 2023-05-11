@@ -8,10 +8,11 @@ class User(db.Model, UserMixin):
     first_name = db.Column(db.String)
     last_name = db.Column(db.String)
     password = db.Column(db.String)
+    phone_num = db.Column(db.String)
     listings = db.relationship('Listing', cascade="all,delete", backref='user')
 
     def __str__(self):
-        return f'<User(id="{self.id}", email="{self.email}", first_name="{self.first_name}", last_name="{self.last_name}")>'
+        return f'<User(id="{self.id}", email="{self.email}", first_name="{self.first_name}", last_name="{self.last_name}", phone_num="{self.phone_num}")>'
 
     def to_dict(self):
         return {
@@ -19,6 +20,7 @@ class User(db.Model, UserMixin):
             'email': self.email,
             'first_name': self.first_name,
             'last_name': self.last_name,
+            'phone_num': self.phone_num
         }
         
 class Listing(db.Model):

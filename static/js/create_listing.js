@@ -32,11 +32,9 @@ async function send_request() {
       });
     });
 
-    // Wait for all files to be read
     await Promise.all(readFilePromises);
   }
 
-  // Now, the images are read, and you can send the fetch request
   fetch("/create_listing", {
     method: "POST",
     headers: {
@@ -52,6 +50,8 @@ async function send_request() {
       localStorage.setItem("message", message);
       if (status == 200) {
         window.location.href = "/profile";
+      } else {
+        window.location.href = "/create_listing"
       }
     })
     .catch((error) => {

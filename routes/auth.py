@@ -52,7 +52,7 @@ def user_sign_up():
 
     response = requests.post(url=URL+"/create_user", json=payload)
     if response.ok:
-        return jsonify(message='User Sign Up Successful!'), 200
+        return jsonify(message='Sign Up Successful!'), 200
     
     return jsonify(message='Incorrect Email or Password!'), 400
 

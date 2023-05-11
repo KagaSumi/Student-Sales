@@ -14,15 +14,16 @@
         {% for image in listing.images %}
         <div class="col-md-4">
             <img src="{{ url_for('public_view.get_image', image_id=image.id) }}" alt="{{ image.name }}" class="img-fluid">
-            <button name="delete_image" value="{{ image.id }}" class="btn btn-warning"> Delete </button>
+            <button value="{{ image.id }}" class="btn btn-warning deleteImgBTN">Delete</button>
         </div>
         {% endfor %}
     </div>
     </ul>
-    <button id="update_button" class="btn btn-primary my-2" name="update_listing">Update Listing</button>
-    <button id="preview_button" class="btn btn-primary my-2" name="preview_listing">Preview Listing</button>
-    <button id="delete_button" class="btn btn-danger my-2" name="delete_listing">Delete Listing</button>
+    <button id="updateBTN" class="btn btn-primary my-2">Update Listing</button>
+    <button id="previewBTN" class="btn btn-primary my-2">Preview Listing</button>
+    <button id="deleteBTN" class="btn btn-danger my-2">Delete Listing</button>
 {% endblock %}
+
 {% block script %}
 <script defer type="text/javascript" src="{{ url_for('static', filename='js/edit_listing.js') }}"></script>
 {% endblock %}

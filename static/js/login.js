@@ -27,4 +27,5 @@ function send_request() {
       console.log(error);
     });
 }
+
 loginBTN.addEventListener('click', send_request);

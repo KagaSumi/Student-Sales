@@ -10,7 +10,7 @@ def get_user(user_id):
     user = User.query.get(user_id)
     if user:
         return jsonify(message=user.to_dict()), 200
-    return jsonify(message="User Not Found"), 404
+    return jsonify(message="User Not Found!"), 404
 
 @user.route("/verify_user", methods=["POST"])
 def verify_user():
