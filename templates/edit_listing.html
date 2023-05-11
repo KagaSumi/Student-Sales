@@ -2,6 +2,7 @@
 {% block css %}
 <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/create_listing.css') }}" />
 {% endblock %}
+
 <h5 class="my-3">Listing ID: {{ listing.id }}</h3>
 
 {% macro render_input(label, placeholder, name, type="text") %}
@@ -22,9 +23,11 @@
         {% endfor %}
     </div>
     </ul>
-    <button id="update_button" class="btn btn-primary my-2" name="update_listing">Update Listing</button>
-    <button id="preview_button" class="btn btn-primary my-2" name="preview_listing">Preview Listing</button>
-    <button id="delete_button" class="btn btn-danger my-2" name="delete_listing">Delete Listing</button>
+    <div id="updatebuttons">
+        <button id="update_button" class="btn btn-success my-2" name="update_listing">Update Listing</button>
+        <button id="preview_button" class="btn btn-info my-2" name="preview_listing">Preview Listing</button>
+        <button id="delete_button" class="btn btn-danger my-2" name="delete_listing">Delete Listing</button>
+    </div>
 {% endblock %}
 {% block script %}
 <script defer type="text/javascript" src="{{ url_for('static', filename='js/edit_listing.js') }}"></script>

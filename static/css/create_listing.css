@@ -48,6 +48,13 @@ h3 {
     justify-content: space-between;
 }
 
+#updatebuttons {
+    display: flex;
+    grid-column-start: 1;
+    grid-column-end: 3;
+    justify-content: space-between;
+}
+
 #createbuttons #cancel_listing {
     justify-self: end;
 }
