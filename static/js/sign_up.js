@@ -5,7 +5,6 @@ const phone_number = document.getElementById('phone_number');
 const password = document.getElementById('password');
 const confirm_password = document.getElementById('conf_password');
 const submitBTN = document.getElementById('submit_button');
-
 const pattern = /^[0-9]{3}-?[0-9]{3}-?[0-9]{4}$/;
 const symbols = ['$','!','@','#','%','^','&','*','_','+','=','-','`','~'];
 /* Error Handling For Input Fields*/
@@ -158,10 +157,10 @@ const Submit = async () => {
     .then(([json, status]) => {
       let message = json.message;
       localStorage.setItem("message", message);
-      if (status == 400) {
-        window.location.href = "/sign-up";
-      } else {
+      if (status == 200) {
         window.location.href = "/login";
+      } else {
+        window.location.href = "/sign-up";
       }
     })
     .catch((error) => {

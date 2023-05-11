@@ -17,18 +17,20 @@
     <div class="row">
         {% for image in listing.images %}
         <div class="col-md-4">
-            <img src="{{ url_for('views.get_image', image_id=image.id) }}" alt="{{ image.name }}" class="img-fluid">
-            <button name="delete_image" value="{{ image.id }}" class="btn btn-warning"> Delete </button>
+            <img src="{{ url_for('public_view.get_image', image_id=image.id) }}" alt="{{ image.name }}" class="img-fluid">
+            <button value="{{ image.id }}" class="btn btn-warning deleteImgBTN">Delete</button>
         </div>
         {% endfor %}
     </div>
     </ul>
+
     <div id="updatebuttons">
         <button id="update_button" class="btn btn-success my-2" name="update_listing">Update Listing</button>
         <button id="preview_button" class="btn btn-info my-2" name="preview_listing">Preview Listing</button>
         <button id="delete_button" class="btn btn-danger my-2" name="delete_listing">Delete Listing</button>
     </div>
 {% endblock %}
+
 {% block script %}
 <script defer type="text/javascript" src="{{ url_for('static', filename='js/edit_listing.js') }}"></script>
 {% endblock %}
