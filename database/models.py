@@ -9,7 +9,8 @@ class User(db.Model, UserMixin):
     last_name = db.Column(db.String)
     password = db.Column(db.String)
     phone_num = db.Column(db.String)
-    is_confirmed = db.Column(db.Boolean, default=False)
+    messages_sent = db.relationship('Message', backref='sender', lazy=True, foreign_keys='Message.sender_id')
+    messages_received = db.relationship('Message', backref='receiver', lazy=True, foreign_keys='Message.receiver_id')
     listings = db.relationship('Listing', cascade="all,delete", backref='user')
 
     def __str__(self):
@@ -31,6 +32,7 @@ class Listing(db.Model):
     price = db.Column(db.Float)
     date_posted = db.Column(db.DateTime(timezone=True), default=func.now())
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False, index=True)
+    messages = db.relationship('Message', backref='listing', lazy=True)
     images = db.relationship('Image', cascade="all,delete", backref='listing')
 
     def __str__(self):
@@ -62,4 +64,25 @@ class Image(db.Model):
             'name': self.name,
             'mimetype': self.mimetype,
             'listing_id': self.listing_id
+        }
+
+class Message(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    sender_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    receiver_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    listing_id = db.Column(db.Integer, db.ForeignKey('listing.id'), nullable=False)
+    content = db.Column(db.String)
+    timestamp = db.Column(db.DateTime(timezone=True), default=func.now())
+
+    def __str__(self):
+        return f'<Message(id="{self.id}", sender_id="{self.sender_id}", receiver_id="{self.receiver_id}", listing_id="{self.listing_id}", content="{self.content}", timestamp="{self.timestamp}")>'
+
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'sender_id': self.sender_id,
+            'receiver_id': self.receiver_id,
+            'listing_id': self.listing_id,
+            'content': self.content,
+            'timestamp': self.timestamp
         }
