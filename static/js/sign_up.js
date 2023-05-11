@@ -4,7 +4,7 @@ const last_name = document.getElementById('lastName');
 const phone_number = document.getElementById('phone_number');
 const password = document.getElementById('password');
 const confirm_password = document.getElementById('conf_password');
-const submitBTN = document.getElementById('submitBTN');
+const submitBTN = document.getElementById('submit_button');
 const pattern = /^[0-9]{3}-?[0-9]{3}-?[0-9]{4}$/;
 const symbols = ['$','!','@','#','%','^','&','*','_','+','=','-','`','~'];
 /* Error Handling For Input Fields*/
