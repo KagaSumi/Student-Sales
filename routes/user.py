@@ -23,7 +23,7 @@ def verify_user():
     user = User.query.filter_by(email=data["email"]).first()
     if user.is_confirmed != True:
         return jsonify(message=False), 401
-    if not (user or check_password_hash(data["password"], user.password)):
+    if not user or not check_password_hash(data["password"], user.password):
         return jsonify(message=False), 400
     return jsonify(message=True), 200
 
