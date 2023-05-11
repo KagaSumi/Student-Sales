@@ -83,7 +83,7 @@ const verify_lastName = (event) => {
 const verify_phone_number = (event) => {
   const phone_number = document.getElementById('phone_number');
   const phone_number_error = document.getElementById('phone_number_error');
-  const pattern = /^[0-9]{3}-?[0-9]{3}-?[0-9]{4}$/; // 10-digit phone number with optional hyphens
+  const pattern = /^[0-9]{3}-?[0-9]{3}-?[0-9]{4}$/; // 10-digit
   const isValidPhoneNumber = pattern.test(phone_number.value) || phone_number.value.length == 0;
   
   if (!isValidPhoneNumber) {
