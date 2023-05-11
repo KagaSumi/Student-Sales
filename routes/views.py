@@ -30,7 +30,7 @@ def listing_update(listing_id):
     for key in ('title','description','price'):
         if key not in data:
             return jsonify(message=f'{key} is missing from JSON'),400
-    response = requests.put(url=f'{URL}/edit_listing', json={
+    response = requests.put(url=f'{URL}/update_listing', json={
         'title': data['title'],
         'description': data['description'],
         'price': data['price'],
@@ -38,8 +38,8 @@ def listing_update(listing_id):
         'listing_id': listing_id
     })
     if response.ok:
-        return jsonify(message="Listing updated successfully!"),200
-    return jsonify(message="Listing could not be updated!"),400
+        return jsonify(message="Listing Updated!"),200
+    return jsonify(message="Listing Could Not Be Updated!"),400
 
 @views.route('/delete_listing/<int:listing_id>', methods=["DELETE"])
 @login_required
