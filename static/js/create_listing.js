@@ -31,13 +31,25 @@ function send_request() {
     });
 }
 
+function check_inputs() {
+  if (title.value && description.value && price.value) {
+    create_listingBTN.disabled = false;
+  } else {
+    create_listingBTN.disabled = true;
+  }
+}
+
 create_listingBTN.addEventListener("click", send_request);
 
 cancelButton.addEventListener("click", function() {
-
   let inputFields = document.querySelectorAll("input");
-
   for (var i = 0; i < inputFields.length; i++) {
     inputFields[i].value = "";
   }
 });
+
+title.addEventListener("input", check_inputs);
+description.addEventListener("input", check_inputs);
+price.addEventListener("input", check_inputs);
+
+check_inputs(); // check inputs on page load
