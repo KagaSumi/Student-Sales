@@ -43,7 +43,7 @@ create_listingBTN.addEventListener("click", send_request);
 
 cancelButton.addEventListener("click", function() {
   let inputFields = document.querySelectorAll("input");
-  for (var i = 0; i < inputFields.length; i++) {
+  for (let i = 0; i < inputFields.length; i++) {
     inputFields[i].value = "";
   }
 });
