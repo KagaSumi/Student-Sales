@@ -49,19 +49,20 @@
     </div>
 
     <div class="listing-edit text-center">
-        <a  class="text-decoration-none text-black"> 
+        <a class="text-decoration-none text-black button-link">
             <button type="submit" class="btn btn-primary my-2" name="message">Message</button>
         </a>
-        <a  class="text-decoration-none text-black"> 
+        <a class="text-decoration-none text-black button-link">
             <button type="submit" class="btn btn-primary my-2" name="Save">Save</button>
         </a>
-        <a  class="text-decoration-none text-black"> 
+        <a class="text-decoration-none text-black button-link">
             <button type="submit" class="btn btn-primary my-2" name="Share">Share</button>
         </a>
-        <a href="{{ url_for('views.edit_listing', listing_id=listing.id) }}" class="text-decoration-none text-black">
+        <a href="{{ url_for('views.edit_listing', listing_id=listing.id) }}" class="text-decoration-none text-black button-link">
             <button type="submit" class="btn btn-primary my-2" name="back">Go Back To Edit Listing</button>
         </a>
     </div>
+    
 </div>
 
 {% endblock %}

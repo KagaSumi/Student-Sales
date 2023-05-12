@@ -116,7 +116,7 @@ const verify_password = (event) => {
 const verify_confirm_password = (event) => {
   const confirm_password = document.getElementById('conf_password');
   const conf_password_error = document.getElementById('conf_password_error');
-  const isValidpassword =  confirm_password.value === password.value;
+  const isValidpassword = confirm_password.value === password.value;
 
   if (!isValidpassword) {
     conf_password_error.textContent = "Passwords do not match.";

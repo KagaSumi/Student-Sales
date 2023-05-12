@@ -44,3 +44,8 @@
     display: flex;
     justify-content: center;
 }
+
+.button-link {
+    margin: 10px; /* This adds a margin (external spacing) of 10px around each link */
+    padding: 10px; /* This adds padding (internal spacing) of 10px inside each link */
+}

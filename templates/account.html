@@ -14,15 +14,19 @@
     </div>
     <p><strong>Phone Number:</strong></p>
     <input type="text" class="form-control" id="phone_number" value="{{ user.phone_number }}"
-        placeholder="Enter Phone Number" required>
-    <div>
+        placeholder="Enter Phone Number" required><div>
+        <div id="phone_number_error"></div>
     <p><strong>Change Password</strong></p>
-    <input type="text" class="form-control" id="old_password" placeholder="Previous Password" required>
+    <input type="password" class="form-control" id="old_password" placeholder="Previous Password" required>
+    <div id="password_error"></div>
 </div>
     <div>
-        <input type="text" class="form-control" id="new_password" placeholder="New Password" required>
+        <input type="password" class="form-control" id="new_password" placeholder="New Password" required>
+        <div id="new_password_error" class="error-message"></div>
         <div></div>
-        <input type="text" class="form-control" id="confirm_password" placeholder="Confirm Password" required>
+        <input type="password" class="form-control" id="confirm_password" placeholder="Confirm Password" required>
+        <div id="confirm_password_error" class="error-message"></div>
+        
         <div></div>
     </div>
 </div>
@@ -33,10 +37,15 @@
 
     {% endblock %}
     {% block css %}
-    <link href="{{ url_for('static', filename='css/account.css')}}" rel="stylesheet">
+    <link 
+    href="{{ url_for('static', filename='css/account.css')}}" rel="stylesheet">
     </link>
     {% endblock %}
+
     {% block script %}
-    <script defer type="text/javascript" src="{{ url_for('static', filename='js/account.js') }}">
-    </script>
+    <script
+      defer
+      type="text/javascript"
+      src="{{ url_for('static', filename='js/account.js') }}"
+    ></script>
     {% endblock %}
