@@ -41,6 +41,7 @@ const verify_fields = (event) =>{
 }
 
 const update_request = () => {
+    let payload = {first_name: first_name.value, last_name: last_name.value, phone_number:phone_number.value}
     fetch('/update_profile', {
         method: 'PUT',
         headers: {
