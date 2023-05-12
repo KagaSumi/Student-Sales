@@ -1,0 +1,20 @@
+{% extends "base.html" %} {% block content %}
+
+<h3 class="my-3" align="center">Login</h3>
+
+{% macro render_input(label, placeholder, name, type="text") %}
+<label for="{{ name }}" class="my-1" {% for k,v in kwargs.items() %} {{k}}="{{v}}" {% endfor %}>{{ label }}</label>
+<input type="{{ type }}" class="form-control" id="{{ name }}" name="{{ name }}" value="{{ request.form[name] }}"
+  placeholder="{{ placeholder }}" required {% for k,v in kwargs.items() %} {{k}}="{{v}}" {% endfor %}>
+
+{% endmacro %}
+
+{{ render_input('Email','Enter email address','email','email') }}
+{{ render_input('Password','Enter password','password','password') }}
+<button class="btn btn-primary my-2" id="loginBTN">Login</button>
+
+{% endblock %}
+
+{% block script %}
+<script defer type="text/javascript" src="{{ url_for('static', filename='js/login.js') }}"></script>
+{% endblock %}
