@@ -7,7 +7,7 @@ user = Blueprint("user", __name__)
 
 @user.route("/get_user/<string:user_id>", methods=["GET"])
 def get_user(user_id):
-    user = User.query.get(user_id)
+    user = db.session.get(User, user_id)
     if user:
         return jsonify(message=user.to_dict()), 200
     return jsonify(message="User Not Found!"), 404
@@ -20,7 +20,7 @@ def verify_user():
             return jsonify(message=f"{key} is missing from JSON"), 400
     user = User.query.filter_by(email=data["email"]).first()
     if user.is_confirmed != True:
-        return jsonify(message=False), 401
+        return jsonify(message=False,result='User email not confirmed!'), 401
     if not user or not data["password"] == user.password:
         return jsonify(message=False), 400
     return jsonify(message=True), 200
@@ -54,7 +54,6 @@ def create_user():
 @user.route("/update_user/<int:user_id>", methods=["PUT"])
 def update_user(user_id):
     data = request.json
-    print(data)
     selected_user = User.query.get(user_id)
     for key in ("first_name", "last_name", "phone_number"):
         if key not in data:
@@ -77,7 +76,7 @@ def update_user(user_id):
 
 @user.route("/delete_user/<int:user_id>", methods=["DELETE"])
 def delete_user(user_id):
-    user = User.query.get(user_id)
+    user = db.session.get(User, user_id)
     if not user:
         return jsonify(message="User not found"),400
     db.session.delete(user)
