@@ -75,7 +75,7 @@ def update_user(user_id):
 
     return jsonify(message='User Updated'), 200
 
-@user.route("/delete_user/<string:user_id>", methods=["DELETE"])
+@user.route("/delete_user/<int:user_id>", methods=["DELETE"])
 def delete_user(user_id):
     user = User.query.get(user_id)
     if not user:

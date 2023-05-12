@@ -122,19 +122,15 @@ def user_login():
         return jsonify(message="Please verify your email"),400
     return jsonify(message='Incorrect Email or Password!'), 400
 
-@auth.route('/delete_user')
+@auth.route('/delete_user', methods=["DELETE"])
+@login_required
 def delete_user():
-    if not current_user.is_authenticated:
-        flash('Not Logged In!', 'danger')
-        return redirect(url_for('auth.login'))
-    logout_user()
+    delete_request = requests.delete(URL+'/delete_user/'+ str(current_user.id)) 
+    if delete_request.ok:
+        logout_user()
+        return jsonify(message='User Deleted'),200
+    return jsonify(message='Failed to delete user'),400
 
-    user = User.query.get(current_user.id)
-    db.session.delete(user)
-    db.session.commit()
-    flash('User Deleted!', 'success')
-
-    return redirect(url_for('views.homepage'))
 
 @auth.route('/create_listing', methods=['POST'])
 @login_required

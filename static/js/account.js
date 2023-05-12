@@ -10,13 +10,10 @@ const phone_number = document.getElementById("phone_number");
 const phone_number_error = document.getElementById("phone_number_error");
 
 
-const delete_user = () => {
-  fetch('/update_profile', {
+const delete_request = () => {
+  fetch('/delete_user', {
       method: 'DELETE',
-      headers: {
-          'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(payload),
+
   })
   .then((response) => {
       return Promise.all([response.json(), response.status]);
@@ -24,7 +21,10 @@ const delete_user = () => {
   .then(([json, status]) => {
       let message = json.message;
       localStorage.setItem('message', message);
-      window.location.href = '/account';
+      if (status == 400){
+        window.location.href = '/account';
+      }
+      window.location.href = '/'
   })
   .catch((error) => {
       console.log(error);
@@ -41,7 +41,6 @@ const verify_fields = (event) =>{
 }
 
 const update_request = () => {
-    let payload = { first_name: first_name.value, last_name: last_name.value, phone_number: phone_number.value };
     fetch('/update_profile', {
         method: 'PUT',
         headers: {
@@ -64,12 +63,10 @@ const update_request = () => {
 
 
 update_button.addEventListener("click",update_request);
+delete_button.addEventListener("click",delete_request);
 for (element of [first_name,last_name,phone_number]){
     element.addEventListener('input', verify_fields);
 }
-
-
-
 
 
 const verify_phone_number = (event) => {
