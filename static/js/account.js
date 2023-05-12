@@ -18,6 +18,10 @@ const phone_number = document.getElementById("phone_number");
 const phone_number_error = document.getElementById("phone_number_error");
 
 
+const delete_user = () => {
+  
+}
+
 const verify_fields = (event) =>{
     if (first_name.value.length == 0 || last_name.value.length == 0) {
         update_button.classList.add("disabled");
@@ -36,7 +40,7 @@ const update_request = () => {
 
   // If there is no error message, send a request to update the profile
   if (!new_password_error.textContent && !confirm_password_error.textContent) {
-      let payload = { first_name: first_name.value, last_name: last_name.value };
+      let payload = { first_name: first_name.value, last_name: last_name.value, phone_number: phone_number.value };
       fetch('/update_profile', {
           method: 'PUT',
           headers: {
@@ -57,7 +61,6 @@ const update_request = () => {
       });
   }
 };
-
 
 update_button.addEventListener("click",update_request);
 for (element of [first_name,last_name]){
@@ -82,7 +85,6 @@ const verify_new_password = (event) =>{
   }
 };
 
-
 const verify_confirm_password = (event) => {
   const confirm_password = document.getElementById('confirm_password');
   const confirm_password_error = document.getElementById('confirm_password_error');
@@ -96,7 +98,6 @@ const verify_confirm_password = (event) => {
     confirm_password_error.classList.remove("error-message");
   }
 };
-
 
 const verify_phone_number = (event) => {
   const phone_number = document.getElementById('phone_number');
@@ -113,9 +114,7 @@ const verify_phone_number = (event) => {
   }
 };
 
-
 /* Event Listeners */
-
 new_password.addEventListener('input', verify_new_password);
 confirm_password.addEventListener('input', verify_confirm_password);
 phone_number.addEventListener('input', verify_phone_number);
@@ -133,3 +132,5 @@ phone_number.addEventListener('keypress', function(event) {
     event.preventDefault();
   }
 });
+
+update_button.addEventListener("click", () => {updateUser()})
