@@ -11,7 +11,24 @@ const phone_number_error = document.getElementById("phone_number_error");
 
 
 const delete_user = () => {
-  
+  fetch('/update_profile', {
+      method: 'DELETE',
+      headers: {
+          'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(payload),
+  })
+  .then((response) => {
+      return Promise.all([response.json(), response.status]);
+  })
+  .then(([json, status]) => {
+      let message = json.message;
+      localStorage.setItem('message', message);
+      window.location.href = '/account';
+  })
+  .catch((error) => {
+      console.log(error);
+  });
 }
 
 const verify_fields = (event) =>{
@@ -86,5 +103,3 @@ phone_number.addEventListener('keypress', function(event) {
     event.preventDefault();
   }
 });
-
-update_button.addEventListener("click", () => {updateUser()})
