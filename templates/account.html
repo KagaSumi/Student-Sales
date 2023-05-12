@@ -1,5 +1,5 @@
 {% extends "base.html" %} {% block content %}
-<h3 class="my-3">Hi {{ user.first_name }}, {{ user.last_name }} Welcome to your account!</h3>
+<h3 class="my-3">Hi {{ user.first_name }} {{ user.last_name }}, Welcome to your account!</h3>
 <p><strong>Email: </strong>{{ user.email }}</p>
 <div class="grid">
     <div>
@@ -13,7 +13,7 @@
             placeholder="Enter last name" required>
     </div>
     <p><strong>Phone Number:</strong></p>
-    <input type="text" class="form-control" id="phone_number" value="{{ user.phone_number }}"
+    <input type="text" class="form-control" id="phone_number" value="{{ user.phone_num }}"
         placeholder="Enter Phone Number" required>
     <div>
     <p><strong>Change Password</strong></p>

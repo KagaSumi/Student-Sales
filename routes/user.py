@@ -36,7 +36,7 @@ def create_user():
         password = str(data["password"])
         first_name = str(data["first_name"])
         last_name = str(data["last_name"])
-        # phone_number = str(data["phone_number"])
+        phone_number = str(data["phone_number"])
         if "@" not in email:
             raise ValueError("Email is not valid")
     except ValueError as err:
@@ -46,7 +46,7 @@ def create_user():
         password=password,
         first_name=first_name,
         last_name=last_name,
-    )  # ,phone_number=phone_number)
+        phone_num=phone_number)
     db.session.add(new_user)
     db.session.commit()
     return jsonify(message="New User Added"), 200

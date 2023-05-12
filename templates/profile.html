@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block content %}
-<h3 class="my-3">Hi {{ user.first_name }}, Welcome to your profile!</h3>
+<h3 class="my-3">Hi {{ user.first_name }} {{ user.last_name }}, Welcome to your profile!</h3>
 <div class="my-3">
     <a href="{{ url_for('private_view.create_listing') }}" class="btn btn btn-primary">Create Listing</a>
 </div>
