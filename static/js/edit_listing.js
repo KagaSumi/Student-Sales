@@ -1,9 +1,9 @@
 const title = document.getElementById("title");
 const description = document.getElementById("description");
 const price = document.getElementById("price");
-const updateBTN = document.getElementById("updateBTN");
-const previewBTN = document.getElementById("previewBTN");
-const deleteBTN = document.getElementById("deleteBTN");
+const updateBTN = document.getElementById("update_button");
+const previewBTN = document.getElementById("preview_button");
+const deleteBTN = document.getElementById("delete_button");
 const deleteImgBTNS = document.querySelectorAll(".deleteImgBTN");
 
 const listing_id = window.location.href.substring(
