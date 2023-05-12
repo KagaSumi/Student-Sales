@@ -34,8 +34,6 @@ def create_listing():
     db.session.commit()
 
     images = data['images']
-    for img in images:
-        print(img['pic'])
     if images:
         for img in data['images']:
             image = Image(img=img['pic'],name=img['filename'],mimetype=img['mimetype'],listing=new_listing)
@@ -47,7 +45,6 @@ def create_listing():
 def update_listing():
     data = request.json
     listing = Listing.query.get(data['listing_id'])
-    print(listing)
     if not listing:
         return jsonify(message="Listing Does not Exist!"), 404
     for key in ("title", "description", "price", "user_id"):

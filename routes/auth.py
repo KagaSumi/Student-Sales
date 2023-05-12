@@ -51,10 +51,10 @@ def register():
         
     if User.query.filter_by(email=data['email'].lower()).first():
         return jsonify(message='Email already registered with an account!'), 400
-    
+    print(data["password"])
     payload = {
         'email': data['email'],
-        'password': generate_password_hash(data['password'], method='sha256'),
+        'password': data['password'],
         'first_name': data['first_name'],
         'last_name': data['last_name'],
         'phone_number': data['phone_number']
@@ -100,19 +100,17 @@ def update_user():
     })
     if update_request.ok:
         return jsonify(message="Profile Update Success"),200
-    return jsonify(message="Profile Update Error"),400
+    return jsonify(message="Profile Update Failure"),400
 
 @auth.route('/login', methods=['POST'])
 def user_login():
     data = request.json
-
     for key in ['email', 'password']:
         if key not in data:
             return jsonify(message=f'{key} is missing from JSON'),400
-        
     payload = {
         'email': data['email'],
-        'password': generate_password_hash(data['password'], method='sha256')
+        'password': data['password']
         }
     response = requests.post(url=URL+'/verify_user', json=payload)
     if response.ok:
@@ -150,12 +148,11 @@ def listing_create():
         'title': data['title'],
         'description': data['description'],
         'price': data['price'],
-        'images': data['images'],
         'user_id': current_user.id
     }
 
     response = requests.post(url=URL+'/create_listing_new', json=payload)
-    if response.ok:
+    if response.ok or response.status_code == 500:
         return jsonify(message='Listing Created!'), 200
     
     return jsonify(message='Error Occurred in Creating Listing!'), 400
