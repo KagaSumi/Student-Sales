@@ -9,7 +9,6 @@ from flask import Blueprint, request, Response, flash, url_for, redirect, render
 views = Blueprint('views', __name__)
 URL = 'http://127.0.0.1:5000'
 
-
 @views.route('/account', methods=['GET', 'POST'])
 @login_required
 def account():

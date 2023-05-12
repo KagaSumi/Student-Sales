@@ -8,7 +8,7 @@ class User(db.Model, UserMixin):
     first_name = db.Column(db.String)
     last_name = db.Column(db.String)
     password = db.Column(db.String)
-    phone_num = db.Column(db.String)
+    phone_number = db.Column(db.String)
     is_confirmed = db.Column(db.Boolean, default=False)
     messages_sent = db.relationship('Message', backref='sender', lazy=True, foreign_keys='Message.sender_id')
     messages_received = db.relationship('Message', backref='receiver', lazy=True, foreign_keys='Message.receiver_id')
@@ -23,7 +23,7 @@ class User(db.Model, UserMixin):
             'email': self.email,
             'first_name': self.first_name,
             'last_name': self.last_name,
-            'phone_num': self.phone_num
+            'phone_number': self.phone_number
         }
         
 class Listing(db.Model):

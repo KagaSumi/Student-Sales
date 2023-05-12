@@ -148,7 +148,8 @@ def listing_create():
         'title': data['title'],
         'description': data['description'],
         'price': data['price'],
-        'user_id': current_user.id
+        'user_id': current_user.id,
+        'images': data['images']
     }
 
     response = requests.post(url=URL+'/create_listing_new', json=payload)

@@ -6,9 +6,8 @@ const title = document.getElementById("title");
 const description = document.getElementById("description");
 const price = document.getElementById("price");
 const images = document.getElementById("image");
-const create_listingBTN = document.getElementById("create_listing");
-const cancelButton = document.getElementById("cancel_listing");
-
+const createListingBTN = document.getElementById("create_listing");
+const cancelBTN = document.getElementById("cancel_listing");
 
 async function send_request() {
   let payload = {
@@ -30,15 +29,15 @@ async function send_request() {
             mimetype: img.type,
           };
           payload.images.push(image);
-          console.log(image.pic)
+          console.log(payload.images)
           resolve();
         };
         reader.readAsDataURL(img);;
       });
     });
-
     await Promise.all(readFilePromises);
   }
+
   fetch("/create_listing", {
     method: "POST",
     headers: {
@@ -62,12 +61,11 @@ async function send_request() {
     });
 };
 
-
 const check_inputs = () => {
   if (title.value && description.value && /^\d+(\.\d{1,2})?$/.test(price.value)) {
-    create_listingBTN.disabled = false;
+    createListingBTN.disabled = false;
   } else {
-    create_listingBTN.disabled = true;
+    createListingBTN.disabled = true;
   }
   
   const priceErrorMessage = document.getElementById("price-error-message");
@@ -78,10 +76,9 @@ const check_inputs = () => {
   }
 };
 
+createListingBTN.addEventListener("click", send_request);
 
-create_listingBTN.addEventListener("click", send_request);
-
-cancelButton.addEventListener("click", () => {
+cancelBTN.addEventListener("click", () => {
   let inputFields = document.querySelectorAll("input");
   for (let i = 0; i < inputFields.length; i++) {
     inputFields[i].value = "";
