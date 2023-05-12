@@ -9,7 +9,7 @@ class User(db.Model, UserMixin):
     last_name = db.Column(db.String)
     password = db.Column(db.String)
     phone_number = db.Column(db.String)
-    is_confirmed = db.Column(db.Boolean, default=None)
+    is_confirmed = db.Column(db.Boolean, default=False)
     messages_sent = db.relationship('Message', backref='sender', lazy=True, foreign_keys='Message.sender_id')
     messages_received = db.relationship('Message', backref='receiver', lazy=True, foreign_keys='Message.receiver_id')
     listings = db.relationship('Listing', cascade="all,delete", backref='user')
