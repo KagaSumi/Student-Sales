@@ -54,7 +54,7 @@ def create_user():
 @user.route("/update_user/<int:user_id>", methods=["PUT"])
 def update_user(user_id):
     data = request.json
-    selected_user = User.query.get(user_id)
+    selected_user = db.session.get(User,user_id)
     for key in ("first_name", "last_name", "phone_number"):
         if key not in data:
             return f"The JSON provided is invalid (missing: {key})", 400
