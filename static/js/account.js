@@ -5,25 +5,34 @@ const delete_button = document.getElementById("delete_button");
 
 const symbols = ['!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '-', '_', '+', '='];
 
-const old_password = document.getElementById("old_password");
-const old_password_error = document.getElementById('password_error');
-
-const new_password = document.getElementById("new_password");
-const new_password_error = document.getElementById('new_password_error');
-
-const confirm_password = document.getElementById("confirm_password");
-const confirm_password_error = document.getElementById("confirm_password_error");
 
 const phone_number = document.getElementById("phone_number");
 const phone_number_error = document.getElementById("phone_number_error");
 
 
-const delete_user = () => {
-  
+const delete_request = () => {
+  fetch('/delete_user', {
+      method: 'DELETE',
+
+  })
+  .then((response) => {
+      return Promise.all([response.json(), response.status]);
+  })
+  .then(([json, status]) => {
+      let message = json.message;
+      localStorage.setItem('message', message);
+      if (status == 400){
+        window.location.href = '/account';
+      }
+      window.location.href = '/'
+  })
+  .catch((error) => {
+      console.log(error);
+  });
 }
 
 const verify_fields = (event) =>{
-    if (first_name.value.length == 0 || last_name.value.length == 0) {
+    if (first_name.value.length == 0 || last_name.value.length == 0 || !(phone_number.value.length == 0 || phone_number.value.length == 10)) {
         update_button.classList.add("disabled");
     }
     else{
@@ -32,72 +41,33 @@ const verify_fields = (event) =>{
 }
 
 const update_request = () => {
-  // Check whether the new password meets the requirements
-  verify_new_password();
+    fetch('/update_profile', {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(payload),
+    })
+    .then((response) => {
+        return Promise.all([response.json(), response.status]);
+    })
+    .then(([json, status]) => {
+        let message = json.message;
+        localStorage.setItem('message', message);
+        window.location.href = '/account';
+    })
+    .catch((error) => {
+        console.log(error);
+    });
+}
 
-  // Check whether the confirmed password matches the new password
-  verify_confirm_password();
-
-  // If there is no error message, send a request to update the profile
-  if (!new_password_error.textContent && !confirm_password_error.textContent) {
-      let payload = { first_name: first_name.value, last_name: last_name.value, phone_number: phone_number.value };
-      fetch('/update_profile', {
-          method: 'PUT',
-          headers: {
-              'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(payload),
-      })
-      .then((response) => {
-          return Promise.all([response.json(), response.status]);
-      })
-      .then(([json, status]) => {
-          let message = json.message;
-          localStorage.setItem('message', message);
-          window.location.href = '/account';
-      })
-      .catch((error) => {
-          console.log(error);
-      });
-  }
-};
 
 update_button.addEventListener("click",update_request);
-for (element of [first_name,last_name]){
+delete_button.addEventListener("click",delete_request);
+for (element of [first_name,last_name,phone_number]){
     element.addEventListener('input', verify_fields);
 }
 
-const verify_new_password = (event) =>{
-  const new_password = document.getElementById('new_password');
-  const new_password_error = document.getElementById('new_password_error');
-  const hasSymbol = symbols.some((symbol) => new_password.value.includes(symbol));
-
-  if (new_password.value.length < 4) {
-    new_password_error.textContent = "Password is too short.";
-    new_password_error.classList.add("error-message");
-  } else if (!hasSymbol) {
-    new_password_error.textContent = "Password must contain a symbol.";
-    new_password_error.classList.add("error-message");
-  }
-   else {
-    new_password_error.textContent = "";
-    new_password_error.classList.remove("error-message");
-  }
-};
-
-const verify_confirm_password = (event) => {
-  const confirm_password = document.getElementById('confirm_password');
-  const confirm_password_error = document.getElementById('confirm_password_error');
-  const isValidpassword = confirm_password.value === new_password.value;
-
-  if (!isValidpassword) {
-    confirm_password_error.textContent = "Passwords do not match.";
-    confirm_password_error.classList.add("error-message");
-  } else {
-    confirm_password_error.textContent = "";
-    confirm_password_error.classList.remove("error-message");
-  }
-};
 
 const verify_phone_number = (event) => {
   const phone_number = document.getElementById('phone_number');
@@ -115,8 +85,6 @@ const verify_phone_number = (event) => {
 };
 
 /* Event Listeners */
-new_password.addEventListener('input', verify_new_password);
-confirm_password.addEventListener('input', verify_confirm_password);
 phone_number.addEventListener('input', verify_phone_number);
 
 phone_number.addEventListener('keypress', function(event) {
@@ -132,5 +100,3 @@ phone_number.addEventListener('keypress', function(event) {
     event.preventDefault();
   }
 });
-
-update_button.addEventListener("click", () => {updateUser()})

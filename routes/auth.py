@@ -91,12 +91,13 @@ def confirm_email(token):
 def update_user():
     data = request.json
     for key in ['first_name', 'last_name','phone_number']:
-        return jsonify(message=f"{key} is missing from JSON")
-    update_request = requests.put(url=URL+"/update_user/"+current_user.id,json={
+        if key not in data:
+            return jsonify(message=f"{key} is missing from JSON")
+    update_request = requests.put(url=URL+"/update_user/"+str(current_user.id),
+        json={
         "first_name": data["first_name"], 
         "last_name": data["last_name"],
         "phone_number": data["phone_number"],
-        "password": data["password"],
     })
     if update_request.ok:
         return jsonify(message="Profile Update Success"),200
@@ -121,19 +122,15 @@ def user_login():
         return jsonify(message="Please verify your email"),400
     return jsonify(message='Incorrect Email or Password!'), 400
 
-@auth.route('/delete_user')
+@auth.route('/delete_user', methods=["DELETE"])
+@login_required
 def delete_user():
-    if not current_user.is_authenticated:
-        flash('Not Logged In!', 'danger')
-        return redirect(url_for('auth.login'))
-    logout_user()
+    delete_request = requests.delete(URL+'/delete_user/'+ str(current_user.id)) 
+    if delete_request.ok:
+        logout_user()
+        return jsonify(message='User Deleted'),200
+    return jsonify(message='Failed to delete user'),400
 
-    user = User.query.get(current_user.id)
-    db.session.delete(user)
-    db.session.commit()
-    flash('User Deleted!', 'success')
-
-    return redirect(url_for('views.homepage'))
 
 @auth.route('/create_listing', methods=['POST'])
 @login_required
