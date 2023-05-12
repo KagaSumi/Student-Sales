@@ -1,0 +1,40 @@
+{% extends "base.html" %} {% block content %}
+<h3 class="my-3">Hi {{ user.first_name }} {{ user.last_name }}, Welcome to your account!</h3>
+<p><strong>Email: </strong>{{ user.email }}</p>
+<div class="grid">
+    <div>
+        <p><strong>First Name:</strong></p>
+        <input type="text" class="form-control" id="first_name" value="{{ user.first_name }}"
+            placeholder="Enter first name" required>
+    </div>
+    <div>
+        <p><strong>Last Name:</strong></p>
+        <input type="text" class="form-control" id="last_name" value="{{ user.last_name }}"
+            placeholder="Enter last name" required>
+    </div>
+</div>
+<p><strong>Phone Number:</strong></p>
+<input type="text" class="form-control" id="phone_number" value="{{ user.phone_number }}"
+        placeholder="Enter Phone Number" required>
+<div id="phone_number_error"></div>
+
+<div class="button-container">
+    <button class="btn btn-primary my-2" id="change_password_button">Change Password</button>
+    <button class="btn btn-primary my-2" id="update_button">Update User</button>
+    <button class="btn btn-danger my-2" id="delete_button">Delete User</button>
+</div>
+
+{% endblock %}
+{% block css %}
+<link 
+href="{{ url_for('static', filename='css/account.css')}}" rel="stylesheet">
+</link>
+{% endblock %}
+
+{% block script %}
+<script
+  defer
+  type="text/javascript"
+  src="{{ url_for('static', filename='js/account.js') }}"
+></script>
+{% endblock %}

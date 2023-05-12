@@ -1,0 +1,43 @@
+{% extends "base.html" %} 
+
+{% block css%}
+<link rel="stylesheet" href="../static/css/create_listing.css">
+{% endblock %}
+
+{% block content %}
+<h3 class="my-3">Hi {{ user.first_name }} {{ user.last_name }}, Welcome to your profile!</h3>
+<div class="my-3">
+    <a href="{{ url_for('private_view.create_listing') }}" class="btn btn btn-primary">Create Listing</a>
+</div>
+
+<h4>Here are your listings:</h4>
+<div id="profilediv">
+{% if user.listings %}
+{% for listing in user.listings %}
+<a href="{{ url_for('views.edit_listing', listing_id=listing.id) }}" class="text-decoration-none text-black">
+    <div class="card my-3">
+        <div class="card-body">
+            <h5 class="card-title">{{ listing.title }}</h5>
+            {% if listing.images %}
+            <div class="row">
+                {% for image in listing.images %}
+                <div class="col-md-4">
+                    <img src="{{ url_for('public_view.get_image', image_id=image.id) }}" alt="{{ image.name }}" class="img-fluid">
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <img src="{{ url_for('static', filename='images/defaultImage.png') }}" alt="no image uploaded" width="150" height="150">
+            {% endif %}
+            <p><strong>Description: </strong>{{ listing.description }}</p>
+            <p><strong>Price: </strong>${{ listing.price }}</p>
+            <p><strong>Date Posted: </strong>{{ listing.date_posted }}</p>
+        </div>
+    </div>
+</a>
+{% endfor %}
+{% else %}
+<p>You have not made any listings.</p>
+{% endif %}
+</div>
+{% endblock %}
