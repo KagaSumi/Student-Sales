@@ -22,6 +22,7 @@ This project showcases the use of agile methodologies to develop a complete web 
 - HTML5
 - CSS3
 - JavaScript
+- Bootstrap
 - Python
 - Flask
 - SQLite
