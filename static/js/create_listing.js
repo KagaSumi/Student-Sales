@@ -14,7 +14,7 @@ async function send_request() {
     title: title.value,
     description: description.value,
     price: price.value,
-    images: [],
+    images: []
   };
 
   if (images.files) {
@@ -48,7 +48,7 @@ async function send_request() {
     .then(([json, status]) => {
       let message = json.message;
       localStorage.setItem("message", message);
-      if (status == 400) {
+      if (status == 400 || status == 401) {
         window.location.href = '/create_listing';
       } else {
         window.location.href = '/profile';

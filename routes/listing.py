@@ -1,8 +1,11 @@
+import os
 from database.database import db
 from database.models import User, Listing, Image
 from flask import Blueprint, jsonify, request
 
 listing = Blueprint("listing", __name__)
+
+""" This endpoints handle CRUD features of listings. """
 
 @listing.route("/get_listing/<int:listing_id>", methods=["GET"])
 def get_listing(listing_id):
@@ -31,13 +34,16 @@ def create_listing():
     
     new_listing = Listing(title=title, description=description, price=price, user_id=user_id)
     db.session.add(new_listing)
-    db.session.commit()
 
     images = data['images']
     if images:
         for img in data['images']:
-            image = Image(img=img['pic'],name=img['filename'],mimetype=img['mimetype'],listing=new_listing)
-            db.session.add(image)
+            extension = os.path.splitext(img['filename'])[1].lower()
+            if extension in ['.png', '.jpg', '.jpeg', '.gif']:
+                image = Image(img=img['pic'],name=img['filename'],mimetype=img['mimetype'],listing=new_listing)
+                db.session.add(image)
+            else:
+                return jsonify(message='Invalid file type!'),401
         db.session.commit()
         
     return jsonify(message="New Listing Added", listing=new_listing), 200
@@ -52,17 +58,17 @@ def update_listing():
         if key not in data:
             return f"The JSON provided is invalid (missing: {key})!", 400
     try:
-        title = str(data["title"])
-        description = str(data["description"])
-        price = round(float(data["price"]), 2)
-        if not User.query.get(data["user_id"]):
-            raise ValueError("The user does not exist!")
+        title = str(data['title'])
+        description = str(data['description'])
+        price = round(float(data['price']), 2)
+        if not User.query.get(data['user_id']):
+            raise ValueError('The user does not exist!')
         if price < 0:
-            raise ValueError("The price cannot be negative!")
-        if listing.user_id != data["user_id"]:
-            raise ValueError("The user does not own this listing!")
+            raise ValueError('The price cannot be negative!')
+        if listing.user_id != data['user_id']:
+            raise ValueError('The user does not own this listing!')
     except ValueError as err:
-        return (f"Error: {str(err)}!", 400)
+        return (f'Error: {str(err)}!', 400)
     listing.title = title
     listing.description = description
     listing.price = price
@@ -70,8 +76,12 @@ def update_listing():
     images = data['images']
     if images:
         for img in data['images']:
-            image = Image(img=img['pic'],name=img['filename'],mimetype=img['mimetype'],listing=new_listing)
-            db.session.add(image)
+            extension = os.path.splitext(img['filename'])[1].lower()
+            if extension in ['.png', '.jpg', '.jpeg', '.gif']:
+                image = Image(img=img['pic'],name=img['filename'],mimetype=img['mimetype'],listing=listing)
+                db.session.add(image)
+            else:
+                return jsonify(message='Invalid file type!'),401
     db.session.commit()
 
     return jsonify(message="Listing Updated!"), 200

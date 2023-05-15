@@ -29,15 +29,21 @@ def listing_update(listing_id):
     for key in ('title','description','price'):
         if key not in data:
             return jsonify(message=f'{key} is missing from JSON'),400
-    response = requests.put(url=f'{URL}/update_listing', json={
+    
+    payload = {
         'title': data['title'],
         'description': data['description'],
         'price': data['price'],
         'user_id': current_user.id,
-        'listing_id': listing_id
-    })
+        'listing_id': listing_id,
+        'images': data['images']
+    }
+
+    response = requests.put(url=f'{URL}/update_listing', json=payload)
     if response.ok:
         return jsonify(message="Listing Updated!"),200
+    elif response.status_code == 401:
+        return jsonify(message='Invalid file type, only [.png, .jpg, .jpeg, and .gif] are allowed!'),401
     return jsonify(message="Listing Could Not Be Updated!"),400
 
 @views.route('/delete_listing/<int:listing_id>', methods=["DELETE"])

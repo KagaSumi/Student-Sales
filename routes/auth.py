@@ -1,7 +1,6 @@
 import requests
 from database.database import db
 from database.models import User
-from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import login_user, login_required, logout_user, current_user
 from flask import Blueprint, jsonify, request, flash, url_for, redirect, render_template
 from flask import current_app as app
@@ -9,13 +8,10 @@ from flask_mail import Message
 from extensions import mail
 from itsdangerous import URLSafeTimedSerializer
 
-
-
 auth = Blueprint('auth', __name__)
 URL = 'http://127.0.0.1:5000'
 
 """ These endpoints / views perform the logic for user management. """
-
 
 # Email Verification Functions
 def generate_token(email):
@@ -66,7 +62,7 @@ def register():
         html = render_template("confirmation_email.html", confirm_url=confirm_url)
         subject = "Please confirm your email"
         send_email(data["email"], subject, html)
-        return jsonify(message='A confirmation email has been sent via email.'), 200
+        return jsonify(message='A confirmation email has been sent!'), 200
     return jsonify(message='Incorrect Email or Password!'), 400
 
 @auth.route("/confirm/<token>")
@@ -82,7 +78,7 @@ def confirm_email(token):
     user.is_confirmed = True
     db.session.add(user)
     db.session.commit()
-    login_user(user, remember=True)
+    login_user(user, remember=False)
     flash("You have confirmed your account. Thanks!", "success")
     return redirect(url_for("private_view.profile"))
 
@@ -93,15 +89,18 @@ def update_user():
     for key in ['first_name', 'last_name','phone_number']:
         if key not in data:
             return jsonify(message=f"{key} is missing from JSON")
+        
     update_request = requests.put(url=URL+"/update_user/"+str(current_user.id),
         json={
-        "first_name": data["first_name"], 
-        "last_name": data["last_name"],
-        "phone_number": data["phone_number"],
+        'first_name': data['first_name'], 
+        'last_name': data['last_name'],
+        'phone_number': data['phone_number'],
     })
+
     if update_request.ok:
-        return jsonify(message="Profile Update Success"),200
-    return jsonify(message="Profile Update Failure"),400
+        return jsonify(message='Account Updated!'),200
+    
+    return jsonify(message='Account Update Failed!'),400
 
 @auth.route('/login', methods=['POST'])
 def user_login():
@@ -116,10 +115,10 @@ def user_login():
     response = requests.post(url=URL+'/verify_user', json=payload)
     if response.ok:
         user = User.query.filter_by(email=data['email']).first()
-        login_user(user)
+        login_user(user, remember=False)
         return jsonify(message='User Login Successful!'), 200
     if response.status_code == 401:
-        return jsonify(message="Please verify your email"),400
+        return jsonify(message='Please verify your email!'),400
     return jsonify(message='Incorrect Email or Password!'), 400
 
 @auth.route('/delete_user', methods=["DELETE"])
@@ -152,7 +151,8 @@ def listing_create():
     response = requests.post(url=URL+'/create_listing_new', json=payload)
     if response.ok or response.status_code == 500:
         return jsonify(message='Listing Created!'), 200
-    
+    elif response.status_code == 401:
+        return jsonify(message='Invalid file type, only [.png, .jpg, .jpeg, and .gif] are allowed!'),401
     return jsonify(message='Error Occurred in Creating Listing!'), 400
 
 @ auth.app_errorhandler(404)

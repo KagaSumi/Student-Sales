@@ -30,7 +30,7 @@ async function updateListing () {
     title: title.value,
     description: description.value,
     price: price.value,
-    images: [],
+    images: []
   };
 
   if (images.files) {
@@ -45,10 +45,10 @@ async function updateListing () {
             mimetype: img.type,
           };
           payload.images.push(image);
-          console.log(payload.images)
           resolve();
         };
-        reader.readAsDataURL(img);;
+        reader.readAsDataURL(img);
+        console.log(payload)
       });
     });
     await Promise.all(readFilePromises);
