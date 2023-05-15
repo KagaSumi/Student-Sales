@@ -22,6 +22,7 @@ This project showcases the use of agile methodologies to develop a complete web 
 - HTML5
 - CSS3
 - JavaScript
+- Bootstrap
 - Python
 - Flask
 - SQLite
@@ -33,7 +34,7 @@ To install the required dependencies, follow these steps:
     `python -m venv .venv`
 
 2. Activate the virtual environment:    
-    - Windows: `.venv\Scripts\activate`
+    - Windows: `.\.venv\Scripts\activate`
     - Unix/Linux: `source .venv/bin/activate`
 
 3. Install the required modules:  
