@@ -29,7 +29,6 @@ async function send_request() {
             mimetype: img.type,
           };
           payload.images.push(image);
-          console.log(payload.images)
           resolve();
         };
         reader.readAsDataURL(img);;

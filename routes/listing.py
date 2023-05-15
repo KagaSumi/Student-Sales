@@ -39,6 +39,7 @@ def create_listing():
             image = Image(img=img['pic'],name=img['filename'],mimetype=img['mimetype'],listing=new_listing)
             db.session.add(image)
         db.session.commit()
+        
     return jsonify(message="New Listing Added", listing=new_listing), 200
 
 @listing.route('/update_listing', methods=['PUT'])
@@ -65,7 +66,14 @@ def update_listing():
     listing.title = title
     listing.description = description
     listing.price = price
+
+    images = data['images']
+    if images:
+        for img in data['images']:
+            image = Image(img=img['pic'],name=img['filename'],mimetype=img['mimetype'],listing=new_listing)
+            db.session.add(image)
     db.session.commit()
+
     return jsonify(message="Listing Updated!"), 200
 
 @listing.route('/delete_listing', methods=['DELETE'])
