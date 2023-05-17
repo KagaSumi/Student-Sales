@@ -129,7 +129,7 @@ def forget_password():
 
 @auth.route('/forgot_password',methods=["GET"])
 def forgot_password():
-    return render_template("forgot_password_email.html")
+    return render_template("forgot_password_email.html", user=None)
 
 
 @auth.route('/update_profile', methods=['PUT'])
