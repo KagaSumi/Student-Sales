@@ -19,7 +19,6 @@ jobs:
           script: |
             const runId = context.payload.workflow_run.id;
             const runStatus = context.payload.workflow_run.status;
-
             if (runStatus === 'completed') {
               console.log('Jenkins CI completed successfully.');
               // Proceed with additional checks or actions
@@ -35,6 +34,3 @@ jobs:
   additional-checks:
     needs: pr-check
     runs-on: ubuntu-latest
-
-    steps:
-      # Add additional checks or actions here
