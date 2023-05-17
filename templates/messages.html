@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block css %}
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/messages.css') }}">
+{% endblock %}
+
+{% block content %}
+<h1 align="center" class="my-2">Messages</h1>
+<h3 class="my-3">Hi {{ user.first_name }} {{ user.last_name }}, welcome to your messages!</h3>
+
+{% if messages %}
+<div class="message-container">
+    {% for msg in messages %}
+    <div class="message">
+        <button type="submit" name="{{ msg.id }}" class="messageBTNS">
+            <span>Unread: {{ msg.unread }}</span>
+            </br>
+            <span>Subject: {{ msg.subject }}</span>
+            </br>
+            <span>Sender: {% if msg.buyer_id == current_user.id %} You {% else %} {{ msg.user.first_name }} {{ msg.user.last_name }} {% endif %}</span>
+            </br>
+            <span>Created: {{ msg.timestamp }}</span>
+            </br>
+            <a href="/view_listing/{{ msg.listing_id }}">View Listing</a>
+        </button>
+    </div>
+    {% endfor %}
+</div>
+
+{% else %}
+<p>You do not have any messages!</p>
+{% endif %}
+
+{% endblock %}
+
+{% block script %}
+<script defer type="text/javascript" src="{{ url_for('static', filename='js/messages.js') }}"></script>
+{% endblock %}

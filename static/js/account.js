@@ -89,11 +89,11 @@ const verify_phone_number = (event) => {
 phone_number.addEventListener('input', verify_phone_number);
 
 phone_number.addEventListener('keypress', function(event) {
-  // Prevent non-numeric input
+  /* // Prevent non-numeric input
   if (isNaN(parseInt(event.key))) {
     event.preventDefault();
     return;
-  }
+  } */
   
   // Limit input to 10 digits
   const currentValue = phone_number.value.replace(/[^0-9]/g, '');
