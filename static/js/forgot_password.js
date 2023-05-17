@@ -7,8 +7,6 @@ const password_error = document.getElementById('password_error');
 const conf_password_error = document.getElementById('conf_password_error');
 const cancelBTN = document.getElementById("cancel_listing");
 
-
-
 const verify_fields = (event) => {
     const FLAG_PASSWORD = password.value.length >= 4 && password.value === confirm_password.value;
     if (FLAG_PASSWORD) {
