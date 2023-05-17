@@ -30,7 +30,3 @@ jobs:
                 workflow_id: runId
               });
             }
-
-  additional-checks:
-    needs: pr-check
-    runs-on: ubuntu-latest
