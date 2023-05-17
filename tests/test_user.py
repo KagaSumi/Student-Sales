@@ -97,7 +97,7 @@ class TestUserAPI(unittest.TestCase):
         response = self.client.delete(f"/delete_user/{user.id}")
         data = json.loads(response.data)
 
-        self.assertEqual(response.status_code, 400)
+        self.assertEqual(response.status_code, 200)
         self.assertEqual(data["message"], "User Deleted")
 
 if __name__ == '__main__':
