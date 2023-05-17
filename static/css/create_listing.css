@@ -48,14 +48,7 @@ h3 {
     align-content: center;
 }
 
-#createbuttons {
-    display: flex;
-    grid-column-start: 1;
-    grid-column-end: 3;
-    justify-content: space-between;
-}
-
-#updatebuttons {
+#createbuttons, #updatebuttons {
     display: flex;
     grid-column-start: 1;
     grid-column-end: 3;

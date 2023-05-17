@@ -1,8 +1,8 @@
 import base64
 from database.database import db
-from database.models import Image
 from flask_login import current_user
-from flask import Blueprint, Response, flash, url_for, redirect, render_template
+from database.models import Image, Listing
+from flask import Blueprint, Response, jsonify, request, flash, url_for, redirect, render_template
 
 public_view = Blueprint('public_view', __name__)
 
@@ -11,6 +11,7 @@ public_view = Blueprint('public_view', __name__)
 @public_view.route('/')
 def homepage():
     return render_template('homepage.html', user=current_user)
+
 @public_view.route('/login', methods=['GET'])
 def login():
     if current_user.is_authenticated:
@@ -18,6 +19,7 @@ def login():
         return redirect(url_for('views.account'))
     
     return render_template('login.html', user=current_user)
+
 @ public_view.route('/sign-up', methods=['GET'])
 def sign_up():
     if current_user.is_authenticated:
@@ -31,3 +33,10 @@ def get_image(image_id):
     img = Image.query.get(image_id)
     image_data = img.img.split(',')[1]
     return Response(base64.b64decode(image_data),mimetype=img.mimetype)
+
+@public_view.route('/view_listing/<int:listing_id>', methods=['GET'])
+def view_listing(listing_id):
+    listing = db.session.get(Listing, listing_id)
+    if not listing: 
+        return jsonify(message='Listing not found for viewing!'), 404
+    return render_template('view_listing.html', user=current_user, listing=listing)

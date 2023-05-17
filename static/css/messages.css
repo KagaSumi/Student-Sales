@@ -1,0 +1,28 @@
+.message-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.message {
+    margin-bottom: 10px;
+}
+
+.message button {
+    text-align: left;
+    font-family: sans-serif;
+    background-color: white;
+    border: 5px black dotted;
+    padding: 5px;
+    transition: background-color 0.3s ease;
+    border-radius: 10px;
+}
+
+.message button:hover {
+    background-color: #8cd3ff; 
+    cursor: pointer;
+}
+
+h3 {
+    color: #003C71;
+}
