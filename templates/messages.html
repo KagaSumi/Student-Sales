@@ -12,12 +12,16 @@
 <div class="message-container">
     {% for msg in messages %}
     <div class="message">
-        <button type="submit" name="{{ msg.id }}">
+        <button type="submit" name="{{ msg.id }}" class="messageBTNS">
+            <span>Unread: {{ msg.unread }}</span>
+            </br>
             <span>Subject: {{ msg.subject }}</span>
             </br>
-            <span>Sender: {{ msg.user.first_name }} {{ msg.user.last_name }}</span>
+            <span>Sender: {% if msg.buyer_id == current_user.id %} You {% else %} {{ msg.user.first_name }} {{ msg.user.last_name }} {% endif %}</span>
             </br>
             <span>Created: {{ msg.timestamp }}</span>
+            </br>
+            <a href="/view_listing/{{ msg.listing_id }}">View Listing</a>
         </button>
     </div>
     {% endfor %}

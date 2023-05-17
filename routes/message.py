@@ -1,17 +1,10 @@
 import json
 from database.database import db
-from flask_login import current_user
+from flask_login import current_user, login_required
 from flask import Blueprint, jsonify, request
 from database.models import Message, Listing
 
 message = Blueprint('message', __name__)
-
-""" @message.route("/get_message/<string:user_id>", methods=["GET"])
-def get_user(user_id):
-    user = db.session.get(User, user_id)
-    if user:
-        return jsonify(message=user.to_dict()), 200
-    return jsonify(message="User Not Found!"), 404 """
 
 @message.route("/create_message", methods=["POST"])
 def create_message():
@@ -22,6 +15,8 @@ def create_message():
     for key in ('subject', 'message', 'listing_id'):
         if key not in data:
             return jsonify(message=f'{key} is missing from JSON'), 400
+        if data[key] == '':
+            return jsonify(message='Please fill in both the subject and message fields!'), 400
 
     listing = Listing.query.get(data['listing_id'])
 
@@ -44,3 +39,18 @@ def create_message():
     db.session.add(new_message)
     db.session.commit()
     return jsonify(message='Message has been sent!'), 200
+
+@message.route("/update_message/<int:message_id>", methods=["PUT"])
+def update_message(message_id):
+    data = request.json
+    if data['message'] == '':
+        return jsonify(message='Please type something to send reply!'), 400
+
+    message = Message.query.get(message_id)
+    message_history = json.loads(message.message)
+    new_message = {'id' : current_user.id, 'message': data['message']}
+    message_history.append(new_message)
+    message.message = json.dumps(message_history)
+    db.session.commit()
+
+    return jsonify(message='Reply Sent!'), 200

@@ -29,7 +29,6 @@ const send_message = () => {
     message: message.value,
     listing_id: listing_id,
   };
-  console.log(payload)
   fetch(`/create_message`, {
     method: "POST",
     headers: {
@@ -40,7 +39,6 @@ const send_message = () => {
     .then((response) => response.json())
     .then((json) => {
       let message = json.message;
-      console.log(message)
       localStorage.setItem("message", message);
       window.location.href = `/view_listing/${listing_id}`;
     })

@@ -1,3 +1,4 @@
+import json
 from database.models import Image, Message
 from database.database import db
 from sqlalchemy import or_
@@ -30,6 +31,13 @@ def profile():
 def messages():
     messages = Message.query.filter(or_(Message.buyer_id == current_user.id, Message.seller_id == current_user.id)).all()
     return render_template('messages.html', user=current_user, messages=messages)
+
+@private_view.route('/view_message/<int:message_id>')
+@login_required
+def view_message(message_id):
+    message = Message.query.get(message_id)
+    message_history = json.loads(message.message)
+    return render_template('view_message.html', user=current_user, message=message, message_history=message_history)
 
 @private_view.route('/image/<int:image_id>', methods=['DELETE'])
 @login_required
