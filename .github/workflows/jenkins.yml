@@ -1,32 +1,20 @@
-name: Jenkins CI
+name: Jenkins Pipeline
 
 on:
-  workflow_run:
-    workflows: ["Your Jenkins Workflow Name"]
-    types:
-      - completed
+  pull_request:
+    branches:
+      - '*'
 
 jobs:
-  pr-check:
+  build:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Wait for Jenkins CI
-        id: wait-for-jenkins
-        uses: actions/github-script@v4
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          script: |
-            const runId = context.payload.workflow_run.id;
-            const runStatus = context.payload.workflow_run.status;
-            if (runStatus === 'completed') {
-              console.log('Jenkins CI completed successfully.');
-              // Proceed with additional checks or actions
-            } else {
-              console.log('Jenkins CI is still running.');
-              // Wait for Jenkins CI to complete
-              await wait(30000); // Wait for 30 seconds
-              github.actions.createWorkflowDispatch({
-                workflow_id: runId
-              });
-            }
+      - name: Trigger Jenkins pipeline
+        run: |
+          curl -X POST -u ${{ secrets.JENKINS_USERNAME }}:${{ secrets.JENKINS_TOKEN }} \
+            -F "token=${{ secrets.JENKINS_PIPELINE_TOKEN }}" \
+            -F "ref=${{ github.head_ref }}" \
+            -F "repository=${{ github.repository }}" \
+            -F "owner=${{ github.repository_owner }}" \
+            https://your-jenkins-url.com/generic-webhook-trigger/invoke?token=${{ secrets.JENKINS_TRIGGER_TOKEN }}
