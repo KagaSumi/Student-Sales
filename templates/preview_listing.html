@@ -2,67 +2,76 @@
 {% block content %}
 
 <div class="container">
-    <div class="listing-id">
-        <p class="text-center my-3">Previewing Listing (ID: {{ listing.id }})</p>
-    </div>
-    
-    <div class="listing-details">
-        <div class="listing-info">
-            <div class="listing-title">
-                <h5 class="my-3">Title</h5>
-                <p>{{ listing.title }}</p>
-            </div>
-            
-            <div class="listing-price">
-                <h5 class="my-3">Price</h5>
-                <p>{{ listing.price }}</p>
-            </div>
-            
-            <div class="listing-posted">
-                <h5 class="my-3">Posted</h5>
-                <p>{{ listing.date_posted }}</p>
+    <div class="row">
+        <!-- Middle column for listing details -->
+        <div class="col-md-5">
+            <div class="listing-details">
+                <div class="listing-info">
+                    <div class="listing-title">
+                        <h5 class="my-3">Title</h5>
+                        <p>{{ listing.title }}</p>
+                    </div>
+                    
+                    <div class="listing-price">
+                        <h5 class="my-3">Price</h5>
+                        <p>{{ listing.price }}</p>
+                    </div>
+                    
+                    <div class="listing-posted">
+                        <h5 class="my-3">Posted</h5>
+                        <p>{{ listing.date_posted }}</p>
+                    </div>
+                </div>
+                
+                <div class="listing-description">
+                    <h5 class="my-3">Description</h5>
+                    <p>{{ listing.description }}</p>
+                </div>
             </div>
         </div>
-        
-        <div class="listing-description">
-            <h5 class="my-3">Description</h5>
-            <p>{{ listing.description }}</p>
+
+        <!-- Right column for image carousel -->
+        <div class="col-md-4">
+            <h5 class="my-3">Images</h5>
+            <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+                <div class="carousel-inner">
+                    {% for image in listing.images %}
+                    <div class="carousel-item {% if loop.first %}active{% endif %}">
+                        <img src="{{ url_for('public_view.get_image', image_id=image.id) }}" class="d-block w-100" alt="{{ image.name }}">
+                    </div>
+                    {% endfor %}
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+            </div>
         </div>
     </div>
 
-    <div class="listing-images">
-        <h5 class="my-3">Images</h5>
-        
-        {% if listing.images %}
-        <div class="row">
-            {% for image in listing.images %}
-            <div class="col-md-4 mx-auto image-container">
-                <img src="{{ url_for('public_view.get_image', image_id=image.id) }}" alt="{{ image.name }}" class="img-fluid">
+    <!-- Bottom for buttons -->
+    <div class="row">
+        <div class="col-12">
+            <div class="listing-edit text-center">
+                <a class="text-decoration-none text-black button-link">
+                    <button type="submit" class="btn btn-primary my-2" name="message">Message</button>
+                </a>
+                <a class="text-decoration-none text-black button-link">
+                    <button type="submit" class="btn btn-primary my-2" name="Save">Save</button>
+                </a>
+                <a class="text-decoration-none text-black button-link">
+                    <button type="submit" class="btn btn-primary my-2" name="Share">Share</button>
+                </a>
+                <a href="{{ url_for('views.edit_listing', listing_id=listing.id) }}" class="text-decoration-none text-black button-link">
+                    <button type="submit" class="btn btn-primary my-2" name="back">Go Back To Edit Listing</button>
+                </a>
             </div>
-            {% endfor %}
         </div>
-        {% else %}
-        <div class="no-image">
-            <img src="{{ url_for('static', filename='images/defaultImage.png') }}" alt="no image uploaded" width="150" height="150">
-        </div>
-        {% endif %}
-    </div>
-
-    <div class="listing-edit text-center">
-        <a class="text-decoration-none text-black button-link">
-            <button type="submit" class="btn btn-primary my-2" name="message">Message</button>
-        </a>
-        <a class="text-decoration-none text-black button-link">
-            <button type="submit" class="btn btn-primary my-2" name="Save">Save</button>
-        </a>
-        <a class="text-decoration-none text-black button-link">
-            <button type="submit" class="btn btn-primary my-2" name="Share">Share</button>
-        </a>
-        <a href="{{ url_for('views.edit_listing', listing_id=listing.id) }}" class="text-decoration-none text-black button-link">
-            <button type="submit" class="btn btn-primary my-2" name="back">Go Back To Edit Listing</button>
-        </a>
-    </div>
-    
+   </div>
 </div>
 
 {% endblock %}
@@ -73,4 +82,17 @@
   type="text/css"
   href="{{ url_for('static', filename='css/preview_listing.css') }}"
 />
+{% endblock %}
+
+{% block scripts %}
+<script>
+// This script makes footer stays at the bottom of the page regardless of the content size.
+document.addEventListener("DOMContentLoaded", function(event) { 
+  let pageContentHeight = document.querySelector('.container').offsetHeight;
+  let windowHeight = window.innerHeight;
+  if (pageContentHeight < windowHeight) {
+    document.querySelector('.container').style.minHeight = windowHeight + "px";
+  }
+});
+</script>
 {% endblock %}
