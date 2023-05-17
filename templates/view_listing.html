@@ -55,13 +55,15 @@
     </div>
 
     <div class="listing-edit text-center">
-        <a class="text-decoration-none text-black button-link">
+        <a href="#contact-form" class="text-decoration-none text-black button-link">
             <button type="submit" class="btn btn-primary my-2" id="messageBTN" name="message">Message</button>
+        </a>
+        <a class="text-decoration-none text-black button-link">
             <button type="submit" class="btn btn-primary my-2" name="back" onclick="history.back()">Back</button>
         </a>
     </div>
 </div>
-<div class="contact" style="display: none;">
+<div class="contact" id="contact-form" style="display: none;">
     <label for="subject">Subject:</label>
     <input type="text" id="subject" class="form-control" name="subject">
 
