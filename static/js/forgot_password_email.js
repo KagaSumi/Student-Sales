@@ -34,18 +34,13 @@ cancelBTN.addEventListener("click", () => {
   });
 
   const Submit = async () => {
-    let hash_password = await hashedPassword(password.value);
-    fetch("/sign-up", {
+    fetch("/forgot_password", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
         email: email.value.toLowerCase(),
-        first_name: first_name.value,
-        last_name: lastName.value,
-        phone_number: phone_number.value,
-        password: hash_password
       })
     })
       .then((response) => {
@@ -54,13 +49,11 @@ cancelBTN.addEventListener("click", () => {
       .then(([json, status]) => {
         let message = json.message;
         localStorage.setItem("message", message);
-        if (status == 200) {
-          window.location.href = "/login";
-        } else {
-          window.location.href = "/sign-up";
-        }
+        window.location.href = "/login";
       })
       .catch((error) => {
         console.log(error);
       });
     };
+
+submitBTN.addEventListener("click", Submit)
