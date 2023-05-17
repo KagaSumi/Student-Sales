@@ -37,6 +37,12 @@ def messages():
 def view_message(message_id):
     message = Message.query.get(message_id)
     message_history = json.loads(message.message)
+    if current_user.id != message_history[-1]['id']:
+        if message.unread:
+            message.unread = False
+        else:
+            message.unread = True
+        db.session.commit()
     return render_template('view_message.html', user=current_user, message=message, message_history=message_history)
 
 @private_view.route('/image/<int:image_id>', methods=['DELETE'])

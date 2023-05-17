@@ -11,17 +11,18 @@
 {% if messages %}
 <div class="message-container">
     {% for msg in messages %}
+    {% set message_history = msg.message | from_json %}
     <div class="message">
-        <button type="submit" name="{{ msg.id }}" class="messageBTNS">
-            <span>Unread: {{ msg.unread }}</span>
+        <button type="submit" name="{{ msg.id }}" class="messageBTNS {% if message_history[-1]['id'] != current_user.id and msg.unread %}unread{% else %}read{% endif %}">
+            <span><strong>{% if message_history[-1]['id'] != current_user.id and msg.unread %} Unread {% else %} Read {% endif %}</strong></span>
             </br>
-            <span>Subject: {{ msg.subject }}</span>
+            <span><strong>Subject: </strong>{{ msg.subject }}</span>
             </br>
-            <span>Sender: {% if msg.buyer_id == current_user.id %} You {% else %} {{ msg.user.first_name }} {{ msg.user.last_name }} {% endif %}</span>
+            <span><strong>Sender: </strong>{% if msg.buyer_id == current_user.id %} You {% else %} {{ msg.user.first_name }} {{msg.user.last_name }} {% endif %}</span>
             </br>
-            <span>Created: {{ msg.timestamp }}</span>
+            <span><strong>Created: </strong>{{ msg.timestamp }}</span>
             </br>
-            <a href="/view_listing/{{ msg.listing_id }}">View Listing</a>
+            <a href="/view_listing/{{ msg.listing_id }}" class="btn btn-primary">View Listing</a>
         </button>
     </div>
     {% endfor %}
