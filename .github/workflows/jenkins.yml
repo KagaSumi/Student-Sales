@@ -1,0 +1,40 @@
+name: Jenkins CI
+
+on:
+  workflow_run:
+    workflows: ["Your Jenkins Workflow Name"]
+    types:
+      - completed
+
+jobs:
+  pr-check:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Wait for Jenkins CI
+        id: wait-for-jenkins
+        uses: actions/github-script@v4
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const runId = context.payload.workflow_run.id;
+            const runStatus = context.payload.workflow_run.status;
+
+            if (runStatus === 'completed') {
+              console.log('Jenkins CI completed successfully.');
+              // Proceed with additional checks or actions
+            } else {
+              console.log('Jenkins CI is still running.');
+              // Wait for Jenkins CI to complete
+              await wait(30000); // Wait for 30 seconds
+              github.actions.createWorkflowDispatch({
+                workflow_id: runId
+              });
+            }
+
+  additional-checks:
+    needs: pr-check
+    runs-on: ubuntu-latest
+
+    steps:
+      # Add additional checks or actions here
