@@ -1,4 +1,4 @@
-re# ACIT 2911 Agile Project - Group 16
+# ACIT 2911 Agile Project - Group 16
 
 ## Table of Contents
 - Description
