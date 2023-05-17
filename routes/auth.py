@@ -14,15 +14,15 @@ URL = 'http://127.0.0.1:5000'
 """ These endpoints / views perform the logic for user management. """
 
 # Email Verification Functions
-def generate_token(email,salt="very-important"):
+def generate_token(email):
     serializer = URLSafeTimedSerializer('fdkjshfhjsdfdskfdsfdcbsjdkfdsdf')
-    return serializer.dumps(email, salt)
+    return serializer.dumps(email, salt="very-important")
 
-def confirm_token(token,salt="very-important"):
+def confirm_token(token):
     serializer = URLSafeTimedSerializer('fdkjshfhjsdfdskfdsfdcbsjdkfdsdf')
     try:
         email = serializer.loads(
-            token, salt
+            token, salt="very-important"
         )
         return email
     except Exception:
@@ -67,19 +67,19 @@ def register():
 @auth.route("/confirm/<token>")
 def confirm_email(token):
     email = confirm_token(token)
+    print(email)
     if not email:
-        flash("The confirmation link is invalid or has expired.", "danger")
         return redirect(url_for("public_view.homepage"))
     user = User.query.filter_by(email=email).first_or_404()
     if user.is_confirmed:
-        flash("Account already confirmed.", "success")
         return redirect(url_for("public_view.homepage"))
+    print(user)
     user.is_confirmed = True
     db.session.add(user)
     db.session.commit()
     login_user(user, remember=False)
-    flash("You have confirmed your account. Thanks!", "success")
     return redirect(url_for("private_view.profile"))
+
 @auth.route("/forget_password",methods=["GET"])
 @login_required
 def view_forgot_password_logged_in():
