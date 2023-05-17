@@ -14,15 +14,15 @@ URL = 'http://127.0.0.1:5000'
 """ These endpoints / views perform the logic for user management. """
 
 # Email Verification Functions
-def generate_token(email):
+def generate_token(email,salt="very-important"):
     serializer = URLSafeTimedSerializer('fdkjshfhjsdfdskfdsfdcbsjdkfdsdf')
-    return serializer.dumps(email, salt="very-important")
+    return serializer.dumps(email, salt)
 
-def confirm_token(token):
+def confirm_token(token,salt="very-important"):
     serializer = URLSafeTimedSerializer('fdkjshfhjsdfdskfdsfdcbsjdkfdsdf')
     try:
         email = serializer.loads(
-            token, salt="very-important"
+            token, salt
         )
         return email
     except Exception:
@@ -47,7 +47,6 @@ def register():
         
     if User.query.filter_by(email=data['email'].lower()).first():
         return jsonify(message='Email already registered with an account!'), 400
-    print(data["password"])
     payload = {
         'email': data['email'],
         'password': data['password'],
@@ -81,6 +80,39 @@ def confirm_email(token):
     login_user(user, remember=False)
     flash("You have confirmed your account. Thanks!", "success")
     return redirect(url_for("private_view.profile"))
+@auth.route("/forget_password",methods=["GET"])
+@login_required
+def view_forgot_password_logged_in():
+    return render_template("password_webpage.html", user=current_user)
+
+@auth.route('/forget_password/<token>',methods=["GET"])
+def view_forget_password(token):
+    return render_template("password_webpage.html", user=None)
+
+@auth.route('/forget_password',methods=["POST"])
+def forget_password():
+    data = request.json
+    if "email" not in data:
+        return jsonify(message="email missing from JSON"),400
+    if User.query.filter_by(email=data["email"].lower()).first():
+        token = generate_token(data["email"].lower(),"iaosdgjasdifog")
+        confirm_url = url_for("auth.view_forget_password", token=token, _external=True)
+        html = render_template("reset_password.html", confirm_url=confirm_url)
+        subject = "Password reset for Student Sales"
+        send_email(data["email"],subject,html)
+    return jsonify(message="Email Sent to Address if registered"),200 #redirect to login
+
+
+@auth.route('/update_profile/<token>',methods=["PUT"])
+def update_password(token):
+    data = request.json
+    if "password" not in data:
+        return jsonify(message="password missing from JSON"),400
+    email = confirm_token(token, "okay")
+    user = User.query.filter_by(email=email)
+    user.password = str(data['password'])
+    db.session.commit()
+    return jsonify(message="Password updated successfully"),200
 
 @auth.route('/update_profile', methods=['PUT'])
 @login_required
