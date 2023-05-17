@@ -1,5 +1,6 @@
-from database.models import Image
+from database.models import Image, Message
 from database.database import db
+from sqlalchemy import or_
 from flask import Blueprint, jsonify,flash, url_for, redirect, render_template, request
 from flask_login import login_required, logout_user, current_user
 
@@ -23,6 +24,12 @@ def create_listing():
 @login_required
 def profile():
     return render_template('profile.html', user=current_user)
+
+@private_view.route('/messages')
+@login_required
+def messages():
+    messages = Message.query.filter(or_(Message.buyer_id == current_user.id, Message.seller_id == current_user.id)).all()
+    return render_template('messages.html', user=current_user, messages=messages)
 
 @private_view.route('/image/<int:image_id>', methods=['DELETE'])
 @login_required

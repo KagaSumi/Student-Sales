@@ -10,12 +10,11 @@ class User(db.Model, UserMixin):
     password = db.Column(db.String)
     phone_number = db.Column(db.String)
     is_confirmed = db.Column(db.Boolean, default=False)
-    messages_sent = db.relationship('Message', backref='sender', lazy=True, foreign_keys='Message.sender_id')
-    messages_received = db.relationship('Message', backref='receiver', lazy=True, foreign_keys='Message.receiver_id')
     listings = db.relationship('Listing', cascade="all,delete", backref='user')
+    messages = db.relationship('Message', cascade="all,delete", backref='user')
 
     def __str__(self):
-        return f'<User(id="{self.id}", email="{self.email}", first_name="{self.first_name}", last_name="{self.last_name}", phone_num="{self.phone_num}")>'
+        return f'<User(id="{self.id}", email="{self.email}", first_name="{self.first_name}", last_name="{self.last_name}", phone_number="{self.phone_number}")>'
 
     def to_dict(self):
         return {
@@ -33,7 +32,6 @@ class Listing(db.Model):
     price = db.Column(db.Float)
     date_posted = db.Column(db.DateTime(timezone=True), default=func.now())
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False, index=True)
-    messages = db.relationship('Message', backref='listing', lazy=True)
     images = db.relationship('Image', cascade="all,delete", backref='listing')
 
     def __str__(self):
@@ -69,21 +67,25 @@ class Image(db.Model):
 
 class Message(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    sender_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-    receiver_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-    listing_id = db.Column(db.Integer, db.ForeignKey('listing.id'), nullable=False)
-    content = db.Column(db.String)
+    seller_id = db.Column(db.Integer, nullable=False)
+    listing_id = db.Column(db.Integer, nullable=False)
+    subject = db.Column(db.Text, nullable=False)
+    message = db.Column(db.Text, nullable=False)
+    unread = db.Column(db.Boolean, default = True)
     timestamp = db.Column(db.DateTime(timezone=True), default=func.now())
+    buyer_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False, index=True)
 
     def __str__(self):
-        return f'<Message(id="{self.id}", sender_id="{self.sender_id}", receiver_id="{self.receiver_id}", listing_id="{self.listing_id}", content="{self.content}", timestamp="{self.timestamp}")>'
+        return f'<Message(id="{self.id}", seller_id="{self.seller_id}", listing_id="{self.listing_id}", buyer_id="{self.buyer_id}", subject="{self.subject}")>'
 
     def to_dict(self):
         return {
             'id': self.id,
-            'sender_id': self.sender_id,
-            'receiver_id': self.receiver_id,
+            'seller_id': self.seller_id,
             'listing_id': self.listing_id,
-            'content': self.content,
+            'buyer_id': self.buyer_id,
+            'subject': self.subject,
+            'message': self.message,
+            'unread': self.unread,
             'timestamp': self.timestamp
         }

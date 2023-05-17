@@ -116,7 +116,7 @@ def user_login():
     if response.ok:
         user = User.query.filter_by(email=data['email']).first()
         login_user(user, remember=False)
-        return jsonify(message='User Login Successful!'), 200
+        return jsonify(message='Login Successful!'), 200
     if response.status_code == 401:
         return jsonify(message='Please verify your email!'),400
     return jsonify(message='Incorrect Email or Password!'), 400
@@ -129,7 +129,6 @@ def delete_user():
         logout_user()
         return jsonify(message='User Deleted'),200
     return jsonify(message='Failed to delete user'),400
-
 
 @auth.route('/create_listing', methods=['POST'])
 @login_required
