@@ -99,6 +99,7 @@ def update_password():
     user = current_user
     user.password = str(data['password'])
     db.session.commit()
+    logout_user()
     return jsonify(message="Password updated successfully"),200
 
 @auth.route('/change_password/<token>',methods=["PUT"])
@@ -110,17 +111,18 @@ def update_password_no_login(token):
     user = User.query.filter_by(email=email)
     user.password = str(data['password'])
     db.session.commit()
+    logout_user()
     return jsonify(message="Password updated successfully"),200
 
-@auth.route('/change_password',methods=["POST"])
+@auth.route('/forgot_password',methods=["POST"])
 def forget_password():
     data = request.json
     if "email" not in data:
         return jsonify(message="email missing from JSON"),400
     if User.query.filter_by(email=data["email"].lower()).first():
         token = generate_token(data["email"].lower())
-        confirm_url = url_for("auth.view_change_password", token=token, _external=True)
-        html = render_template("reset_password.html", confirm_url=confirm_url)
+        confirm_url = url_for("auth.view_forget_password", token=token, _external=True)
+        html = render_template("reset_password_email.html", confirm_url=confirm_url)
         subject = "Password reset for Student Sales"
         send_email(data["email"],subject,html)
     return jsonify(message="Email Sent to Address if registered"),200 #redirect to login

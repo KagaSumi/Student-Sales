@@ -6,7 +6,15 @@ const symbols = ['$','!','@','#','%','^','&','*','_','+','=','-','`','~'];
 const password_error = document.getElementById('password_error');
 const conf_password_error = document.getElementById('conf_password_error');
 const cancelBTN = document.getElementById("cancel_listing");
+const token = window.location.href.split('/').pop(); 
+let request_url
+if (!token.includes("change_password")){
+  request_url = "/change_password/" + String(token)
+}
+else{
+  request_url = "/change_password"
 
+}
 const verify_fields = (event) => {
     const FLAG_PASSWORD = password.value.length >= 4 && password.value === confirm_password.value;
     if (FLAG_PASSWORD) {
@@ -17,19 +25,6 @@ const verify_fields = (event) => {
     }
   };
 
-const verify_email = (event) => {
-    const email = document.getElementById('email');
-    const email_error = document.getElementById('email_error');
-    const isValidEmail = email.value.includes("@");
-  
-    if (!isValidEmail) {
-      email_error.textContent = "Please provide a valid email address.";
-      email_error.classList.add("error-message");
-    } else {
-      email_error.textContent = "";
-      email_error.classList.remove("error-message");
-    }
-  };
 
 const verify_password = (event) => {
     const password = document.getElementById('password');
@@ -75,16 +70,13 @@ async function hashedPassword(password) {
 
 const Submit = async () => {
 let hash_password = await hashedPassword(password.value);
-fetch("/sign-up", {
-    method: "POST",
+
+fetch(request_url, {
+    method: "PUT",
     headers: {
     "Content-Type": "application/json"
     },
     body: JSON.stringify({
-    email: email.value.toLowerCase(),
-    first_name: first_name.value,
-    last_name: lastName.value,
-    phone_number: phone_number.value,
     password: hash_password
     })
 })
@@ -94,11 +86,7 @@ fetch("/sign-up", {
     .then(([json, status]) => {
     let message = json.message;
     localStorage.setItem("message", message);
-    if (status == 200) {
-        window.location.href = "/login";
-    } else {
-        window.location.href = "/sign-up";
-    }
+    window.location.href = "/login";
     })
     .catch((error) => {
     console.log(error);
