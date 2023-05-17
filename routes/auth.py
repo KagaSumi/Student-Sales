@@ -83,11 +83,11 @@ def confirm_email(token):
 @auth.route("/forget_password",methods=["GET"])
 @login_required
 def view_forgot_password_logged_in():
-    return render_template("password_webpage.html", user=current_user)
+    return render_template("forgot_password.html", user=current_user)
 
 @auth.route('/forget_password/<token>',methods=["GET"])
 def view_forget_password(token):
-    return render_template("password_webpage.html", user=None)
+    return render_template("forgot_password.html", user=None)
 
 @auth.route('/forget_password',methods=["POST"])
 def forget_password():
@@ -95,7 +95,7 @@ def forget_password():
     if "email" not in data:
         return jsonify(message="email missing from JSON"),400
     if User.query.filter_by(email=data["email"].lower()).first():
-        token = generate_token(data["email"].lower(),"iaosdgjasdifog")
+        token = generate_token(data["email"].lower())
         confirm_url = url_for("auth.view_forget_password", token=token, _external=True)
         html = render_template("reset_password.html", confirm_url=confirm_url)
         subject = "Password reset for Student Sales"
@@ -108,7 +108,7 @@ def update_password(token):
     data = request.json
     if "password" not in data:
         return jsonify(message="password missing from JSON"),400
-    email = confirm_token(token, "okay")
+    email = confirm_token(token)
     user = User.query.filter_by(email=email)
     user.password = str(data['password'])
     db.session.commit()

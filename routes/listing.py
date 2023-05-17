@@ -44,8 +44,7 @@ def create_listing():
                 db.session.add(image)
             else:
                 return jsonify(message='Invalid file type!'),401
-        db.session.commit()
-        
+    db.session.commit()
     return jsonify(message="New Listing Added", listing=new_listing), 200
 
 @listing.route('/update_listing', methods=['PUT'])
