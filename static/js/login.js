@@ -11,6 +11,7 @@ async function hashedPassword(password) {
     .join('');
   return hashHex;
 };
+
 async function  send_request() {
   let hash_password = await hashedPassword(password.value);
   let payload = { email: email.value.toLowerCase(), password: hash_password };
