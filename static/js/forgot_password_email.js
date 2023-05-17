@@ -26,18 +26,41 @@ const verify_fields = (event) => {
       }
 }
 
-const confirm_emails = (event) => {
-    if (email !== emailconfirm) {
-        submitBTN.classList.add("disabled");
-        }
-    else {
-        submitBTN.classList.remove("disabled");
-    }
-}
-
 cancelBTN.addEventListener("click", () => {
     let inputFields = document.querySelectorAll("input");
     for (let i = 0; i < inputFields.length; i++) {
       inputFields[i].value = "";
     }
   });
+
+  const Submit = async () => {
+    let hash_password = await hashedPassword(password.value);
+    fetch("/sign-up", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        email: email.value.toLowerCase(),
+        first_name: first_name.value,
+        last_name: lastName.value,
+        phone_number: phone_number.value,
+        password: hash_password
+      })
+    })
+      .then((response) => {
+        return Promise.all([response.json(), response.status]);
+      })
+      .then(([json, status]) => {
+        let message = json.message;
+        localStorage.setItem("message", message);
+        if (status == 200) {
+          window.location.href = "/login";
+        } else {
+          window.location.href = "/sign-up";
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    };
