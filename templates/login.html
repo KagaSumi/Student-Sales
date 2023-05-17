@@ -2,7 +2,7 @@
 
 <h3 class="my-3" align="center">Login</h3>
 
-{% macro render_input(label, placeholder, name, type="text") %}
+{% macro render_input(label, placeholder, name, type="password") %}
 <label for="{{ name }}" class="my-1" {% for k,v in kwargs.items() %} {{k}}="{{v}}" {% endfor %}>{{ label }}</label>
 <input type="{{ type }}" class="form-control" id="{{ name }}" name="{{ name }}" value="{{ request.form[name] }}"
   placeholder="{{ placeholder }}" required {% for k,v in kwargs.items() %} {{k}}="{{v}}" {% endfor %}>
@@ -11,9 +11,10 @@
 
 {{ render_input('Email','Enter email address','email','email') }}
 {{ render_input('Password','Enter password','password','password') }}
+<div id="createbuttons">
 <button class="btn btn-primary my-2" id="loginBTN">Login</button>
-<button class="btn btn-danger my-2" id="loginBTN">Forgot Password</button>
-
+<a href="/forgot_password" class="btn btn-success my-2" id="forgotPasswordBTN">Forgot Password</a>
+</div>
 {% endblock %}
 
 {% block script %}

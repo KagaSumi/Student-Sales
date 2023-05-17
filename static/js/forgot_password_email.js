@@ -4,18 +4,18 @@ const emailconfirm = document.getElementById('conf_email')
 const cancelBTN = document.getElementById("cancel_listing");
 
 const verify_email = (event) => {
-    const email_error = document.getElementById('email_error');
-    const isValidEmail = email.value.includes("@");
+  const email = document.getElementById('email');
+  const email_error = document.getElementById('email_error');
+  const isValidEmail = email.value.includes("@");
 
-    if (!isValidEmail) {
-      email_error.textContent = "Please provide a valid email address.";
-      email_error.classList.add("error-message");
-    } else {
-      email_error.textContent = "";
-      email_error.classList.remove("error-message");
-    }
-  };
-
+  if (!isValidEmail) {
+    email_error.textContent = "Please provide a valid email address.";
+    email_error.classList.add("error-message");
+  } else {
+    email_error.textContent = "";
+    email_error.classList.remove("error-message");
+  }
+};
 const verify_fields = (event) => {
     const FLAG_EMAIL = email.value.includes("@");
     if (FLAG_EMAIL) {
