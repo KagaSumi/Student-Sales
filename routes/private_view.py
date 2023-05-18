@@ -49,3 +49,4 @@ def delete_image(image_id):
         return jsonify(message='Image Deleted!'),200
     except:
         return jsonify(message='Image Could Not Be Deleted!'),400
+    

@@ -1,0 +1,21 @@
+.listing {
+    padding: 15px;
+    border: 1px solid #e7e7e7;
+    margin-bottom: 20px;
+}
+
+.listing-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.listing-content {
+    width: 70%;
+}
+
+.listing img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+}

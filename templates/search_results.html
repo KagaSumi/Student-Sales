@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block title %}Search Results{% endblock %}
+
+{% block css %}
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/search_results.css') }}">
+{% endblock %}
+
+{% block content %}
+<h1>Search Results</h1>
+{% if listings %}
+    {% for listing in listings %}
+        <div class="listing">
+            <a href="{{ url_for('public_view.view_listing', listing_id=listing.id) }}">
+                <div class="listing-wrapper">
+                    <div class="listing-content">
+                        <h2>{{ listing.title }}</h2>
+                        <p>{{ listing.description }}</p>
+                        <p>Price: {{ listing.price }}</p>
+                    </div>
+                    {% if listing.images %}
+                        {% set image = listing.images[0] %}
+                        <div class="listing-image-wrapper">
+                            <img class="listing-image" src="{{ url_for('public_view.get_image', image_id=image.id) }}" alt="Listing Image">
+                        </div>
+                    {% endif %}
+                </div>
+            </a>
+        </div>
+    {% endfor %}
+{% else %}
+    <h3>Nothing matched your search.</h3>
+{% endif %}
+{% endblock %}
+
