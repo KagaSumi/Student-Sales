@@ -8,26 +8,38 @@
 
 {% block content %}
 <h1>Search Results</h1>
+<form class="form-inline my-2 my-lg-0" action="{{ url_for('public_view.search') }}" method="get">
+    <div class="search-container">
+        <input class="form-control mr-20" type="search" placeholder="Search" value="{{ query }}"aria-label="Search" name="query">
+    </div>
+    <div class="searchBTN-container">
+        <button class="btn btn-primary my-2" type="submit">Search</button>
+    </div>
+</form>
 {% if listings %}
+<div class="listings_grid">
     {% for listing in listings %}
         <div class="listing">
-            <a href="{{ url_for('public_view.view_listing', listing_id=listing.id) }}">
+            <a href="{{ url_for('public_view.view_listing', listing_id=listing.id) }}" class="text-decoration-none text-black">
                 <div class="listing-wrapper">
                     <div class="listing-content">
-                        <h2>{{ listing.title }}</h2>
-                        <p>{{ listing.description }}</p>
-                        <p>Price: {{ listing.price }}</p>
+                        <h2>{% if listing.title|length > 20 %} {{ listing.title[:20] }}... {% else %} {{ listing.title }} {% endif %}</h2>
+                        <p>{% if listing.description|length > 18 %} {{ listing.description[:18] }}... {% else %} {{ listing.description }} {% endif %}</p>
+                        <p>${{ listing.price }}</p>
                     </div>
                     {% if listing.images %}
                         {% set image = listing.images[0] %}
                         <div class="listing-image-wrapper">
                             <img class="listing-image" src="{{ url_for('public_view.get_image', image_id=image.id) }}" alt="Listing Image">
                         </div>
+                    {% else %}
+                    <img src="{{ url_for('static', filename='images/defaultImage.png') }}" alt="no image uploaded" class="img-fluid">
                     {% endif %}
                 </div>
             </a>
         </div>
     {% endfor %}
+</div>
 {% else %}
     <h3>Nothing matched your search.</h3>
 {% endif %}

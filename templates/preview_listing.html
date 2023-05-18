@@ -35,12 +35,18 @@
             <h5 class="my-3">Images</h5>
             <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
                 <div class="carousel-inner">
+                    {% if listing.images %}
                     {% for image in listing.images %}
                     <div class="carousel-item {% if loop.first %}active{% endif %}">
                         <img src="{{ url_for('public_view.get_image', image_id=image.id) }}" class="d-block w-100" alt="{{ image.name }}">
                     </div>
                     {% endfor %}
                 </div>
+                {% else %}
+                <div class="no-image">
+                    <img src="{{ url_for('static', filename='images/defaultImage.png') }}" alt="no image uploaded" class="img-fluid">
+                </div>
+                {% endif %}
                 <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
                     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                     <span class="visually-hidden">Previous</span>
