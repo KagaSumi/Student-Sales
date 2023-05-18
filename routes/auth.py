@@ -2,7 +2,7 @@ import requests
 from database.database import db
 from database.models import User
 from flask_login import login_user, login_required, logout_user, current_user
-from flask import Blueprint, jsonify, request, flash, url_for, redirect, render_template
+from flask import Blueprint, jsonify, request, url_for, redirect, render_template
 from flask import current_app as app
 from flask_mail import Message
 from extensions import mail
@@ -108,7 +108,7 @@ def update_password_no_login(token):
     if "password" not in data:
         return jsonify(message="password missing from JSON"),400
     email = confirm_token(token)
-    user = User.query.filter_by(email=email)
+    user = User.query.filter_by(email=email).first()
     user.password = str(data['password'])
     db.session.commit()
     logout_user()

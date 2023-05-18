@@ -2,7 +2,7 @@ import base64
 from database.database import db
 from flask_login import current_user
 from database.models import Image, Listing
-from flask import Blueprint, Response, jsonify, request, flash, url_for, redirect, render_template
+from flask import Blueprint, Response, jsonify, request, url_for, redirect, render_template
 from sqlalchemy import or_
 
 public_view = Blueprint('public_view', __name__)
@@ -16,7 +16,6 @@ def homepage():
 @public_view.route('/login', methods=['GET'])
 def login():
     if current_user.is_authenticated:
-        flash('Cannot Access Login Page While Logged In!', 'danger')
         return redirect(url_for('views.account'))
     
     return render_template('login.html', user=current_user)
@@ -24,7 +23,6 @@ def login():
 @ public_view.route('/sign-up', methods=['GET'])
 def sign_up():
     if current_user.is_authenticated:
-        flash('Cannot Access Sign Up Page While Logged In!', 'danger')
         return redirect(url_for('views.account'))
     
     return render_template('sign_up.html', user=current_user)
@@ -42,9 +40,6 @@ def view_listing(listing_id):
         return jsonify(message='Listing not found for viewing!'), 404
     return render_template('view_listing.html', user=current_user, listing=listing)
 
-    """
-    Does it help your PR if I add this docstring 
-    """
 @public_view.route('/search')
 def search():
     query = request.args.get('query')
