@@ -19,8 +19,8 @@
     <a href="{{ url_for('views.edit_listing', listing_id=listing.id) }}" class="text-decoration-none text-black">
         <div class="listing-wrapper">
             <div class="listing-content">
-                <h2>{{ listing.title[:20] }}</h2>
-                <p>{{ listing.description[:18] }}...</p>
+                <h2>{% if listing.title|length > 20 %} {{ listing.title[:20] }}... {% else %} {{ listing.title }} {% endif %}</h2>
+                <p>{% if listing.description|length > 18 %} {{ listing.description[:18] }}... {% else %} {{ listing.description }} {% endif %}</p>
                 <p>${{ listing.price }}</p>
             </div>
             {% if listing.images %}

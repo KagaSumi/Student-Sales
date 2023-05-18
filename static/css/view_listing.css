@@ -54,3 +54,11 @@
 .contact {
     align-items: center;
 }
+
+.listing-details p, .listing-details h5{
+    word-wrap: break-word;
+}
+
+.listing-description {
+    max-width: 300px;
+}
