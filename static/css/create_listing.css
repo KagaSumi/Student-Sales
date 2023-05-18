@@ -58,3 +58,46 @@ h3 {
 #createbuttons #cancel_listing {
     justify-self: end;
 }
+
+.profile_listings_grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+}
+
+.listing {
+    padding: 15px;
+    border: 1px solid #e7e7e7;
+    margin-bottom: 20px;
+}
+
+.listing-wrapper {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-auto-flow: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.listing img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+}
+
+.listing:hover {
+    background-color: rgb(220, 220, 220);
+}
+
+.listing-content p, .listing-content h2 {
+    margin-bottom: 1px;
+    word-wrap: break-word;
+}
+
+.listings_grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: auto;
+    row-gap: 5px;
+    column-gap: 20px;
+}

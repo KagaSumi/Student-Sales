@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block content %}
-<div class="container">
+<div class="grid">
     <div class="listing-id">
         <p class="text-center my-3">Viewing Listing (ID: {{ listing.id }})</p>
     </div>
@@ -48,20 +48,21 @@
         </div>
         {% else %}
         <div class="no-image">
-            <img src="{{ url_for('static', filename='images/defaultImage.png') }}" alt="no image uploaded" width="150"
-                height="150">
+            <img src="{{ url_for('static', filename='images/defaultImage.png') }}" alt="no image uploaded" width="300" height="300">
         </div>
         {% endif %}
     </div>
 
     <div class="listing-edit text-center">
-        <a class="text-decoration-none text-black button-link">
+        <a href="#contact-form" class="text-decoration-none text-black button-link">
             <button type="submit" class="btn btn-primary my-2" id="messageBTN" name="message">Message</button>
+        </a>
+        <a class="text-decoration-none text-black button-link">
             <button type="submit" class="btn btn-primary my-2" name="back" onclick="history.back()">Back</button>
         </a>
     </div>
 </div>
-<div class="contact" style="display: none;">
+<div class="contact" id="contact-form" style="display: none;">
     <label for="subject">Subject:</label>
     <input type="text" id="subject" class="form-control" name="subject">
 

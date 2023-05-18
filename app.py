@@ -1,3 +1,4 @@
+import json
 from os import path
 from flask import Flask
 from pathlib import Path
@@ -61,6 +62,11 @@ login_manager.init_app(app)
 @login_manager.user_loader
 def load_user(id):
     return User.query.get(int(id))
+
+# Custom Jinja Filters
+@app.template_filter('from_json')
+def from_json_filter(value):
+    return json.loads(value)
 
 if __name__ == "__main__":
     app.run(debug=True)

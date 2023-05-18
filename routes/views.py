@@ -4,7 +4,7 @@ from database.database import db
 from werkzeug.utils import secure_filename
 from database.models import User, Listing
 from flask_login import login_required, current_user
-from flask import Blueprint, request, Response, flash, url_for, redirect, render_template, jsonify
+from flask import Blueprint, request, Response, url_for, redirect, render_template, jsonify
 
 views = Blueprint('views', __name__)
 URL = 'http://127.0.0.1:5000'
@@ -18,7 +18,6 @@ def account():
         user.first_name = request.form.get('first_name')
         user.last_name = request.form.get('last_name')
         db.session.commit()
-        flash("User Updated Successfully!", "success")
         return redirect(request.url)
     return render_template('account.html', user=current_user)
 
@@ -60,7 +59,6 @@ def listing_delete(listing_id):
 def edit_listing(listing_id):
     listing = Listing.query.get(listing_id)
     if not listing or current_user.id is not listing.user_id:
-        flash('Access to this listing is not allowed!', 'danger')
         return redirect(url_for('private_view.profile'))
     return render_template("edit_listing.html", user=current_user, listing=listing)
 

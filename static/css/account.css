@@ -1,31 +1,41 @@
-.grid{
-    display: grid;
-    grid-template-columns: 1fr 1fr ;
-    grid-gap: 10px;
-}
+/* account.css */
 
-.error-message {
+.grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 10px;
+  }
+  
+  .error-message {
     position: relative;
     bottom: 0;
-    padding-top: 5;
+    padding-top: 5px;
     padding-bottom: 10px;
     color: red;
     font-size: 12px;
     font-weight: bold;
-    height: 0em; 
+    height: 0em;
     line-height: 1.5em;
   }
-
-.btn{
-    margin-top: 10px;
+  
+  .button-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center; /* Added this line */
+    margin-top: 20px;
+  }
+  
+  .button-container button {
+    flex: 1; /* Added this line */
+    margin: 0 5px; /* Added this line */
     padding: 10px;
-}
-
-h3 {
+  }
+  
+  h3 {
     color: #003C71;
-}
-
-.password-box {
-    margin-top:15px;
-    margin-bottom: 20px; /* adjust this value as needed */
-}
+  }
+  
+  .password-box {
+    margin-top: 15px;
+    margin-bottom: 20px;
+  }  

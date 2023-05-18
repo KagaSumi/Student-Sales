@@ -1,7 +1,7 @@
 from database.database import db
 from database.models import User
 from werkzeug.security import generate_password_hash, check_password_hash
-from flask import Blueprint, jsonify, request, flash, url_for, redirect, render_template
+from flask import Blueprint, jsonify, request, url_for, redirect, render_template
 
 user = Blueprint("user", __name__)
 

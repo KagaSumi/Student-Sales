@@ -9,7 +9,6 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from app import app, db
 from database.models import User
 
-
 class TestUserAPI(unittest.TestCase):
 
     @classmethod

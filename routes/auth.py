@@ -2,7 +2,7 @@ import requests
 from database.database import db
 from database.models import User
 from flask_login import login_user, login_required, logout_user, current_user
-from flask import Blueprint, jsonify, request, flash, url_for, redirect, render_template
+from flask import Blueprint, jsonify, request, url_for, redirect, render_template
 from flask import current_app as app
 from flask_mail import Message
 from extensions import mail
@@ -80,16 +80,41 @@ def confirm_email(token):
     login_user(user, remember=False)
     return redirect(url_for("private_view.profile"))
 
-@auth.route("/forget_password",methods=["GET"])
+
+@auth.route("/change_password",methods=["GET"])
 @login_required
 def view_forgot_password_logged_in():
     return render_template("forgot_password.html", user=current_user)
 
-@auth.route('/forget_password/<token>',methods=["GET"])
+@auth.route('/change_password/<token>',methods=["GET"])
 def view_forget_password(token):
     return render_template("forgot_password.html", user=None)
 
-@auth.route('/forget_password',methods=["POST"])
+@auth.route('/change_password/',methods=["PUT"])
+@login_required
+def update_password():
+    data = request.json
+    if "password" not in data:
+        return jsonify(message="password missing from JSON"),400
+    user = current_user
+    user.password = str(data['password'])
+    db.session.commit()
+    logout_user()
+    return jsonify(message="Password updated successfully"),200
+
+@auth.route('/change_password/<token>',methods=["PUT"])
+def update_password_no_login(token):
+    data = request.json
+    if "password" not in data:
+        return jsonify(message="password missing from JSON"),400
+    email = confirm_token(token)
+    user = User.query.filter_by(email=email).first()
+    user.password = str(data['password'])
+    db.session.commit()
+    logout_user()
+    return jsonify(message="Password updated successfully"),200
+
+@auth.route('/forgot_password',methods=["POST"])
 def forget_password():
     data = request.json
     if "email" not in data:
@@ -97,22 +122,15 @@ def forget_password():
     if User.query.filter_by(email=data["email"].lower()).first():
         token = generate_token(data["email"].lower())
         confirm_url = url_for("auth.view_forget_password", token=token, _external=True)
-        html = render_template("reset_password.html", confirm_url=confirm_url)
+        html = render_template("reset_password_email.html", confirm_url=confirm_url)
         subject = "Password reset for Student Sales"
         send_email(data["email"],subject,html)
     return jsonify(message="Email Sent to Address if registered"),200 #redirect to login
 
+@auth.route('/forgot_password',methods=["GET"])
+def forgot_password():
+    return render_template("forgot_password_email.html", user=None)
 
-@auth.route('/update_profile/<token>',methods=["PUT"])
-def update_password(token):
-    data = request.json
-    if "password" not in data:
-        return jsonify(message="password missing from JSON"),400
-    email = confirm_token(token)
-    user = User.query.filter_by(email=email)
-    user.password = str(data['password'])
-    db.session.commit()
-    return jsonify(message="Password updated successfully"),200
 
 @auth.route('/update_profile', methods=['PUT'])
 @login_required

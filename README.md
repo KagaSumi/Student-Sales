@@ -41,4 +41,4 @@ To install the required dependencies, follow these steps:
     `pip install -r requirements.txt`
 
 # Conclusion
-Thank you for visiting our project repository! If you have any questions or feedback, please don't hesitate to reach out. 
+Thank you for visiting our project repository! If you have any questions or feedback, please don't hesitate to reach out.
