@@ -1,5 +1,12 @@
-{% extends "base.html" %} {% block content %}
+{% extends "base.html" %}
+
+{% block content %}
 <h1 align="center" class="my-2 display-2">Welcome to Student Sales!</h1>
+
+<div class="search-container">
+  <input type="text" id="search-input" placeholder="Search...">
+  <button id="search-button">Search</button>
+</div>
 {% endblock %}
 
 {% block script %}
