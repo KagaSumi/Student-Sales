@@ -9,7 +9,7 @@ main {
 }
 
 .hidden {
-    display: hidden;
+    display: none;
 
 }
 .disabled {
