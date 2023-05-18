@@ -33,13 +33,11 @@ const verify_fields = (event) => {
   
     if (password.value.length < 4) {
       password_error.textContent = "Password is too short.";
-      password_error.classList.add("error-message");
     } else if (!hasSymbol) {
       password_error.textContent = "Password must contain a symbol.";
-      password_error.classList.add("error-message");
     } else {
       password_error.textContent = "";
-      password_error.classList.remove("error-message");
+      password_error.classList.add("hidden");
     }
   };
   
@@ -50,10 +48,10 @@ const verify_fields = (event) => {
   
     if (!isValidpassword) {
       conf_password_error.textContent = "Passwords do not match.";
-      conf_password_error.classList.add("error-message");
+      conf_password_error.classList.remove("hidden");
     } else {
       conf_password_error.textContent = "";
-      conf_password_error.classList.remove("error-message");
+      conf_password_error.classList.add("hidden");
     }
   };
   
