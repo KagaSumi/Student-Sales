@@ -2,7 +2,7 @@ import requests
 from database.database import db
 from database.models import User
 from flask_login import login_user, login_required, logout_user, current_user
-from flask import Blueprint, jsonify, request, flash, url_for, redirect, render_template
+from flask import Blueprint, jsonify, request, url_for, redirect, render_template
 from flask import current_app as app
 from flask_mail import Message
 from extensions import mail
