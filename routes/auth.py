@@ -108,7 +108,7 @@ def update_password_no_login(token):
     if "password" not in data:
         return jsonify(message="password missing from JSON"),400
     email = confirm_token(token)
-    user = User.query.filter_by(email=email)
+    user = User.query.filter_by(email=email).first()
     user.password = str(data['password'])
     db.session.commit()
     logout_user()
