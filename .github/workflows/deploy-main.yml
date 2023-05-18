@@ -23,4 +23,4 @@ jobs:
 
       - name: SSH into droplet and run script
         run: |
-          ssh -o StrictHostKeyChecking=no quinten@164.92.80.193 'bash -s' < /home/quinten/cd-script
+          echo ${{ secrets.USER_PASSWORD }} | ssh -o StrictHostKeyChecking=no quinten@164.92.80.193 'sudo -S ./cd-script'
