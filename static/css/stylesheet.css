@@ -9,7 +9,8 @@ main {
 }
 
 .hidden {
-    display: none;
+    display: hidden;
+
 }
 .disabled {
     opacity:0.6;

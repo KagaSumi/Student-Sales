@@ -96,3 +96,5 @@ def delete_listing():
     db.session.delete(requested_listing)
     db.session.commit()
     return jsonify(message='User Deleted'), 200
+
+
