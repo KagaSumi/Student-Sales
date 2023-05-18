@@ -18,6 +18,9 @@ jobs:
         with:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
+      - name: Check SSH connection
+        run: ssh -o StrictHostKeyChecking=no quinten@164.92.80.193 'echo "SSH connection successful!"'
+
       - name: SSH into droplet and run script
         run: |
           ssh -o StrictHostKeyChecking=no quinten@164.92.80.193 'bash -s' < /home/quinten/cd-script
