@@ -2,7 +2,7 @@ import json
 from database.models import Image, Message
 from database.database import db
 from sqlalchemy import or_
-from flask import Blueprint, jsonify,flash, url_for, redirect, render_template, request
+from flask import Blueprint, jsonify, url_for, redirect, render_template, request
 from flask_login import login_required, logout_user, current_user
 
 private_view = Blueprint("private_view", __name__)
@@ -13,7 +13,6 @@ private_view = Blueprint("private_view", __name__)
 @login_required
 def logout():
     logout_user()
-    flash('Logged Out Successfully!', 'success')
     return redirect(url_for('public_view.login'))
 
 @private_view.route('/create_listing', methods=['GET'])

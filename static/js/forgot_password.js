@@ -26,37 +26,35 @@ const verify_fields = (event) => {
   };
 
 
-const verify_password = (event) => {
+  const verify_password = (event) => {
     const password = document.getElementById('password');
     const password_error = document.getElementById('password_error');
     const hasSymbol = symbols.some((symbol) => password.value.includes(symbol));
   
     if (password.value.length < 4) {
       password_error.textContent = "Password is too short.";
-      password_error.classList.add("error-message");
     } else if (!hasSymbol) {
       password_error.textContent = "Password must contain a symbol.";
-      password_error.classList.add("error-message");
-    }
-     else {
+    } else {
       password_error.textContent = "";
-      password_error.classList.remove("error-message");
+      password_error.classList.add("hidden");
     }
   };
   
-const verify_confirm_password = (event) => {
+  const verify_confirm_password = (event) => {
     const confirm_password = document.getElementById('conf_password');
     const conf_password_error = document.getElementById('conf_password_error');
     const isValidpassword = confirm_password.value === password.value;
-
+  
     if (!isValidpassword) {
-        conf_password_error.textContent = "Passwords do not match.";
-        conf_password_error.classList.add("error-message");
+      conf_password_error.textContent = "Passwords do not match.";
+      conf_password_error.classList.remove("hidden");
     } else {
-        conf_password_error.textContent = "";
-        conf_password_error.classList.remove("error-message");
+      conf_password_error.textContent = "";
+      conf_password_error.classList.add("hidden");
     }
-};
+  };
+  
 
 function hashedPassword(input) {
   function rotateRight(n, x) {
