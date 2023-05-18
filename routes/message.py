@@ -50,6 +50,7 @@ def update_message(message_id):
     message_history = json.loads(message.message)
     new_message = {'id' : current_user.id, 'message': data['message']}
     message_history.append(new_message)
+    message.unread = True
     message.message = json.dumps(message_history)
     db.session.commit()
 

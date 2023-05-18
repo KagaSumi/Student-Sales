@@ -34,3 +34,9 @@ footer {
 .navbar-nav .nav-link {
     color: #fff; /* Change the color to the desired value */
   }
+
+/* This ID below is for login.html */
+#createbuttons {
+    display: flex;
+    justify-content: space-between
+}

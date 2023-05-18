@@ -2,7 +2,7 @@ const first_name = document.getElementById("first_name");
 const last_name = document.getElementById("last_name");
 const update_button = document.getElementById("update_button");
 const delete_button = document.getElementById("delete_button");
-
+const change_password_button = document.getElementById("change_password_button");
 const symbols = ['!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '-', '_', '+', '='];
 
 
@@ -62,7 +62,9 @@ const update_request = () => {
     });
 }
 
-
+change_password_button.addEventListener("click", () => {
+  window.location.href = '/change_password'
+})
 update_button.addEventListener("click",update_request);
 delete_button.addEventListener("click",delete_request);
 for (element of [first_name,last_name,phone_number]){
