@@ -8,7 +8,7 @@
 .listing-details {
     display: flex;
     flex-direction: column;
-    grid-row: 1 / 3;
+    grid-row: 1/4;
     grid-column: 1;
     margin-right: 400px;
 }
@@ -21,6 +21,7 @@
 
 .listing-id {
     grid-column: 2;
+    grid-row: 3;
 }
 
 .listing-description {
@@ -29,7 +30,7 @@
 }
 
 .listing-images {
-    grid-row: 1 / 3;
+    grid-row: 1 / 4;
     grid-column: 2;
 }
 
@@ -46,8 +47,8 @@
 }
 
 .button-link {
-    margin: 10px; /* This adds a margin (external spacing) of 10px around each link */
-    padding: 10px; /* This adds padding (internal spacing) of 10px inside each link */
+    margin: 10px;
+    padding: 10px;
 }
 
 .contact {

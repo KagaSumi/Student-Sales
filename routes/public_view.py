@@ -52,7 +52,7 @@ def search():
         listings = Listing.query.filter(Listing.id == int(query)).all()
     else:
         listings = Listing.query.filter(Listing.title.contains(query)).all()
-    return render_template('search_results.html', user=current_user, listings=listings)
+    return render_template('search_results.html', user=current_user, listings=listings, query=query)
 
 
 @public_view.route('/search_api', methods=['GET'])
