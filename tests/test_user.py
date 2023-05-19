@@ -46,26 +46,38 @@ class TestUserAPI(unittest.TestCase):
             db.session.commit()
             db.session.refresh(user)
 
-        data = {"email": user.email, "password": "test"}
-        response = self.client.post("/verify_user", json=data)
-        data = json.loads(response.data)
+            data = {"email": user.email, "password": "test"}
+            response = self.client.post("/verify_user", json=data)
 
-        self.assertEqual(response.status_code, 401)
-        self.assertTrue(data["result"])
+            self.assertEqual(response.status_code, 401)
+            self.assertFalse(user.is_confirmed)
+            user.is_confirmed = True
+            db.session.commit()
+            db.session.refresh(user)
+            self.assertTrue(user.is_confirmed)
+            response = self.client.post("/verify_user", json=data)
+            self.assertEqual(response.status_code, 200)
 
     def test_create_user(self):
-        data = {
-            "email": "test@test.com",
-            "password": "test",
-            "first_name": "John",
-            "last_name": "Doe",
-            "phone_number": "1234567890"
-        }
-        response = self.client.post("/create_user", json=data)
-        data = json.loads(response.data)
-
-        self.assertEqual(response.status_code, 200)
-        self.assertEqual(data["message"], "New User Added")
+        with app.app_context():
+            data = {
+                "email": "test@test.com",
+                "password": "test",
+                "first_name": "John",
+                "last_name": "Doe",
+                "phone_number": "1234567890"
+            }
+            response = self.client.post("/create_user", json=data)
+            user = db.session.get(User,1)
+            data = json.loads(response.data)
+            self.assertEqual(response.status_code, 200)
+            self.assertEqual(data["message"], "New User Added")
+            self.assertTrue(isinstance(user,User))
+            self.assertEqual(user.email,"test@test.com")
+            self.assertEqual(user.password,"test")
+            self.assertEqual(user.first_name,"John")
+            self.assertEqual(user.last_name,"Doe")
+            self.assertEqual(user.phone_number,"1234567890")
 
     def test_update_user(self):
         with app.app_context():
@@ -73,18 +85,24 @@ class TestUserAPI(unittest.TestCase):
             db.session.add(user)
             db.session.commit()
             db.session.refresh(user)
+            id = user.id
 
-        data = {
-            "password": "new_password",
-            "first_name": "Jane",
-            "last_name": "Doe",
-            "phone_number": "1234567890"
-        }
-        response = self.client.put(f"/update_user/{user.id}", json=data)
-        data = json.loads(response.data)
+            data = {
+                "first_name": "Jane",
+                "last_name": "Doe",
+                "phone_number": "1234567890"
+            }
+            response = self.client.put(f"/update_user/{user.id}", json=data)
+            data = json.loads(response.data)
+            user = db.session.get(User,id)
+            self.assertEqual(response.status_code, 200)
+            self.assertEqual(data["message"], "User Updated")
+            self.assertEqual(user.first_name, "Jane")
+            self.assertEqual(user.last_name, "Doe")
+            self.assertEqual(user.phone_number, "1234567890")
 
-        self.assertEqual(response.status_code, 200)
-        self.assertEqual(data["message"], "User Updated")
+
+        
 
     def test_delete_user(self):
         with app.app_context():
@@ -92,12 +110,13 @@ class TestUserAPI(unittest.TestCase):
             db.session.add(user)
             db.session.commit()
             db.session.refresh(user)
+            id = user.id
+            response = self.client.delete(f"/delete_user/{user.id}")
+            data = json.loads(response.data)
 
-        response = self.client.delete(f"/delete_user/{user.id}")
-        data = json.loads(response.data)
-
-        self.assertEqual(response.status_code, 200)
-        self.assertEqual(data["message"], "User Deleted")
+            self.assertEqual(response.status_code, 200)
+            self.assertEqual(data["message"], "User Deleted")
+            self.assertIsNone(db.session.get(User,id))
 
 if __name__ == '__main__':
     unittest.main()
