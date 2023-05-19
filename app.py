@@ -1,4 +1,4 @@
-import json
+import json, sys
 from os import path
 from flask import Flask
 from pathlib import Path
@@ -34,8 +34,6 @@ app.config['MAIL_USE_SSL'] = True
 app.config['MAIL_DEBUG'] = False
 app.config['MAIL_USERNAME'] = 'studentsales.bcit@gmail.com' # This account will be deactivated after our project is shown but is just a gmail address
 app.config['MAIL_PASSWORD'] = 'nqnqyiolbycbxmlh'
-app.config['SECRET_KEY'] = 'fdkjshfhjsdfdskfdsfdcbsjdkfdsdf'
-mail.init_app(app)
 
 # Register Route Blueprints
 app.register_blueprint(user, url_prefix="/")
@@ -69,4 +67,23 @@ def from_json_filter(value):
     return json.loads(value)
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    def main(password:str,host:str =None,port =None):
+        app.config['MAIL_PASSWORD'] = password
+        mail.init_app(app)
+        if host is None and port is None: 
+            app.run(debug=True)
+        else:
+            app.run(host=host,port=port)
+    args = sys.argv[1:]
+    if len(args) == 1 or len(args) == 3:
+        main(*args)
+    elif len(args) == 2 or len(args) == 0:
+        output ="""
+    Starts the application with the provided password, host, and port.
+
+    Args:
+        password (str): The password for the mail configuration.
+        host (str, optional): The host IP address to bind the application to. Defaults to None.
+        port (int, optional): The port number to bind the application to. Defaults to None.
+    """
+        print(output)
