@@ -35,3 +35,13 @@
     row-gap: 5px;
     column-gap: 20px;
 }
+
+.search-container {
+    display: flex;
+    margin-bottom: 20px;
+}
+
+.search-container input {
+    border: 1px black solid;
+    margin-right: 30px;
+}

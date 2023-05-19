@@ -1,8 +1,10 @@
-.grid {
-    display: grid;
-    grid-template-columns: 2/3 20%;
-    grid-template-rows: auto auto;
+.flex {
+    display: flex;
     gap: 20px;
+}
+
+.listing-details {
+    flex-shrink: 0;
 }
 
 .listing-details {
@@ -10,7 +12,7 @@
     flex-direction: column;
     grid-row: 1/4;
     grid-column: 1;
-    margin-right: 400px;
+    margin-right: 2px;
 }
 
 .listing-info {
@@ -60,5 +62,38 @@
 }
 
 .listing-description {
-    max-width: 300px;
+    width: 500px;
 }
+
+.caroImages {
+    flex-grow: 1;
+}
+
+.carousel-item img {
+    max-width: 100%;
+    max-height: 330px;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+}
+
+button.carousel-control-prev:hover, button.carousel-control-next:hover {
+    background-color: rgba(225, 225, 225, 0.422);
+}
+
+.no-image img {
+    max-width: 100%;
+    max-height: 400px;
+    width: 300px;
+    height: auto;
+    object-fit: contain;
+}
+
+.no-image {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+}
+
+  
