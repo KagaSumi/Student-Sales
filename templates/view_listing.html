@@ -5,10 +5,9 @@
 {% endblock %}
 
 {% block content %}
-<div class="container">
-    <div class="row">
+    <div class="flex">
         <!-- Middle column for listing details -->
-        <div class="col-md-5">
+        <div class="flex_item">
             <div class="listing-details">
                 <div class="listing-info">
                     <div class="listing-title">
@@ -33,9 +32,8 @@
                 </div>
             </div>
         </div>
-
         <!-- Right column for image carousel -->
-        <div class="col-md-4">
+        <div class="col-md-4 caroImages">
             <h5 class="my-3">Images</h5>
             <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
                 <div class="carousel-inner">
@@ -62,7 +60,7 @@
             </div>
         </div>
     </div>
-
+</div>
     <!-- Bottom for buttons -->
     <div class="row">
         <div class="col-12">
@@ -76,7 +74,7 @@
             </div>
         </div>
     </div>
-</div>
+
 
 <div class="contact" id="contact-form" style="display: none;">
     <label for="subject">Subject:</label>
