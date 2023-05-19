@@ -33,7 +33,6 @@ app.config['MAIL_USE_TLS'] = False
 app.config['MAIL_USE_SSL'] = True
 app.config['MAIL_DEBUG'] = False
 app.config['MAIL_USERNAME'] = 'studentsales.bcit@gmail.com' # This account will be deactivated after our project is shown but is just a gmail address
-app.config['MAIL_PASSWORD'] = 'nqnqyiolbycbxmlh'
 
 # Register Route Blueprints
 app.register_blueprint(user, url_prefix="/")
