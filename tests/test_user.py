@@ -34,7 +34,7 @@ class TestUserAPI(unittest.TestCase):
         response = self.client.get(f"/get_user/{user.id}")
         data = json.loads(response.data)
 
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, 300)
         self.assertEqual(data["message"]["email"], user.email)
         self.assertEqual(data["message"]["first_name"], user.first_name)
         self.assertEqual(data["message"]["last_name"], user.last_name)
