@@ -1,9 +1,6 @@
 name: Python CI Pipeline
 
 on:
-  push:
-    branches: 
-    - '*'
   pull_request:
     branches:
     - '*'
