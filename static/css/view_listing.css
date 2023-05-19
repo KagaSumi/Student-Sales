@@ -66,10 +66,11 @@
 }
 
 .caroImages {
-    border: 2px solid #0000009c;
     flex-grow: 1;
 }
-
+.caroImages div {
+    border: 2px solid #0000009c;
+}
 .carousel-item img {
     max-width: 100%;
     max-height: 330px;
