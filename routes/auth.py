@@ -139,7 +139,7 @@ def update_user():
         if key not in data:
             return jsonify(message=f"{key} is missing from JSON")
         
-    update_request = requests.put(url=f'{request.root_url}{url_for("user.update_user")}/{str(current_user.id)}',
+    update_request = requests.put(url=f'{request.host_url}{url_for("user.update_user", user_id=str(current_user.id))}',
         json={
         'first_name': data['first_name'], 
         'last_name': data['last_name'],
@@ -173,7 +173,7 @@ def user_login():
 @auth.route('/delete_user', methods=["DELETE"])
 @login_required
 def delete_user():
-    delete_request = requests.delete(f'{request.root_url}{url_for("user.update_user")}{str(current_user.id)}') 
+    delete_request = requests.delete(f'{request.root_url}{url_for("user.update_user",user_id=str(current_user.id))}') 
     if delete_request.ok:
         logout_user()
         return jsonify(message='User Deleted'),200

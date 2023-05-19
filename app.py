@@ -67,7 +67,7 @@ def from_json_filter(value):
     return json.loads(value)
 
 if __name__ == "__main__":
-    def main(password:str,host:str =None,port:int =None):
+    def main(password:str,host:str =None,port =None):
         app.config['MAIL_PASSWORD'] = password
         mail.init_app(app)
         if host is None and port is None: 
