@@ -7,7 +7,7 @@ from flask_login import login_required, current_user
 from flask import Blueprint, request, Response, url_for, redirect, render_template, jsonify
 
 views = Blueprint('views', __name__)
-URL = 'http://127.0.0.1:5000'
+
 
 @views.route('/account', methods=['GET', 'POST'])
 @login_required
@@ -38,7 +38,7 @@ def listing_update(listing_id):
         'images': data['images']
     }
 
-    response = requests.put(url=f'{URL}/update_listing', json=payload)
+    response = requests.put(url=f'{request.root_url}{url_for("listing.update_listing")}', json=payload)
     if response.ok:
         return jsonify(message="Listing Updated!"),200
     elif response.status_code == 401:
@@ -48,7 +48,7 @@ def listing_update(listing_id):
 @views.route('/delete_listing/<int:listing_id>', methods=["DELETE"])
 @login_required
 def listing_delete(listing_id):
-    delete_request = requests.delete(url=f'{URL}/delete_listing',
+    delete_request = requests.delete(url=f'{request.root_url}{url_for("listing.delete_listing")}',
                                      json={'listing_id':listing_id,'user_id': current_user.id})
     if delete_request.ok:
         return jsonify(message="Listing Deleted!"),200

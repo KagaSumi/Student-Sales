@@ -9,7 +9,6 @@ from extensions import mail
 from itsdangerous import URLSafeTimedSerializer
 
 auth = Blueprint('auth', __name__)
-URL = 'http://127.0.0.1:5000'
 
 """ These endpoints / views perform the logic for user management. """
 
@@ -54,7 +53,7 @@ def register():
         'last_name': data['last_name'],
         'phone_number': data['phone_number']
     }
-    response = requests.post(url=URL+"/create_user", json=payload)
+    response = requests.post(url=f'{request.root_url}{url_for("user.create_user")}', json=payload)
     if response.ok:
         token = generate_token(data["email"])
         confirm_url = url_for("auth.confirm_email", token=token, _external=True)
@@ -140,7 +139,7 @@ def update_user():
         if key not in data:
             return jsonify(message=f"{key} is missing from JSON")
         
-    update_request = requests.put(url=URL+"/update_user/"+str(current_user.id),
+    update_request = requests.put(url=f'{request.root_url}{url_for("user.update_user")}/{str(current_user.id)}',
         json={
         'first_name': data['first_name'], 
         'last_name': data['last_name'],
@@ -162,7 +161,7 @@ def user_login():
         'email': data['email'],
         'password': data['password']
         }
-    response = requests.post(url=URL+'/verify_user', json=payload)
+    response = requests.post(url=f'{request.root_url}{url_for("user.verify_user")}', json=payload)
     if response.ok:
         user = User.query.filter_by(email=data['email']).first()
         login_user(user, remember=False)
@@ -174,7 +173,7 @@ def user_login():
 @auth.route('/delete_user', methods=["DELETE"])
 @login_required
 def delete_user():
-    delete_request = requests.delete(URL+'/delete_user/'+ str(current_user.id)) 
+    delete_request = requests.delete(f'{request.root_url}{url_for("user.update_user")}{str(current_user.id)}') 
     if delete_request.ok:
         logout_user()
         return jsonify(message='User Deleted'),200
@@ -197,7 +196,7 @@ def listing_create():
         'images': data['images']
     }
 
-    response = requests.post(url=URL+'/create_listing_new', json=payload)
+    response = requests.post(f'{request.root_url}{url_for("listing.create_listing")}', json=payload)
     if response.ok or response.status_code == 500:
         return jsonify(message='Listing Created!'), 200
     elif response.status_code == 401:
