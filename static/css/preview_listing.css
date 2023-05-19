@@ -44,7 +44,6 @@
     display: flex;
     justify-content: center;
 }
-
 .button-link {
     margin: 10px; 
     padding: 10px;
@@ -56,6 +55,7 @@
 
 .caroImages {
     flex-grow: 1;
+    border: 2px solid #0000009c;
 }
 
 .carousel-item img {
@@ -65,6 +65,7 @@
     height: auto;
     object-fit: contain;
 }
+
 
 button.carousel-control-prev:hover, button.carousel-control-next:hover {
     background-color: rgba(179, 179, 179, 0.404);
