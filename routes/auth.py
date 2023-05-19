@@ -173,7 +173,7 @@ def user_login():
 @auth.route('/delete_user', methods=["DELETE"])
 @login_required
 def delete_user():
-    delete_request = requests.delete(f'{request.root_url}{url_for("user.update_user",user_id=int(current_user.id))}') 
+    delete_request = requests.delete(f'{request.root_url}{url_for("user.delete_user",user_id=int(current_user.id))}') 
     if delete_request.ok:
         logout_user()
         return jsonify(message='User Deleted'),200
