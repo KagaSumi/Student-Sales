@@ -68,7 +68,7 @@
 .caroImages {
     flex-grow: 1;
 }
-#carouselExampleIndicators {
+.carousel-inner {
     border: 2px solid #0000009c;
 }
 .carousel-item img {
