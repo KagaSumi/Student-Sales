@@ -1,0 +1,41 @@
+.message-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.message {
+    background-color: #008ebd;
+    padding: 10px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+}
+
+.message button {
+    text-align: center;
+    font-family: sans-serif;
+    background-color: white;
+    border: 5px rgb(0, 54, 90) solid;
+    padding: 5px;
+    transition: background-color 0.3s ease;
+    border-radius: 10px;
+    min-width: 400px;
+    cursor: pointer;
+}
+
+.message button:hover {
+    background-color: #8cd3ff; 
+    cursor: pointer;
+}
+
+h3 {
+    color: #003C71;
+}
+
+.messageBTNS.unread{
+    opacity: 1;
+}
+
+.messageBTNS.read{
+    opacity: 0.4;
+}

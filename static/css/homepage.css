@@ -1,0 +1,28 @@
+.search-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 5%;
+  width: 50%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.search-container input {
+  font-size: x-large;
+  border: 2px black solid;
+}
+
+.searchBTN-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 2%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#searchBTN {
+  font-size: 20px;
+  cursor: pointer;
+}

@@ -1,6 +1,7 @@
 const title = document.getElementById("title");
 const description = document.getElementById("description");
 const price = document.getElementById("price");
+const images = document.getElementById("image");
 const updateBTN = document.getElementById("update_button");
 const previewBTN = document.getElementById("preview_button");
 const deleteBTN = document.getElementById("delete_button");
@@ -24,12 +25,34 @@ const verify_fields = (event) => {
   }
 };
 
-const updateListing = () => {
-  const payload = {
+async function updateListing () {
+  let payload = {
     title: title.value,
     description: description.value,
     price: price.value,
+    images: []
   };
+
+  if (images.files) {
+    const readFilePromises = Array.from(images.files).map((img) => {
+      return new Promise((resolve) => {
+        const reader = new FileReader();
+        reader.onloadend = function () {
+          const binaryData = reader.result
+          let image = {
+            pic: binaryData,
+            filename: img.name,
+            mimetype: img.type,
+          };
+          payload.images.push(image);
+          resolve();
+        };
+        reader.readAsDataURL(img);
+        console.log(payload)
+      });
+    });
+    await Promise.all(readFilePromises);
+  }
 
   fetch(`/update_listing/${listing_id}`, {
     method: "PUT",
@@ -44,9 +67,7 @@ const updateListing = () => {
     .then(([json, status]) => {
       let message = json.message;
       localStorage.setItem("message", message);
-      if (status == 200) {
-        window.location.href = `/edit_listing/${listing_id}`;
-      }
+      window.location.href = `/edit_listing/${listing_id}`;
     })
     .catch((error) => {
       console.log(error);

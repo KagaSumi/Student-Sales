@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block css %}
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/view_message.css') }}">
+{% endblock %}
+
+{% block content %}
+<h1 align="center" class="my-2">Message History</h1>
+
+<div class="button_container">
+    <a href="/messages"><button type="submit" class="btn btn-primary my-2" name="back">Go Back</button></a>
+    <a href="/view_listing/{{ message.listing_id }}"><button class="btn btn-primary">Go To Listing</button></a>
+</div>
+
+<div class="message_container">
+    {% for msg in message_history %}
+    <div class="message {% if msg.id == current_user.id %}sent{% else %}received{% endif %}">
+        <span>{{ msg.message }}</span>
+    </div>
+    {% endfor %}
+    <div class="message_input">
+        <input type="text" name="new_message" id="newMessage" placeholder="Type your message" class="form-control form-control-lg">
+        <button type="submit" class="btn btn-primary" id="sendBTN">Send</button>
+    </div>
+</div>
+{% endblock %}
+
+{% block script %}
+<script defer type="text/javascript" src="{{ url_for('static', filename='js/view_message.js') }}"></script>
+{% endblock %}
