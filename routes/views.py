@@ -1,10 +1,8 @@
-import os
 import requests
 from database.database import db
-from werkzeug.utils import secure_filename
 from database.models import User, Listing
 from flask_login import login_required, current_user
-from flask import Blueprint, request, Response, url_for, redirect, render_template, jsonify
+from flask import Blueprint, request,url_for, redirect, render_template, jsonify
 
 views = Blueprint('views', __name__)
 
@@ -28,7 +26,7 @@ def listing_update(listing_id):
     for key in ('title','description','price'):
         if key not in data:
             return jsonify(message=f'{key} is missing from JSON'),400
-    
+
     payload = {
         'title': data['title'],
         'description': data['description'],

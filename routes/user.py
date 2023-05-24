@@ -1,7 +1,6 @@
 from database.database import db
 from database.models import User
-from werkzeug.security import generate_password_hash, check_password_hash
-from flask import Blueprint, jsonify, request, url_for, redirect, render_template
+from flask import Blueprint, jsonify, request
 
 user = Blueprint("user", __name__)
 
@@ -19,7 +18,7 @@ def verify_user():
         if key not in data:
             return jsonify(message=f"{key} is missing from JSON"), 400
     user = User.query.filter_by(email=data["email"]).first()
-    if user.is_confirmed != True:
+    if not user.is_confirmed:
         return jsonify(message=False,result='User email not confirmed!'), 401
     if not user or not data["password"] == user.password:
         return jsonify(message=False), 400
@@ -63,7 +62,7 @@ def update_user(user_id):
         last_name = str(data["last_name"])
         phone_number = str(data["phone_number"])
         if not (len(phone_number) == 0 or len(phone_number) == 10):
-            raise ValueError("Phone Nubmer Not Valid")
+            raise ValueError("Phone Number Not Valid")
     except ValueError as err:
         return (f"Error: {str(err)}!", 400)
     selected_user.first_name = first_name
