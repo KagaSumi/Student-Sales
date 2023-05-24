@@ -5,7 +5,7 @@ const images = document.getElementById("image");
 const updateBTN = document.getElementById("update_button");
 const previewBTN = document.getElementById("preview_button");
 const deleteBTN = document.getElementById("delete_button");
-const deleteImgBTNS = document.querySelectorAll(".deleteImgBTN");
+const deleteImgBTN = document.querySelectorAll(".deleteImgBTN");
 
 const listing_id = window.location.href.substring(
   window.location.href.lastIndexOf("/") + 1
@@ -152,7 +152,7 @@ for (const element of [title, description, price]) {
   element.addEventListener("input", verify_fields);
 }
 
-deleteImgBTNS.forEach((button) => {
+deleteImgBTN.forEach((button) => {
   button.addEventListener("click", () => deleteImg(button.value));
 });
 
