@@ -16,7 +16,7 @@
 <div class="profile_listings_grid">
 {% for listing in user.listings %}
 <div class="listing">
-    <a href="{{ url_for('views.edit_listing', listing_id=listing.id) }}" class="text-decoration-none text-black">
+    <a href="{{ url_for('private_view.edit_listing', listing_id=listing.id) }}" class="text-decoration-none text-black">
         <div class="listing-wrapper">
             <div class="listing-content">
                 <h2>{% if listing.title|length > 20 %} {{ listing.title[:20] }}... {% else %} {{ listing.title }} {% endif %}</h2>
