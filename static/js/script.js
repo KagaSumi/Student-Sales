@@ -1,10 +1,5 @@
 const alertSpan = document.getElementById('alertSpan')
 const alertContainer = document.getElementById('Alert')
-// const alertBTN = document.getElementById('closeBTN')
-
-// alertBTN.addEventlistener('click',() => alertContainer.classList.add('hidden'));
-
-// console.log(alertBTN)
 
 function displayMessage(message){
     alertSpan.innerText = message;

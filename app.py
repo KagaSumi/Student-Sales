@@ -4,7 +4,6 @@ from flask import Flask
 from pathlib import Path
 from routes.user import user
 from routes.auth import auth
-from routes.views import views
 from routes.message import message
 from database.database import db
 from routes.listing import listing
@@ -37,7 +36,6 @@ app.config['MAIL_USERNAME'] = 'studentsales.bcit@gmail.com' # This account will 
 # Register Route Blueprints
 app.register_blueprint(user, url_prefix="/")
 app.register_blueprint(auth, url_prefix="/")
-app.register_blueprint(views, url_prefix="/")
 app.register_blueprint(listing, url_prefix="/")
 app.register_blueprint(public_view, url_prefix="/")
 app.register_blueprint(private_view, url_prefix="/")
