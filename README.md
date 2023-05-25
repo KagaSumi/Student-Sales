@@ -40,5 +40,8 @@ To install the required dependencies, follow these steps:
 3. Install the required modules:  
     `pip install -r requirements.txt`
 
+4. Run the server:
+    `python app.py [password for email] (optional: host ip) (optional:port)`
+
 # Conclusion
 Thank you for visiting our project repository! If you have any questions or feedback, please don't hesitate to reach out.
